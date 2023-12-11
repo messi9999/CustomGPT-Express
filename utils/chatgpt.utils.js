@@ -1,9 +1,8 @@
-const axios = require("axios");
 const openaiConfig = require("../config/openai.config");
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: openaiConfig.OPENAI_API_ENDPOINT
+  apiKey: openaiConfig.OPENAI_API_KEY
 });
 
 exports.createNewThread = async () => {
