@@ -10,7 +10,7 @@ require("dotenv").config();
 const app = express();
 
 var corsOptions = {
-  origin: "*"
+  origin: "*",
 };
 
 app.use(cors(corsOptions));
@@ -34,21 +34,26 @@ const swaggerOptions = {
     info: {
       title: "API Documentation",
       version: "1.0.0",
-      description: "My API Documentation"
+      description: "My API Documentation",
     },
     servers: [
       {
-        url: "http://localhost:8080/api"
-      }
-    ]
+        url: "http://localhost:8080/api",
+      },
+    ],
   },
-  apis: ["./routes/chatbot.routes.js"] // Path to the API docs
+  apis: ["./routes/chatbot.routes.js"], // Path to the API docs
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 8080;
+
+app.use(express.static("../client/build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
