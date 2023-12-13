@@ -2,7 +2,7 @@ const openaiConfig = require("../config/openai.config");
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: openaiConfig.OPENAI_API_KEY
+  apiKey: openaiConfig.OPENAI_API_KEY,
 });
 
 exports.createNewThread = async () => {
@@ -19,7 +19,7 @@ exports.addNewMessage = async (userMessage, threadId) => {
   try {
     const message = await openai.beta.threads.messages.create(threadId, {
       role: "user",
-      content: userMessage
+      content: userMessage,
     });
 
     return message;
@@ -33,8 +33,7 @@ exports.createRunAssistant = async (threadId) => {
   try {
     const run = await openai.beta.threads.runs.create(threadId, {
       assistant_id: openaiConfig.OPENAI_ASSISTANT_ID,
-      instructions:
-        "Please address the user as Jane Doe. The user has a premium account."
+      instructions: "",
     });
     return run;
   } catch (error) {
