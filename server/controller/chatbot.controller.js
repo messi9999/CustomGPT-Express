@@ -3,7 +3,6 @@ const openaiConfig = require("../config/openai.config");
 
 exports.getResponseFromGpt = async (req, res) => {
   try {
-    console.log("chating");
     const userMessage = req.body.message;
     const threadId = openaiConfig.OPENAI_THREAD_ID;
 
@@ -44,8 +43,6 @@ exports.getResponseFromGpt = async (req, res) => {
       console.error("Error displaying assistant:", error);
       return res.status(500).send({ message: "OpenAI Error!!!" });
     }
-
-    console.log(messages);
 
     if (messages.data[0].role === "assistant") {
       res.send({
