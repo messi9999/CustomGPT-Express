@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.28b555de.css",
+    "main.js": "/static/js/main.9bc162fd.js",
+    "static/js/787.2e95dbd2.chunk.js": "/static/js/787.2e95dbd2.chunk.js",
+    "static/media/QuicksSweetLove.ttf": "/static/media/QuicksSweetLove.b11d392de328e059075c.ttf",
+    "static/media/TheolaKids.otf": "/static/media/TheolaKids.f6a24191d3f2067793ae.otf",
+    "static/media/Oswald-Regular.ttf": "/static/media/Oswald-Regular.31bce04a1ae8549b1464.ttf",
+    "static/media/RusticShine.ttf": "/static/media/RusticShine.23c768407d5d6343ba22.ttf",
+    "static/media/ButteryCookies.ttf": "/static/media/ButteryCookies.504139507da24285f73a.ttf",
+    "static/media/RhythmicHits.ttf": "/static/media/RhythmicHits.75eb8bc04fe9c76a4b18.ttf",
+    "static/media/ChocolateGrande.ttf": "/static/media/ChocolateGrande.da12c07118389571a59c.ttf",
+    "static/media/ChristmasSpark.ttf": "/static/media/ChristmasSpark.7b5945bd74462604a83b.ttf",
+    "static/media/delete-icon.svg": "/static/media/delete-icon.7c506d8dcb5acdc7fc58df6b0695f7fa.svg",
+    "static/media/chat-room-icon.svg": "/static/media/chat-room-icon.aa02fb415b31a188b300219466171864.svg",
+    "index.html": "/index.html",
+    "static/media/speaker-open.svg": "/static/media/speaker-open.c7c63f64ab989b6d9b3e851e10d13885.svg",
+    "static/media/speaker-close.svg": "/static/media/speaker-close.754db21f044d070356f972f6a6c5cfe4.svg",
+    "static/media/sendmsg.svg": "/static/media/sendmsg.e6a37132b23f5ca00d6a0b87752d2c21.svg",
+    "static/media/plus-icon.svg": "/static/media/plus-icon.7c370fd4f602f4f8677f9c425193c006.svg",
+    "main.28b555de.css.map": "/static/css/main.28b555de.css.map",
+    "main.9bc162fd.js.map": "/static/js/main.9bc162fd.js.map",
+    "787.2e95dbd2.chunk.js.map": "/static/js/787.2e95dbd2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.28b555de.css",
+    "static/js/main.9bc162fd.js"
+  ]
+}
