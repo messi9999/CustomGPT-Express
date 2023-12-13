@@ -114,7 +114,7 @@ export default function ChatPage() {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/chatbots/getResponseFromGpt`,
+        "/api/chatbots/getResponseFromGpt",
         reqBody
       );
       // Handle successful response here
