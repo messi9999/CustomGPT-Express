@@ -39,7 +39,7 @@ exports.getResponseFromGpt = async (req, res) => {
 
     let messages;
     try {
-      messages = chatGptUtils.displayAssistant(threadId);
+      messages = await chatGptUtils.displayAssistant(threadId);
     } catch (error) {
       console.error("Error displaying assistant:", error);
       return res.status(500).send({ message: "OpenAI Error!!!" });
