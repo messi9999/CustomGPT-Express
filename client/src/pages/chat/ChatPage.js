@@ -119,14 +119,7 @@ export default function ChatPage() {
       );
       // Handle successful response here
       console.log(response.data);
-      if (!response.ok) {
-        console.error(
-          `Error fetching messages: ${response.status} ${response.statusText}`
-        );
-        throw new Error(
-          `Failed to list messages: ${response.status} ${response.statusText}`
-        );
-      }
+
       var chatBotMsg = response.data.message;
 
       newMessage = {
