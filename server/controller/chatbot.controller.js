@@ -45,6 +45,8 @@ exports.getResponseFromGpt = async (req, res) => {
       return res.status(500).send({ message: "OpenAI Error!!!" });
     }
 
+    console.log(messages);
+
     if (messages.data[0].role === "assistant") {
       res.send({
         message: messages.data[0].content[0].text.value,
