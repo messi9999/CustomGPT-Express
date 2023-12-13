@@ -21,9 +21,9 @@ app.use(bodyParser.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to backend application." });
-});
+// app.get("/", (req, res) => {
+//   res.json({ message: "Welcome to backend application." });
+// });
 
 require("./routes/chatbot.routes")(app);
 
