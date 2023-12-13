@@ -46,7 +46,7 @@ export default function ChatPage() {
     },
   ]);
   const [userMessage, setUserMessage] = useState("");
-  const [isEditable, setIsEditable] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
   const [isSpeaker, setIsSpeaker] = useState(false);
   const [isHistoryShow, setIsHistoryShow] = useState(false);
 
@@ -76,6 +76,7 @@ export default function ChatPage() {
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
+
       if (isEditable && userMessage !== "") {
         handleSendMessage();
       }
@@ -110,25 +111,54 @@ export default function ChatPage() {
     const reqBody = {
       message: userMessage,
     };
-    const response = await axios.post(`${BASE_URL}/api/chatbots`, reqBody);
-    console.log(response);
-    if (!response.ok) {
-      console.error(
-        `Error fetching messages: ${response.status} ${response.statusText}`
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/chatbots/getResponseFromGpt`,
+        reqBody
       );
-      throw new Error(
-        `Failed to list messages: ${response.status} ${response.statusText}`
-      );
+      // Handle successful response here
+      console.log(response.data);
+      if (!response.ok) {
+        console.error(
+          `Error fetching messages: ${response.status} ${response.statusText}`
+        );
+        throw new Error(
+          `Failed to list messages: ${response.status} ${response.statusText}`
+        );
+      }
+      var chatBotMsg = response.data.message;
+
+      newMessage = {
+        type: "chatbot",
+        text: chatBotMsg,
+      };
+      appendChatHistory(newMessage);
+    } catch (error) {
+      // Handle error here
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        if (error.response.status) {
+          alert(error.response.data.message);
+        }
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log(error.request);
+        alert(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+        alert(error.message);
+      }
+      console.log(error.config);
+
+      setChatHistory((currentArray) => currentArray.slice(0, -1));
     }
-
-    var chatBotMsg = response.data.message;
-
-    newMessage = {
-      type: "chatbot",
-      text: chatBotMsg,
-    };
     setUserMessage("");
-    appendChatHistory(newMessage);
     setIsEditable(true);
   };
 
@@ -207,7 +237,7 @@ export default function ChatPage() {
                 {!isEditable && chatHistory.length > 1 && <LoadingButton />}
               </ul>
             </div>
-            <div className="mt-5 flex items-end justify-between w-full h-auto bg-[#fcf7f1] rounded-[28px] border-2 border-[#f1e3ca]">
+            <div className="mt-5 flex items-end justify-between w-full h-auto bg-[#fcf7f1] rounded-[26px] border-2 border-[#f1e3ca]">
               <textarea
                 ref={textareaRef}
                 className="sm:w-full md:w-full  min-h-[54px] ml-[20px] pl-[10px] py-[10px] border-none focus:outline-none focus:ring-0 resize-none overflow-hidden bg-[#fcf7f1] text-[22px] rounded-[28px] font-oswald"
