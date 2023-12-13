@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "ButteryCookies";
+  src: local("ButteryCookies"),
+    url("/public/assets/fonts/ButteryCookies.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "ChocolateGrande";
+  src: local("ChocolateGrande"),
+    url("/public/assets/fonts/ChocolateGrande.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "ChristmasSpark";
+  src: local("ChristmasSpark"),
+    url("/public/assets/fonts/ChristmasSpark.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "RhythmicHits";
+  src: local("RhythmicHits"),
+    url("/public/assets/fonts/RhythmicHits.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "RusticShine";
+  src: local("RusticShine"),
+    url("/public/assets/fonts/RusticShine.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TheolaKids";
+  src: local("TheolaKids"),
+    url("/public/assets/fonts/TheolaKids.otf") format("otf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Oswald";
+  src: local("Oswald"),
+    url("/public/assets/fonts/Oswald-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "QuicksSweetLove";
+  src: local("QuicksSweetLove"),
+    url("/public/assets/fonts/QuicksSweetLove.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
