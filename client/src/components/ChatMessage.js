@@ -6,8 +6,7 @@ export default function ChatMessage({ message }) {
   const processText = (inputText) => {
     // Function to convert URLs into anchor tags
     const formatURLs = (text) => {
-      const urlRegex =
-        /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
+      const urlRegex = /(?:\(|\[)?(https?:\/\/[^\s)\]]+)(?:\)|\])?/gi;
       return text.replace(
         urlRegex,
         (url) =>
@@ -38,14 +37,14 @@ export default function ChatMessage({ message }) {
   return (
     <li>
       {isUserMessage ? (
-        <div className='flex justify-end'>
-          <div className='text-[20px] font-oswald bg-[#f7e3be] rounded-lg p-2 px-4 py-4 m-2 inline-block'>
+        <div className="flex justify-end">
+          <div className="text-[20px] bg-[#f7e3be] rounded-lg p-2 px-4 py-4 m-2 inline-block font-oswald">
             {message.text}
           </div>
         </div>
       ) : (
-        <div className=''>
-          <div className='text-[20px] font-oswald p-2 py-4 m-2'>
+        <div className="">
+          <div className="text-[20px] p-2 py-4 m-2 font-serif">
             {processText(message.text)}
           </div>
         </div>

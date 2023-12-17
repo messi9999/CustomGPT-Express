@@ -5,6 +5,7 @@ exports.getResponseFromGpt = async (req, res) => {
   try {
     const userMessage = req.body.message;
     const threadId = openaiConfig.OPENAI_THREAD_ID;
+    const assistantID = req.body.assistantID;
 
     // Wrap each async operation in try-catch
     let message;
@@ -17,7 +18,10 @@ exports.getResponseFromGpt = async (req, res) => {
 
     let assistant_run;
     try {
-      assistant_run = await chatGptUtils.createRunAssistant(threadId);
+      assistant_run = await chatGptUtils.createRunAssistant(
+        threadId,
+        assistantID
+      );
     } catch (error) {
       console.error("Error creating run assistant:", error);
       return res.status(500).send({ message: "OpenAI Error!!!" });

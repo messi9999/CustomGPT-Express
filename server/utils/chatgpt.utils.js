@@ -29,10 +29,10 @@ exports.addNewMessage = async (userMessage, threadId) => {
   }
 };
 
-exports.createRunAssistant = async (threadId) => {
+exports.createRunAssistant = async (threadId, assistantID) => {
   try {
     const run = await openai.beta.threads.runs.create(threadId, {
-      assistant_id: openaiConfig.OPENAI_ASSISTANT_ID,
+      assistant_id: assistantID,
       instructions: "",
     });
     return run;
