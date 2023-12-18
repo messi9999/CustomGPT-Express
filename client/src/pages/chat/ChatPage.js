@@ -48,7 +48,7 @@ const DISVOCERS = [
     assistantID: "asst_velI3sQFDjxH0aqd8wFPnW1v",
     baseContext: `Great! Let’s make a meal plan together. Your meal plan will be PCOS friendly and customized to your needs.
 
-    If there’s anything you don’t like in your final plan, let me know and we can always adjust it.
+    If there’s anything you don’t like in your final plan, let me know and we can always adjust it.\n
     
     Can you start off by telling me if you want a plan for 1 day, 1 week or even longer?
     `,
@@ -60,7 +60,7 @@ const DISVOCERS = [
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! Let’s create a personalized supplement plan for your PCOS type.
 
-    First of all, can you start off by telling me some of the symptoms you are experiencing?
+    First of all, can you start off by telling me some of the symptoms you are experiencing?\n
     
     If you changes to your plan at any time, let me know and we can make changes.
     `,
@@ -72,8 +72,8 @@ const DISVOCERS = [
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! I'd love to help you understand your PCOS type. 
 
-    Why don't you start by telling me some information about your symptoms? 
-    
+    Why don't you start by telling me some information about your symptoms?\n
+  
     Do you suffer from acne; hair loss; excess weight; insulin resistance or anything else related to PCOS?
     
     I may ask you a lot of questions, so if you don’t know an answer just say “I don’t know”.
@@ -86,7 +86,7 @@ const DISVOCERS = [
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Definitely! I can help you create a custom workout routine based on your age, fitness and energy levels.
 
-    Let’s start with a question: what exercise do you love to do?
+    Let’s start with a question: what exercise do you love to do?\n
     
     If there is anything you don’t like in your routine, just let me know.
     `,
@@ -236,6 +236,7 @@ export default function ChatPage() {
 
       setChatHistory((currentArray) => currentArray.slice(0, -1));
     }
+
     setUserMessage("");
     setIsEditable(true);
   };
@@ -317,13 +318,13 @@ export default function ChatPage() {
         }`}
       >
         <div className="relative flex flex-col overflow-hidden sm:overflow-x-visible h-full pt-8 grow">
-          <div className="relative grow overflow-y-auto my-2">
+          <div
+            className="relative grow overflow-y-auto my-2"
+            ref={scrollingDivRef}
+          >
             <div className="relative space-y-6 px-5 text-primary-700 mx-auto max-w-[50rem] 2xl:max-w-[60rem]">
               <div className="absolute top-0 h-[50px] bg-opacity-gradient"></div>
-              <div
-                className=" overflow-y-auto scrollbar-thumb scrollbar-track"
-                ref={scrollingDivRef}
-              >
+              <div className=" overflow-y-auto scrollbar-thumb scrollbar-track">
                 <ul>
                   {chatHistory.map((msg, index) => (
                     <ChatMessage key={index} message={msg} />
