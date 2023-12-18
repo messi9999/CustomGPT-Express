@@ -306,6 +306,7 @@ export default function ChatPage() {
         </div>
       )} */}
       <DiscoverArea
+        discovers={DISVOCERS}
         open={isDiscoverShow}
         onEvent={handleDiscoverClick}
         onClose={() => setIsDiscoverShow(false)}

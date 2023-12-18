@@ -1,8 +1,7 @@
 import React from "react";
-import { discoverData } from "./discoverData";
 import DiscoverButton from "./DiscoverButton";
 
-const DiscoverArea = ({ open, onClose, onEvent }) => {
+const DiscoverArea = ({ discovers, open, onClose, onEvent }) => {
   return (
     <div
       className={`w-full lg:w-[375px] lg:shrink-0 lg:border-r lg:border-neutral-300 flex flex-col ${
@@ -68,7 +67,7 @@ const DiscoverArea = ({ open, onClose, onEvent }) => {
           Discover
         </div>
         <div className="grid grid-cols-2 gap-3 px-6 pb-12 pt-8 lg:pb-8 lg:pt-0">
-          {discoverData.map((item, idx) => (
+          {discovers.map((item, idx) => (
             <DiscoverButton
               content={item}
               id={idx}
