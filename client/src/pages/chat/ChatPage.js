@@ -43,7 +43,7 @@ function LoadingButton() {
 const DISVOCERS = [
   {
     title: "Create a PCOS Friendly Meal Plan",
-    imgUrl: "/assets/images/discover/1.png",
+    imgUrl: "/public/assets/images/discover/1.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Great! Let’s make a meal plan together. Your meal plan will be PCOS friendly and customized to your needs.
 
@@ -54,7 +54,7 @@ const DISVOCERS = [
   },
   {
     title: "Explore Nutritional Supplement Options",
-    imgUrl: "/assets/images/discover/1.png",
+    imgUrl: "/public/assets/images/discover/1.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! Let’s create a personalized supplement plan for your PCOS type.
 
@@ -65,7 +65,7 @@ const DISVOCERS = [
   },
   {
     title: "Understand my PCOS type",
-    imgUrl: "/assets/images/discover/1.png",
+    imgUrl: "/public/assets/images/discover/1.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! I'd love to help you understand your PCOS type. 
 
@@ -78,7 +78,7 @@ const DISVOCERS = [
   },
   {
     title: "Personalize a Workout Routine",
-    imgUrl: "/assets/images/discover/1.png",
+    imgUrl: "/public/assets/images/discover/1.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Definitely! I can help you create a custom workout routine based on your age, fitness and energy levels.
 
