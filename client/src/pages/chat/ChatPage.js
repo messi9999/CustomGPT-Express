@@ -45,7 +45,7 @@ const DISVOCERS = [
     title: "Create a PCOS Friendly Meal Plan",
     imgUrl:
       "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_velI3sQFDjxH0aqd8wFPnW1v",
     baseContext: `Great! Let’s make a meal plan together. Your meal plan will be PCOS friendly and customized to your needs.
 
     If there’s anything you don’t like in your final plan, let me know and we can always adjust it.
