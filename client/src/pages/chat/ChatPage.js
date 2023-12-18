@@ -74,7 +74,7 @@ const DISVOCERS = [
 
     Why don't you start by telling me some information about your symptoms?\n
   
-    Do you suffer from acne; hair loss; excess weight; insulin resistance or anything else related to PCOS?
+    Do you suffer from acne; hair loss; excess weight; insulin resistance or anything else related to PCOS?\n
     
     I may ask you a lot of questions, so if you don’t know an answer just say “I don’t know”.
     `,
@@ -89,6 +89,135 @@ const DISVOCERS = [
     Let’s start with a question: what exercise do you love to do?\n
     
     If there is anything you don’t like in your routine, just let me know.
+    `,
+  },
+  {
+    title: "Create a PCOS friendly meal plan",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Of course! Let’s make a meal plan personalized to you and your PCOS symptoms.
+
+    By default, I will create a 7 day meal plan to support PCOS. If you’d like more ideas, let me know at the end.\n
+    
+    If there’s anything you don’t like to eat in the meal plan, we can always change it.\n
+    
+    Can we start by understanding your dietary preferences?
+    
+    `,
+  },
+  {
+    title: "Find a PCOS Friendly Snack",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Absolutely!
+
+    What do you feel like eating right now? Sweet or savory?
+    
+    `,
+  },
+  {
+    title: "Create a Recipe For My PCOS Type",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Of course! Let’s create a tasty recipe that is simple and helps you achieve your goals.
+
+    Do you have any dietary preferences or any strong dislikes?\n
+    
+    Remember you can always ask me to change anything or start over again if you don’t like the recipe.    
+    `,
+  },
+  {
+    title: "Plan a PCOS Friendly Shopping List",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Perfect! 
+
+    Do you have any meals you want to cook this week?    
+    `,
+  },
+  {
+    title: "Recommend a PCOS Friendly Restaurant In My Area",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Perfect! 
+
+    Can I ask what area you live in?\n
+    
+    The more specific you can be, the better my recommendation will be.    
+    `,
+  },
+  {
+    title: "Fix My Symptoms",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Of course.
+
+    Let’s start by understanding what your most challenging symptoms are?    
+    `,
+  },
+  {
+    title: "Discover More PCOS Resources",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Definitely!
+
+    What were you looking to understand more about?    
+    `,
+  },
+  {
+    title: "Feel Calm",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Okay!
+
+    Reducing cortisol and stress levels is so critical for managing PCOS symptoms.\n
+    
+    What’s on your mind that’s worrying you?    
+    `,
+  },
+  {
+    title: "Track My Symptoms",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Definitely! Let’s track your symptoms.
+
+    Start off by telling me some of the issues you’re having.\n
+    
+    You can always come back to me and share your symptoms. I will save and record them so I can provide you with insights later.
+    
+    `,
+  },
+  {
+    title: "Talk With Someone About PCOS",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Sure! I can answer any questions you might have about PCOS. If it’s emotional support you need, I’m here for that too.
+    `,
+  },
+  {
+    title: "Just Talk To Someone",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Just need to vent or have someone listen? Go for it.
+    `,
+  },
+  {
+    title: "Learn More About This App",
+    imgUrl:
+      "https://pi.ai/_next/image?url=https%3A%2F%2Fpi.ai%2Fpublic%2Fmedia%2Fguided-experiences%2Fventing.jpg&w=256&q=100",
+    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    baseContext: `Of course! What would you like to know about me?
     `,
   },
 ];
@@ -335,10 +464,10 @@ export default function ChatPage() {
             </div>
           </div>
           <div className="max-h-[40%] px-5 sm:px-0 z-15 w-full mx-auto max-w-2xl 2xl:max-w-[60rem]">
-            <div className="relative flex h-full w-full cursor-text items-end border border-transparent bg-neutral-25 shadow-input transition-all duration-300 focus-within:border-neutral-400 focus-within:shadow-none hover:border-neutral-400 hover:shadow-none rounded-[30px]">
+            <div className="relative flex h-full w-full overflow-y-auto cursor-text items-end border border-transparent bg-neutral-25 shadow-input transition-all duration-300 bg-[#fcf7f1] shadow-md focus-within:border-neutral-400 focus-within:shadow-none hover:border-neutral-400 hover:shadow-none rounded-[30px]">
               <textarea
                 ref={textareaRef}
-                className="w-full min-h-[54px] ml-[20px] pl-[10px] py-[10px] border-none focus:outline-none focus:ring-0 resize-none overflow-hidden bg-[#fcf7f1] text-[22px] rounded-[28px] font-oswald"
+                className="w-full min-h-[54px] ml-[20px] pl-[10px] py-[10px] border-none focus:outline-none focus:ring-0 resize-none overflow-y-hidden bg-[#fcf7f1] text-[22px] rounded-[28px] font-oswald"
                 rows={1}
                 placeholder="Type your Message"
                 spellCheck="true"
