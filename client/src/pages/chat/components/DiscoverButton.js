@@ -19,7 +19,7 @@ const DiscoverButton = ({ content, id, onEvent }) => {
           className="absolute w-full h-full transparent"
         />
       </div>
-      <span className="t-heading-s p-4 pb-8 text-left text-primary-700">
+      <span className="t-heading-s p-4 pb-8 text-left text-primary-700 font-bolder">
         {title}
       </span>
     </button>

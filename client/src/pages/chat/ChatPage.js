@@ -54,7 +54,7 @@ const DISVOCERS = [
   },
   {
     title: "Explore Nutritional Supplement Options",
-    imgUrl: "/public/assets/images/discover/1.png",
+    imgUrl: "/assets/images/discover/1.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! Let’s create a personalized supplement plan for your PCOS type.
 
@@ -65,7 +65,7 @@ const DISVOCERS = [
   },
   {
     title: "Understand my PCOS type",
-    imgUrl: "/public/assets/images/discover/1.png",
+    imgUrl: "/assets/images/discover/1.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! I'd love to help you understand your PCOS type. 
 
@@ -78,7 +78,7 @@ const DISVOCERS = [
   },
   {
     title: "Personalize a Workout Routine",
-    imgUrl: "/public/assets/images/discover/1.png",
+    imgUrl: "/assets/images/discover/1.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Definitely! I can help you create a custom workout routine based on your age, fitness and energy levels.
 
@@ -244,6 +244,11 @@ export default function ChatPage() {
   //   console.log(`Delete history of ${historyID}`);
   // };
 
+  const handleDiscoverClick = (id) => {
+    setIdxOfDiscover(id);
+    setIsDiscoverShow(false);
+  };
+
   return (
     <div className="flex h-screen bg-[#f7f2e9]">
       <div className="hidden w-26 flex-col items-center border-r border-neutral-300 p-3 pt-5 lg:flex">
@@ -298,7 +303,7 @@ export default function ChatPage() {
       )} */}
       <DiscoverArea
         open={isDiscoverShow}
-        onEvent={setIdxOfDiscover}
+        onEvent={handleDiscoverClick}
         onClose={() => setIsDiscoverShow(false)}
       />
       <div
