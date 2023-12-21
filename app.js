@@ -23,11 +23,32 @@ app.use(bodyParser.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-// app.get("/", (req, res) => {
-//   res.json({ message: "Welcome to backend application." });
-// });
+const db = require("./server/models");
+const Role = db.role;
 
-require("./routes/chatbot.routes")(app);
+// db.sequelize.sync();
+
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync DB.");
+  initial();
+});
+
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user",
+  });
+
+  Role.create({
+    id: 2,
+    name: "admin",
+  });
+}
+
+require("./server/routes/chatbot.routes")(app);
+require("./server/routes/auth.routes")(app);
+require("./server/routes/user.routes")(app);
+require("./server/routes/discover.routes")(app);
 
 //Swagger doc
 const swaggerOptions = {
@@ -44,7 +65,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./routes/chatbot.routes.js"], // Path to the API docs
+  apis: ["./server/routes/auth.routes.js"], // Path to the API docs
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
@@ -52,9 +73,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "./client/build")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
 app.listen(PORT, () => {

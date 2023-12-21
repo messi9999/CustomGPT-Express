@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function ChatMessage({ message }) {
-  const isUserMessage = message.type === "user";
+const WordByWordAnimation = ({ text, delay }) => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0); // Corrected this line
+  let words = text.split(" ");
 
   const processText = (inputText) => {
     // Function to convert URLs into anchor tags
@@ -33,22 +35,24 @@ export default function ChatMessage({ message }) {
       }
     });
   };
+  useEffect(() => {
+    setWordIndex(0);
+    setDisplayedText("");
+  }, [text]);
 
-  return (
-    <li>
-      {isUserMessage ? (
-        <div className="flex justify-end">
-          <div className="text-[20px] bg-[#f7e3be] rounded-lg p-2 px-4 py-4 m-2 inline-block font-oswald">
-            {message.text}
-          </div>
-        </div>
-      ) : (
-        <div className="">
-          <div className="text-[20px] p-2 py-4 m-2 font-serif">
-            {processText(message.text)}
-          </div>
-        </div>
-      )}
-    </li>
-  );
-}
+  useEffect(() => {
+    if (wordIndex < words.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText((currentText) => `${currentText}${words[wordIndex]} `);
+        setWordIndex(wordIndex + 1);
+      }, delay);
+
+      return () => clearTimeout(timer);
+    }
+    // Removed console.logs for cleaner code
+  }, [wordIndex, delay, words]);
+
+  return <div>{processText(displayedText)}</div>;
+};
+
+export default WordByWordAnimation;
