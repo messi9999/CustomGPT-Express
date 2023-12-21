@@ -2,7 +2,7 @@ const chatGptUtils = require("../utils/chatgpt.utils");
 
 exports.getResponseFromGpt = (req, res) => {
   const userMessage = req.body.message;
-  const threadId = req.body.thread_id;
+  const threadId = req.body.threadID;
   const assistantID = req.body.assistantID;
 
   chatGptUtils
