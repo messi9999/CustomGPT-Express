@@ -108,9 +108,16 @@ export default function ChatBoard() {
       threadID: currentUser.threadID,
     };
 
+    const header = {
+      Authorization: `Bearer ${currentUser.accessToken}`,
+    };
+
     try {
       const response = await axios.post(
         "/api/chatbots/getResponseFromGpt",
+        {
+          headers: header,
+        },
         reqBody
       );
       // Handle successful response here
