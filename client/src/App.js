@@ -26,7 +26,7 @@ import WelcomePage from "pages/WelcomePage";
 const DISCOVERS = [
   {
     title: "Create a PCOS Friendly Meal Plan",
-    imgUrl: "./assets/images/discover/Create PCOS Friendly Meal Plan.png",
+    imgUrl: "assets/images/discover/Create PCOS Friendly Meal Plan.png",
     assistantID: "asst_velI3sQFDjxH0aqd8wFPnW1v",
     baseContext: `Great! Let’s make a meal plan together. Your meal plan will be PCOS friendly and customized to your needs.
 
@@ -37,8 +37,7 @@ const DISCOVERS = [
   },
   {
     title: "Explore Nutritional Supplement Options",
-    imgUrl:
-      "./assets/images/discover/Explore Nutritional Supplement Options.png",
+    imgUrl: "assets/images/discover/Explore Nutritional Supplement Options.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! Let’s create a personalized supplement plan for your PCOS type.
 
@@ -49,7 +48,7 @@ const DISCOVERS = [
   },
   {
     title: "Understand my PCOS type",
-    imgUrl: "./assets/images/discover/Understand my PCOS type.png",
+    imgUrl: "assets/images/discover/Understand my PCOS type.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! I'd love to help you understand your PCOS type. 
 
@@ -62,7 +61,7 @@ const DISCOVERS = [
   },
   {
     title: "Personalize a Workout Routine",
-    imgUrl: "./assets/images/discover/Personalize a workout routine.png",
+    imgUrl: "assets/images/discover/Personalize a workout routine.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Definitely! I can help you create a custom workout routine based on your age, fitness and energy levels.
 
@@ -73,7 +72,7 @@ const DISCOVERS = [
   },
   {
     title: "Create a PCOS friendly meal plan",
-    imgUrl: "./assets/images/discover/Create PCOS Friendly Meal Plan.png",
+    imgUrl: "assets/images/discover/Create PCOS Friendly Meal Plan.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Of course! Let’s make a meal plan personalized to you and your PCOS symptoms.
 
@@ -87,7 +86,7 @@ const DISCOVERS = [
   },
   {
     title: "Find a PCOS Friendly Snack",
-    imgUrl: "./assets/images/discover/Find a PCOS friendly snack.png",
+    imgUrl: "assets/images/discover/Find a PCOS friendly snack.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Absolutely!
 
@@ -97,7 +96,7 @@ const DISCOVERS = [
   },
   {
     title: "Create a Recipe For My PCOS Type",
-    imgUrl: "./assets/images/discover/Create a recipe for my PCOS type.png",
+    imgUrl: "assets/images/discover/Create a recipe for my PCOS type.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Of course! Let’s create a tasty recipe that is simple and helps you achieve your goals.
 
@@ -108,7 +107,7 @@ const DISCOVERS = [
   },
   {
     title: "Plan a PCOS Friendly Shopping List",
-    imgUrl: "./assets/images/discover/Plan A PCOS Friendly Shopping List.png",
+    imgUrl: "assets/images/discover/Plan A PCOS Friendly Shopping List.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Perfect! 
 
@@ -118,7 +117,7 @@ const DISCOVERS = [
   {
     title: "Recommend a PCOS Friendly Restaurant In My Area",
     imgUrl:
-      "./assets/images/discover/Recommend a PCOS friendly restaurant in my area.png",
+      "assets/images/discover/Recommend a PCOS friendly restaurant in my area.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Perfect! 
 
@@ -129,7 +128,7 @@ const DISCOVERS = [
   },
   {
     title: "Fix My Symptoms",
-    imgUrl: "./assets/images/discover/Fix my symptoms.png",
+    imgUrl: "assets/images/discover/Fix my symptoms.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Of course.
 
@@ -138,7 +137,7 @@ const DISCOVERS = [
   },
   {
     title: "Discover More PCOS Resources",
-    imgUrl: "./assets/images/discover/Discover more PCOS resources.png",
+    imgUrl: "assets/images/discover/Discover more PCOS resources.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Definitely!
 
@@ -147,7 +146,7 @@ const DISCOVERS = [
   },
   {
     title: "Feel Calm",
-    imgUrl: "./assets/images/discover/Feel calm.png",
+    imgUrl: "assets/images/discover/Feel calm.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Okay!
 
@@ -158,7 +157,7 @@ const DISCOVERS = [
   },
   {
     title: "Track My Symptoms",
-    imgUrl: "./assets/images/discover/Track my symptoms.png",
+    imgUrl: "assets/images/discover/Track my symptoms.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Definitely! Let’s track your symptoms.
 
@@ -170,21 +169,21 @@ const DISCOVERS = [
   },
   {
     title: "Talk With Someone About PCOS",
-    imgUrl: "./assets/images/discover/Talk with someone about PCOS.png",
+    imgUrl: "assets/images/discover/Talk with someone about PCOS.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Sure! I can answer any questions you might have about PCOS. If it’s emotional support you need, I’m here for that too.
     `,
   },
   {
     title: "Just Talk To Someone",
-    imgUrl: "./assets/images/discover/Just Talk To Someone.png",
+    imgUrl: "assets/images/discover/Just Talk To Someone.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Just need to vent or have someone listen? Go for it.
     `,
   },
   {
     title: "Learn More About This App",
-    imgUrl: "./assets/images/discover/Learn More About This App.png",
+    imgUrl: "assets/images/discover/Learn More About This App.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
     baseContext: `Of course! What would you like to know about me?
     `,
