@@ -109,7 +109,7 @@ export default function ChatBoard() {
     };
 
     const header = {
-      "x-access-token": `Bearer ${currentUser.accessToken}`,
+      "x-access-token": currentUser.accessToken,
     };
 
     try {
