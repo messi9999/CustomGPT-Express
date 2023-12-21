@@ -109,16 +109,17 @@ export default function ChatBoard() {
     };
 
     const header = {
+      "Content-Type": "application/json",
       "x-access-token": currentUser.accessToken,
     };
 
     try {
       const response = await axios.post(
         "/api/chatbots/getResponseFromGpt",
+        reqBody,
         {
           headers: header,
-        },
-        reqBody
+        }
       );
       // Handle successful response here
       var chatBotMsg = response.data.message;
