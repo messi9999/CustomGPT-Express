@@ -37,7 +37,6 @@ function SidebarItem({ to, icon, children }) {
   const handleLogOut = () => {
     AuthService.logout();
     navigate("/");
-    window.location.reload();
   };
 
   return to === "Log out" ? (
