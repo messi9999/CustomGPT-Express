@@ -166,6 +166,7 @@ export default function ChatBoard() {
   const handleLogOut = () => {
     AuthService.logout();
     navigate("/");
+    window.location.reload();
   };
 
   const { pathname } = useLocation();
