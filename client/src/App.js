@@ -215,29 +215,31 @@ function App() {
       <DiscoverContext.Provider
         value={{ DISCOVERS, idxOfDiscover, setIdxOfDiscover }}
       >
-        {/* <DisplayTextContext.Provider value={{ displayText, setDisplayText }}> */}
-        <Router>
-          <Routes>
-            <Route path="/" element={<WelcomePage />} />
-            <Route
-              element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
-            >
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/discover" element={<Discover />} />
-              <Route path="/profile" element={<Profile />}>
-                <Route path="account" element={<AccountBoard />} />
-                <Route path="payment" element={<PaymentBoard />} />
+        <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<WelcomePage />} />
+              <Route
+                element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
+              >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/discover" element={<Discover />} />
+                <Route path="/profile" element={<Profile />}>
+                  <Route path="account" element={<AccountBoard />} />
+                  <Route path="payment" element={<PaymentBoard />} />
+                </Route>
               </Route>
-            </Route>
-            <Route
-              element={<ProtectLogOutRoute isAuthenticated={isAuthenticated} />}
-            >
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Route>
-          </Routes>
-        </Router>
-        {/* </DisplayTextContext.Provider> */}
+              <Route
+                element={
+                  <ProtectLogOutRoute isAuthenticated={isAuthenticated} />
+                }
+              >
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Route>
+            </Routes>
+          </Router>
+        </DisplayTextContext.Provider>
       </DiscoverContext.Provider>
     </>
   );
