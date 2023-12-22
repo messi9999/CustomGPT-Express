@@ -47,11 +47,10 @@ const Register = (props) => {
     setSuccessful(false);
 
     AuthService.register(username, email, password).then(
-      (response) => {
-        console.log("response: ", response);
-        setMessage(response.data.message);
+      () => {
         setSuccessful(true);
         navigate("/dashboard");
+        window.location.reload();
       },
       (error) => {
         const resMessage =
