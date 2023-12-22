@@ -79,7 +79,6 @@ exports.signup = (req, res) => {
                   accessToken: token,
                 });
               });
-              res.send({ message: "User was registered successfully!" });
             });
           }
         })
