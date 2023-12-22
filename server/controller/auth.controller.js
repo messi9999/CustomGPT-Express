@@ -57,6 +57,27 @@ exports.signup = (req, res) => {
           } else {
             // user role = 1
             user.setRoles([1]).then(() => {
+              const token = jwt.sign({ id: user.id }, config.secret, {
+                algorithm: "HS256",
+                allowInsecureKeySizes: true,
+                expiresIn: 86400, // 24 hours
+              });
+
+              var authorities = [];
+              user.getRoles().then((roles) => {
+                for (let i = 0; i < roles.length; i++) {
+                  authorities.push("ROLE_" + roles[i].name.toUpperCase());
+                }
+                res.status(200).send({
+                  id: user.id,
+                  username: user.username,
+                  email: user.email,
+                  threadID: user.threadID,
+                  subscription: user.subscription,
+                  roles: authorities,
+                  accessToken: token,
+                });
+              });
               res.send({ message: "User was registered successfully!" });
             });
           }
