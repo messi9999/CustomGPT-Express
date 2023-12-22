@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { DisplayTextContext } from "common/Context";
 
 const WordByWordAnimation = ({ text, delay }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [wordIndex, setWordIndex] = useState(0); // Corrected this line
   let words = text.split(" ");
+
+  const { setDisplayText } = useContext(DisplayTextContext);
 
   const processText = (inputText) => {
     // Function to convert URLs into anchor tags
@@ -44,13 +47,14 @@ const WordByWordAnimation = ({ text, delay }) => {
     if (wordIndex < words.length) {
       const timer = setTimeout(() => {
         setDisplayedText((currentText) => `${currentText}${words[wordIndex]} `);
+        setDisplayText((currentText) => `${currentText}${words[wordIndex]} `);
         setWordIndex(wordIndex + 1);
       }, delay);
 
       return () => clearTimeout(timer);
     }
     // Removed console.logs for cleaner code
-  }, [wordIndex, delay, words]);
+  }, [wordIndex, delay, words, setDisplayText]);
 
   return <div>{processText(displayedText)}</div>;
 };

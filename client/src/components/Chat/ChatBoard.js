@@ -9,7 +9,8 @@ import { ReactComponent as BackDiscoverIcon } from "assets/icons/discover-icon.s
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { DiscoverContext } from "common/Context";
+import { DiscoverContext, DisplayTextContext } from "common/Context";
+
 import AuthService from "services/auth.service";
 
 function LoadingButton() {
@@ -36,6 +37,8 @@ export default function ChatBoard() {
   const [isEditable, setIsEditable] = useState(true);
   const [isSpeaker, setIsSpeaker] = useState(false);
 
+  const { displayText } = useContext(DisplayTextContext);
+
   const textareaRef = useRef(null);
   const scrollingDivRef = useRef(null);
 
@@ -57,7 +60,7 @@ export default function ChatBoard() {
 
     // Clear interval on component unmount
     return () => clearInterval(scrollIntervalID);
-  }, [chatHistory]);
+  }, [chatHistory, displayText]);
 
   useEffect(() => {
     setChatHistory([

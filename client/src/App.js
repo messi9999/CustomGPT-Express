@@ -23,6 +23,8 @@ import AccountBoard from "components/Profile/AccountBoard";
 import PaymentBoard from "components/Profile/PaymentBoard";
 import WelcomePage from "pages/WelcomePage";
 
+import { DisplayTextContext } from "common/Context";
+
 const DISCOVERS = [
   {
     title: "Create a PCOS Friendly Meal Plan",
@@ -197,6 +199,8 @@ function App() {
   const [idxOfDiscover, setIdxOfDiscover] = useState(0);
   const [currentUser, setCurrentUser] = useState(undefined);
 
+  const [displayText, setDisplayText] = useState();
+
   useEffect(() => {
     const user = AuthService.getCurrentUser();
 
@@ -217,12 +221,16 @@ function App() {
             <Route
               element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
             >
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/discover" element={<Discover />} />
-              <Route path="/profile" element={<Profile />}>
-                <Route path="account" element={<AccountBoard />} />
-                <Route path="payment" element={<PaymentBoard />} />
-              </Route>
+              <DisplayTextContext.Provider
+                value={{ displayText, setDisplayText }}
+              >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/discover" element={<Discover />} />
+                <Route path="/profile" element={<Profile />}>
+                  <Route path="account" element={<AccountBoard />} />
+                  <Route path="payment" element={<PaymentBoard />} />
+                </Route>
+              </DisplayTextContext.Provider>
             </Route>
             <Route
               element={<ProtectLogOutRoute isAuthenticated={isAuthenticated} />}
