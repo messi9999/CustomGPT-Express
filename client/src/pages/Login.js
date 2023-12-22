@@ -1,13 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ThemeContext } from "common/Context";
 
 import AuthService from "../services/auth.service";
 import { ReactComponent as GoogleIcon } from "assets/icons/google.svg";
 
 const Login = () => {
-  const theme = useContext(ThemeContext);
-
   const currentUser = AuthService.getCurrentUser();
 
   let navigate = useNavigate();

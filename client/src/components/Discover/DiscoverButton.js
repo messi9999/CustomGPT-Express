@@ -1,12 +1,14 @@
 import { DiscoverContext } from "common/Context";
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DiscoverButton = ({ content, id }) => {
   const { title, imgUrl } = content;
   const { setIdxOfDiscover } = useContext(DiscoverContext);
-
+  const navigate = useNavigate();
   const onEvent = () => {
     setIdxOfDiscover(id);
+    navigate("/dashboard");
   };
   return (
     <button

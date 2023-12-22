@@ -51,7 +51,7 @@ const Register = (props) => {
         console.log("response: ", response);
         setMessage(response.data.message);
         setSuccessful(true);
-        navigate("/login");
+        navigate("/dashboard");
       },
       (error) => {
         const resMessage =

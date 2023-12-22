@@ -3,11 +3,19 @@ import axios from "axios";
 const API_URL = "/api/auth/";
 
 const register = (username, email, password) => {
-  return axios.post(API_URL + "signup", {
-    username,
-    email,
-    password,
-  });
+  return axios
+    .post(API_URL + "signup", {
+      username,
+      email,
+      password,
+    })
+    .then((response) => {
+      if (response.data.email) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+
+      return response.data;
+    });
 };
 
 const login = (email, password) => {
