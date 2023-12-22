@@ -7,7 +7,7 @@ import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.sv
 import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
 import { ReactComponent as BackDiscoverIcon } from "assets/icons/discover-icon.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { DiscoverContext, DisplayTextContext } from "common/Context";
 
@@ -25,6 +25,7 @@ function LoadingButton() {
 }
 
 export default function ChatBoard() {
+  const navigate = useNavigate();
   const { DISCOVERS, idxOfDiscover } = useContext(DiscoverContext);
 
   const [chatHistory, setChatHistory] = useState([
@@ -104,6 +105,7 @@ export default function ChatBoard() {
       text: userMessage,
     };
     appendChatHistory(newMessage);
+    setUserMessage("");
 
     //Endpoint request here.
     const reqBody = {
@@ -158,8 +160,13 @@ export default function ChatBoard() {
       setChatHistory((currentArray) => currentArray.slice(0, -1));
     }
 
-    setUserMessage("");
     setIsEditable(true);
+  };
+
+  const handleLogOut = () => {
+    AuthService.logout();
+    navigate("/");
+    window.location.reload();
   };
 
   const { pathname } = useLocation();
@@ -235,7 +242,9 @@ export default function ChatBoard() {
             <button
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover lg:hidden"
               type="button"
-              onClick={() => AuthService.logout()}
+              onClick={() => {
+                handleLogOut;
+              }}
             >
               <LogoutIcon />
             </button>

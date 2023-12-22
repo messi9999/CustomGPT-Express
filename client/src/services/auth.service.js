@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "/api/auth/";
 
@@ -35,7 +36,6 @@ const login = (email, password) => {
 
 const logout = () => {
   localStorage.removeItem("user");
-  window.location.reload();
   // return axios.post(API_URL + "signout").then((response) => {
   //   return response.data;
   // });
