@@ -243,7 +243,7 @@ export default function ChatBoard() {
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover lg:hidden"
               type="button"
               onClick={() => {
-                handleLogOut;
+                handleLogOut();
               }}
             >
               <LogoutIcon />
