@@ -215,14 +215,12 @@ function App() {
       <DiscoverContext.Provider
         value={{ DISCOVERS, idxOfDiscover, setIdxOfDiscover }}
       >
-        <Router>
-          <Routes>
-            <Route path="/" element={<WelcomePage />} />
-            <Route
-              element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
-            >
-              <DisplayTextContext.Provider
-                value={{ displayText, setDisplayText }}
+        <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<WelcomePage />} />
+              <Route
+                element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
               >
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/discover" element={<Discover />} />
@@ -230,16 +228,18 @@ function App() {
                   <Route path="account" element={<AccountBoard />} />
                   <Route path="payment" element={<PaymentBoard />} />
                 </Route>
-              </DisplayTextContext.Provider>
-            </Route>
-            <Route
-              element={<ProtectLogOutRoute isAuthenticated={isAuthenticated} />}
-            >
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Route>
-          </Routes>
-        </Router>
+              </Route>
+              <Route
+                element={
+                  <ProtectLogOutRoute isAuthenticated={isAuthenticated} />
+                }
+              >
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Route>
+            </Routes>
+          </Router>
+        </DisplayTextContext.Provider>
       </DiscoverContext.Provider>
     </>
   );
