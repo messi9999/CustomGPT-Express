@@ -4,7 +4,7 @@ import React from "react";
 import { ReactComponent as DiscoverIcon } from "assets/icons/discover-icon.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/profile.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const routes = [
@@ -32,11 +32,19 @@ function SidebarItem({ to, icon, children }) {
     "mb-1 flex h-20 w-20 flex-col items-center justify-center rounded-xl text-neutral-900 hover:bg-neutral-300 hover:text-neutral-600 active:bg-neutral-200 active:text-neutral-900-tap cursor-pointer";
 
   const Icon = icon;
+
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    AuthService.logout();
+    navigate("/");
+    window.location.reload();
+  };
+
   return to === "Log out" ? (
     <div
       className={`${classes} mt-auto`}
       onClick={() => {
-        AuthService.logout();
+        handleLogOut();
       }}
     >
       <Icon className="w-8 h-8" />
