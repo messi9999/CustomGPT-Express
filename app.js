@@ -49,6 +49,7 @@ require("./server/routes/chatbot.routes")(app);
 require("./server/routes/auth.routes")(app);
 require("./server/routes/user.routes")(app);
 require("./server/routes/discover.routes")(app);
+require("./server/routes/payment.routes")(app);
 
 //Swagger doc
 const swaggerOptions = {

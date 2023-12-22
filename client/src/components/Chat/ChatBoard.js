@@ -6,6 +6,7 @@ import { ReactComponent as SendMsgIcon } from "assets/icons/sendmsg.svg";
 import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.svg";
 import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
 import { ReactComponent as BackDiscoverIcon } from "assets/icons/discover-icon.svg";
+import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { DiscoverContext } from "common/Context";
@@ -227,7 +228,14 @@ export default function ChatBoard() {
               <BackDiscoverIcon />
             </NavLink>
           </div>
-          <div>
+          <div className="flex gap-x-2">
+            <button
+              className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover lg:hidden"
+              type="button"
+              onClick={() => AuthService.logout()}
+            >
+              <LogoutIcon />
+            </button>
             <button
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover"
               type="button"

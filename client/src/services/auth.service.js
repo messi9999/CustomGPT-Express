@@ -27,14 +27,17 @@ const login = (email, password) => {
 
 const logout = () => {
   localStorage.removeItem("user");
-  return axios.post(API_URL + "signout").then((response) => {
-    return response.data;
-  });
+  window.location.reload();
+  // return axios.post(API_URL + "signout").then((response) => {
+  //   return response.data;
+  // });
 };
 
 const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
+
+const updateCurrentUser = () => {};
 
 const AuthService = {
   register,

@@ -3,7 +3,9 @@ import React from "react";
 
 import { ReactComponent as DiscoverIcon } from "assets/icons/discover-icon.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/profile.svg";
+import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
 const routes = [
   {
@@ -16,6 +18,11 @@ const routes = [
     title: "Profile",
     icon: ProfileIcon,
   },
+  {
+    to: "Log out",
+    title: "Log out",
+    icon: LogoutIcon,
+  },
 ];
 
 function SidebarItem({ to, icon, children }) {
@@ -25,7 +32,17 @@ function SidebarItem({ to, icon, children }) {
     "mb-1 flex h-20 w-20 flex-col items-center justify-center rounded-xl text-neutral-900 hover:bg-neutral-300 hover:text-neutral-600 active:bg-neutral-200 active:text-neutral-900-tap cursor-pointer";
 
   const Icon = icon;
-  return (
+  return to === "Log out" ? (
+    <div
+      className={`${classes} mt-auto`}
+      onClick={() => {
+        AuthService.logout();
+      }}
+    >
+      <Icon className="w-8 h-8" />
+      <span>{children}</span>
+    </div>
+  ) : (
     <NavLink
       to={pathname !== to ? to : "/dashboard"}
       className={`${classes} ${pathname === to ? "bg-neutral-300" : ""}`}

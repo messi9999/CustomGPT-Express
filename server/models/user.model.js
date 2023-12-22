@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
     threadID: {
       type: Sequelize.STRING,
     },
+    subscription: {
+      type: Sequelize.JSONB,
+    },
   });
 
   return User;

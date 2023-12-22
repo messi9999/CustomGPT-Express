@@ -71,20 +71,6 @@ const DISCOVERS = [
     `,
   },
   {
-    title: "Create a PCOS friendly meal plan",
-    imgUrl: "assets/images/discover/Create PCOS Friendly Meal Plan.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
-    baseContext: `Of course! Let’s make a meal plan personalized to you and your PCOS symptoms.
-
-    By default, I will create a 7 day meal plan to support PCOS. If you’d like more ideas, let me know at the end.\n
-    
-    If there’s anything you don’t like to eat in the meal plan, we can always change it.\n
-    
-    Can we start by understanding your dietary preferences?
-    
-    `,
-  },
-  {
     title: "Find a PCOS Friendly Snack",
     imgUrl: "assets/images/discover/Find a PCOS friendly snack.png",
     assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
