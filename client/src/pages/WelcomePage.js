@@ -30,16 +30,24 @@ export default function WelcomePage() {
   return (
     <div className="w-screen h-screen bg-[#fcf4e6] flex justify-center">
       <div className="w-screen lg:w-[1024px] h-screen pt-[20vh] pb-[20vh] flex flex-col justify-between align-middle">
-        <div className="text-center text-[40px] sm:text-[60px] px-5 font-christmasSpark text-lime-800">
-          <WordByWordAnimation
-            text="Welcome To Nourished Natural Health"
-            delay={100}
-          />
+        <div>
+          <div className="text-center text-[40px] sm:text-[60px] px-5 font-sans text-[#545454]">
+            <WordByWordAnimation
+              text="Welcome to the PCOS Copilot"
+              delay={50}
+            />
+          </div>
+          <div className="text-center text-[20px] sm:text-[40px] px-5 font-sans text-[#545454]">
+            <WordByWordAnimation
+              text="Your Personalized Natural PCOS Guide. Powered By AI"
+              delay={100}
+            />
+          </div>
         </div>
         <div className="flex justify-center">
           <NavLink
             to="/login"
-            className="text-white bg-lime-800 font-chocolateGrande text-[24px] lg:text-[36px] rounded-full p-1 px-7 lg:hover:bg-lime-600"
+            className="text-white bg-[#386bb6] font-sans text-[24px] lg:text-[36px] rounded-full p-1 px-7 hover:text-[26px] hover:lg:text-[38px] lg:hover:bg-[#415675]"
           >
             GET STARTED
           </NavLink>
