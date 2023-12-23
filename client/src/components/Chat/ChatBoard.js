@@ -15,7 +15,7 @@ import AuthService from "services/auth.service";
 
 function LoadingButton() {
   return (
-    <div className="flex space-x-2 justify-right items-center bg-transparent h-[2rem] dark:invert">
+    <div className="flex flex-wrap space-x-2 justify-right items-center bg-transparent">
       <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.28s]">Consulting </span>
       <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.26s]">my </span>
       <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.24s]">knowledge </span>
@@ -199,13 +199,16 @@ export default function ChatBoard() {
           >
             <div className="relative space-y-6 px-5 text-primary-700 mx-auto max-w-[50rem] 2xl:max-w-[60rem]">
               <div className="absolute top-0 h-[50px] bg-opacity-gradient"></div>
-              <div className=" overflow-y-auto scrollbar-thumb scrollbar-track">
+              <div className=" overflow-y-auto scrollbar-thumb scrollbar-track w-full">
                 <ul>
                   {chatHistory.map((msg, index) => (
                     <ChatMessage key={index} message={msg} />
                   ))}
-                  {!isEditable && chatHistory.length > 1 && <LoadingButton />}
-                  {/* <LoadingButton /> */}
+                  
+                  <div className="px-[16px]">   
+                  {!isEditable && chatHistory.length > 1 && <LoadingButton />}                 
+                    {/* <LoadingButton/> */}
+                  </div>
                 </ul>
               </div>
             </div>
@@ -239,7 +242,15 @@ export default function ChatBoard() {
               </button>
             </div>
           </div>
-          <div className="text-slate-900 text-md my-3 flex justify-center">
+          <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
+          <NavLink
+            to={"/feedback"}
+          >
+            Feedback? <u><i className='text-[#0a60f5]'>Please help improve this product here.</i></u>
+          </NavLink>
+            
+          </div>
+          <div className="text-slate-900 text-md mb-3 flex justify-center">
             @Copyright Nourished Natural Health
           </div>
         </div>

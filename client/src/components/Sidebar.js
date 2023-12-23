@@ -11,18 +11,13 @@ import AuthService from "../services/auth.service";
 const routes = [
   {
     to: "/discover",
-    title: "Docover",
+    title: "Discover",
     icon: DiscoverIcon,
   },
   {
     to: "/profile",
     title: "Profile",
     icon: ProfileIcon,
-  },
-  {
-    to: "/feedback",
-    title: "Feedback",
-    icon: FeedbackIcon,
   },
   {
     to: "Log out",

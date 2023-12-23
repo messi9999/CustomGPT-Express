@@ -102,7 +102,7 @@ const DISCOVERS = [
     `,
   },
   {
-    title: "Recommend a PCOS Friendly Restaurant In My Area",
+    title: "Support PCOS at restaurants",
     imgUrl:
       "assets/images/discover/Recommend a PCOS friendly restaurant in my area.png",
     assistantID: "asst_NjyZmDLim6LsaS0XKF23KtoK",
