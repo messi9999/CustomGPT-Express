@@ -3,7 +3,6 @@ import React from "react";
 
 import { ReactComponent as DiscoverIcon } from "assets/icons/discover-icon.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/profile.svg";
-import { ReactComponent as FeedbackIcon } from "assets/icons/feedback-review.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";

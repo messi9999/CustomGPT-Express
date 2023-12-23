@@ -30,10 +30,6 @@ function LoadingButton() {
       <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.04s]">. </span>
       <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.02s]">. </span>
       <span className="text-[15px] font-mono animate-bounce ">. </span>
-      {/* <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.3s]">Consulting my knowledge base. This could take up to 60 seconds</span> */}
-      {/* <div className="h-1 w-1 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-      <div className="h-1 w-1 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-      <div className="h-1 w-1 bg-black rounded-full animate-bounce"></div> */}
     </div>
   );
 }
