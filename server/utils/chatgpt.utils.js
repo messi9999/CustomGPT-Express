@@ -1,6 +1,6 @@
 const openaiConfig = require("../config/openai.config");
 // const OpenAI = require("openai");
-const axios_raw = require("axios")
+const axios = require("axios")
 const { SocksProxyAgent } = require('socks-proxy-agent');
 
 // const agent = new SocksProxyAgent('socks5://14aae74da516b:91a1671310@161.77.153.72:12324');
