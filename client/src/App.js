@@ -31,9 +31,9 @@ const DISCOVERS = [
     assistantID: "asst_j3JLCZxlIFrU2QgaYUHJQYyc",
     baseContext: `Great! Let’s make a meal plan together. Your meal plan will be PCOS friendly and customized to your needs.
 
-    If there’s anything you don’t like in your final plan, let me know and we can always adjust it.\n
+    If there’s anything you don’t like in your final plan, let me know and we can always adjust it. \n
     
-    Can you start off by telling me if you want a plan for 1 day, 1 week or even longer?
+    To get started just write “Create a meal plan” in the box below.    
     `,
   },
   {
@@ -42,9 +42,9 @@ const DISCOVERS = [
     assistantID: "asst_1kcoR7EywMR0Ci8tAm7UqzNh",
     baseContext: `Sure! Let’s create a personalized supplement plan for your PCOS type.
 
-    First of all, can you start off by telling me some of the symptoms you are experiencing?\n
+    If you changes to your plan at any time, let me know and we can make changes.\n
     
-    If you changes to your plan at any time, let me know and we can make changes.
+    To get started, enter “Create a personalized supplement plan” below.    
     `,
   },
   {
@@ -53,11 +53,9 @@ const DISCOVERS = [
     assistantID: "asst_m7FDil5Gei1IUGIiydpWGNpm",
     baseContext: `Sure! I'd love to help you understand your PCOS type. 
 
-    Why don't you start by telling me some information about your symptoms?\n
-  
-    Do you suffer from acne; hair loss; excess weight; insulin resistance or anything else related to PCOS?\n
+    I may ask you a lot of questions, so if you don’t know an answer just say “I don’t know”.\n
     
-    I may ask you a lot of questions, so if you don’t know an answer just say “I don’t know”.
+    To get started, enter “What is my PCOS type?” below.    
     `,
   },
   {
@@ -66,9 +64,9 @@ const DISCOVERS = [
     assistantID: "asst_mGQfecbb9v5eUNwheAE38uld",
     baseContext: `Definitely! I can help you create a custom workout routine based on your age, fitness and energy levels.
 
-    Let’s start with a question: what exercise do you love to do?\n
+    If there is anything you don’t like in your routine, just let me know.\n
     
-    If there is anything you don’t like in your routine, just let me know.
+    To get started, enter “Create a workout routine for me” below.    
     `,
   },
   {
@@ -77,7 +75,7 @@ const DISCOVERS = [
     assistantID: "asst_VwKeai4n7dtrg1ctwXBwLMmP",
     baseContext: `Absolutely!
 
-    What do you feel like eating right now? Sweet or savory?
+    To get started, type “Get me a snack!” below.   
     
     `,
   },
@@ -87,9 +85,9 @@ const DISCOVERS = [
     assistantID: "asst_HHKfVxspt9ZLEKwJubMnBNXE",
     baseContext: `Of course! Let’s create a tasty recipe that is simple and helps you achieve your goals.
 
-    Do you have any dietary preferences or any strong dislikes?\n
+    Remember you can always ask me to change anything or start over again if you don’t like the recipe.\n
     
-    Remember you can always ask me to change anything or start over again if you don’t like the recipe.    
+    To get started, type “Create a recipe for my PCOS type” below.    
     `,
   },
   {
@@ -98,7 +96,9 @@ const DISCOVERS = [
     assistantID: "asst_H6wwqLkXlKww2pkJpY1mnVXs",
     baseContext: `Perfect! 
 
-    Do you have any meals you want to cook this week?    
+    We can create a shopping list that is tailored to your specific likes and dislikes, as well as supporting your PCOS symptoms.\n
+    
+    To get started, enter “Create me a shopping list” below.        
     `,
   },
   {
@@ -108,9 +108,9 @@ const DISCOVERS = [
     assistantID: "asst_NjyZmDLim6LsaS0XKF23KtoK",
     baseContext: `Perfect! 
 
-    Can I ask what area you live in?\n
+    It can be so hard to know how to eat to support your symptoms when out. \n
     
-    The more specific you can be, the better my recommendation will be.    
+    To get started, enter “What should I eat when dining out?” below.      
     `,
   },
   {
@@ -119,7 +119,9 @@ const DISCOVERS = [
     assistantID: "asst_6JnvHrWBB3Cw4zU9DZlh71GL",
     baseContext: `Of course.
 
-    Let’s start by understanding what your most challenging symptoms are?    
+    We can get started with a number of different ways to support your symptoms.\n
+    
+    To get started, type “Fix my PCOS symptoms” below.        
     `,
   },
   {
@@ -128,7 +130,9 @@ const DISCOVERS = [
     assistantID: "asst_bCA5S2ZHuukiABKTF6ZLtkJe",
     baseContext: `Definitely!
 
-    What were you looking to understand more about?    
+    I can recommend a bunch of different resources for further reading.\n
+    
+    To get started, enter “I want PCOS resources” below.        
     `,
   },
   {
@@ -139,7 +143,7 @@ const DISCOVERS = [
 
     Reducing cortisol and stress levels is so critical for managing PCOS symptoms.\n
     
-    What’s on your mind that’s worrying you?    
+    Type “Help me feel calm” into the chat box below to get started.        
     `,
   },
   {
@@ -148,9 +152,9 @@ const DISCOVERS = [
     assistantID: "asst_7L2p51JEyR5PQcODrePz0Tfh",
     baseContext: `Definitely! Let’s track your symptoms.
 
-    Start off by telling me some of the issues you’re having.\n
+    You can always come back to me and share your symptoms. I will save and record them so I can provide you with insights later.\n
     
-    You can always come back to me and share your symptoms. I will save and record them so I can provide you with insights later.
+    Type “Help me track my symptoms” into the box below to get started.   
     
     `,
   },
@@ -159,6 +163,8 @@ const DISCOVERS = [
     imgUrl: "assets/images/discover/Talk with someone about PCOS.png",
     assistantID: "asst_zpuMIpwCDvrrp2jbMY6ijRvr",
     baseContext: `Sure! I can answer any questions you might have about PCOS. If it’s emotional support you need, I’m here for that too.
+
+    Type “I want to talk about my PCOS” below to get started.    
     `,
   },
   {
