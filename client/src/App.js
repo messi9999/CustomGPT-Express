@@ -208,9 +208,25 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const setVhVariable = () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+      // Run the function when the component mounts
+      setVhVariable();
+
+      // Add the event listener
+      window.addEventListener('resize', setVhVariable);
+
+      // Remove the event listener when the component unmounts
+      return () => window.removeEventListener('resize', setVhVariable);
+    }, []);
+
   const isAuthenticated = currentUser !== undefined;
   return (
-    <>
+    <div style={{ height: 'calc(100 * var(--vh))' }}>
       <DiscoverContext.Provider
         value={{ DISCOVERS, idxOfDiscover, setIdxOfDiscover }}
       >
@@ -241,7 +257,7 @@ function App() {
           </Router>
         </DisplayTextContext.Provider>
       </DiscoverContext.Provider>
-    </>
+    </div>
   );
 }
 
