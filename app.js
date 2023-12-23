@@ -4,15 +4,12 @@ const cors = require("cors");
 
 const path = require("path");
 
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
-
 require("dotenv").config();
 
 const app = express();
 
 var corsOptions = {
-  origin: "*",
+  origin: process.env.DOMAIN,
 };
 
 app.use(cors(corsOptions));
@@ -23,54 +20,38 @@ app.use(bodyParser.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+
 const db = require("./server/models");
 const Role = db.role;
 
-// db.sequelize.sync();
+db.sequelize.sync();
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync DB.");
-  initial();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync DB.");
+//   initial();
+// });
 
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user",
-  });
+// function initial() {
+//   Role.create({
+//     id: 1,
+//     name: "user",
+//   });
 
-  Role.create({
-    id: 2,
-    name: "admin",
-  });
-}
+//   Role.create({
+//     id: 2,
+//     name: "admin",
+//   });
+// }
+
+//-----------Config Assistants----------------
+// const chatGptUtils = require("./server/utils/chatgpt.utils")
+// chatGptUtils.updatedAssistant()
 
 require("./server/routes/chatbot.routes")(app);
 require("./server/routes/auth.routes")(app);
 require("./server/routes/user.routes")(app);
 require("./server/routes/discover.routes")(app);
 require("./server/routes/payment.routes")(app);
-
-//Swagger doc
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: "3.0.0",
-    info: {
-      title: "API Documentation",
-      version: "1.0.0",
-      description: "My API Documentation",
-    },
-    servers: [
-      {
-        url: "http://localhost:8080/api",
-      },
-    ],
-  },
-  apis: ["./server/routes/auth.routes.js"], // Path to the API docs
-};
-
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 8080;
 

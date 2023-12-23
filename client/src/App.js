@@ -4,8 +4,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useNavigate,
-  NavLink,
   Navigate,
   Outlet,
 } from "react-router-dom";
@@ -24,12 +22,13 @@ import PaymentBoard from "components/Profile/PaymentBoard";
 import WelcomePage from "pages/WelcomePage";
 
 import { DisplayTextContext } from "common/Context";
+import Feedback from "pages/Feedback";
 
 const DISCOVERS = [
   {
     title: "Create a PCOS Friendly Meal Plan",
     imgUrl: "assets/images/discover/Create PCOS Friendly Meal Plan.png",
-    assistantID: "asst_velI3sQFDjxH0aqd8wFPnW1v",
+    assistantID: "asst_j3JLCZxlIFrU2QgaYUHJQYyc",
     baseContext: `Great! Let’s make a meal plan together. Your meal plan will be PCOS friendly and customized to your needs.
 
     If there’s anything you don’t like in your final plan, let me know and we can always adjust it.\n
@@ -40,7 +39,7 @@ const DISCOVERS = [
   {
     title: "Explore Nutritional Supplement Options",
     imgUrl: "assets/images/discover/Explore Nutritional Supplement Options.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_1kcoR7EywMR0Ci8tAm7UqzNh",
     baseContext: `Sure! Let’s create a personalized supplement plan for your PCOS type.
 
     First of all, can you start off by telling me some of the symptoms you are experiencing?\n
@@ -51,7 +50,7 @@ const DISCOVERS = [
   {
     title: "Understand my PCOS type",
     imgUrl: "assets/images/discover/Understand my PCOS type.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_m7FDil5Gei1IUGIiydpWGNpm",
     baseContext: `Sure! I'd love to help you understand your PCOS type. 
 
     Why don't you start by telling me some information about your symptoms?\n
@@ -64,7 +63,7 @@ const DISCOVERS = [
   {
     title: "Personalize a Workout Routine",
     imgUrl: "assets/images/discover/Personalize a workout routine.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_mGQfecbb9v5eUNwheAE38uld",
     baseContext: `Definitely! I can help you create a custom workout routine based on your age, fitness and energy levels.
 
     Let’s start with a question: what exercise do you love to do?\n
@@ -75,7 +74,7 @@ const DISCOVERS = [
   {
     title: "Find a PCOS Friendly Snack",
     imgUrl: "assets/images/discover/Find a PCOS friendly snack.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_VwKeai4n7dtrg1ctwXBwLMmP",
     baseContext: `Absolutely!
 
     What do you feel like eating right now? Sweet or savory?
@@ -85,7 +84,7 @@ const DISCOVERS = [
   {
     title: "Create a Recipe For My PCOS Type",
     imgUrl: "assets/images/discover/Create a recipe for my PCOS type.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_HHKfVxspt9ZLEKwJubMnBNXE",
     baseContext: `Of course! Let’s create a tasty recipe that is simple and helps you achieve your goals.
 
     Do you have any dietary preferences or any strong dislikes?\n
@@ -96,7 +95,7 @@ const DISCOVERS = [
   {
     title: "Plan a PCOS Friendly Shopping List",
     imgUrl: "assets/images/discover/Plan A PCOS Friendly Shopping List.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_H6wwqLkXlKww2pkJpY1mnVXs",
     baseContext: `Perfect! 
 
     Do you have any meals you want to cook this week?    
@@ -106,7 +105,7 @@ const DISCOVERS = [
     title: "Recommend a PCOS Friendly Restaurant In My Area",
     imgUrl:
       "assets/images/discover/Recommend a PCOS friendly restaurant in my area.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_NjyZmDLim6LsaS0XKF23KtoK",
     baseContext: `Perfect! 
 
     Can I ask what area you live in?\n
@@ -117,7 +116,7 @@ const DISCOVERS = [
   {
     title: "Fix My Symptoms",
     imgUrl: "assets/images/discover/Fix my symptoms.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_6JnvHrWBB3Cw4zU9DZlh71GL",
     baseContext: `Of course.
 
     Let’s start by understanding what your most challenging symptoms are?    
@@ -126,7 +125,7 @@ const DISCOVERS = [
   {
     title: "Discover More PCOS Resources",
     imgUrl: "assets/images/discover/Discover more PCOS resources.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_bCA5S2ZHuukiABKTF6ZLtkJe",
     baseContext: `Definitely!
 
     What were you looking to understand more about?    
@@ -135,7 +134,7 @@ const DISCOVERS = [
   {
     title: "Feel Calm",
     imgUrl: "assets/images/discover/Feel calm.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_jNqlLlOptwouobwm2FuuPySP",
     baseContext: `Okay!
 
     Reducing cortisol and stress levels is so critical for managing PCOS symptoms.\n
@@ -146,7 +145,7 @@ const DISCOVERS = [
   {
     title: "Track My Symptoms",
     imgUrl: "assets/images/discover/Track my symptoms.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_7L2p51JEyR5PQcODrePz0Tfh",
     baseContext: `Definitely! Let’s track your symptoms.
 
     Start off by telling me some of the issues you’re having.\n
@@ -158,21 +157,21 @@ const DISCOVERS = [
   {
     title: "Talk With Someone About PCOS",
     imgUrl: "assets/images/discover/Talk with someone about PCOS.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_zpuMIpwCDvrrp2jbMY6ijRvr",
     baseContext: `Sure! I can answer any questions you might have about PCOS. If it’s emotional support you need, I’m here for that too.
     `,
   },
   {
     title: "Just Talk To Someone",
     imgUrl: "assets/images/discover/Just Talk To Someone.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_SrVRYOpsDyPTvkfbG8BowaMQ",
     baseContext: `Just need to vent or have someone listen? Go for it.
     `,
   },
   {
     title: "Learn More About This App",
     imgUrl: "assets/images/discover/Learn More About This App.png",
-    assistantID: "asst_yoLVpKKIOlDUgPmJDOHN88eh",
+    assistantID: "asst_YQF53IFVaIThDkkBkQvXB8Rz",
     baseContext: `Of course! What would you like to know about me?
     `,
   },
@@ -224,6 +223,7 @@ function App() {
               >
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/discover" element={<Discover />} />
+                <Route path="/feedback" element={<Feedback />} />
                 <Route path="/profile" element={<Profile />}>
                   <Route path="account" element={<AccountBoard />} />
                   <Route path="payment" element={<PaymentBoard />} />

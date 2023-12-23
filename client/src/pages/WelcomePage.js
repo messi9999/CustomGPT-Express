@@ -31,13 +31,13 @@ export default function WelcomePage() {
     <div className="w-screen h-screen bg-[#fcf4e6] flex justify-center">
       <div className="w-screen lg:w-[1024px] h-screen pt-[20vh] pb-[20vh] flex flex-col justify-between align-middle">
         <div>
-          <div className="text-center text-[40px] sm:text-[60px] px-5 font-sans text-[#545454]">
+          <div className="text-center text-[40px] sm:text-[60px] px-5 font-sans">
             <WordByWordAnimation
               text="Welcome to the PCOS Copilot"
               delay={50}
             />
           </div>
-          <div className="text-center text-[20px] sm:text-[40px] px-5 font-sans text-[#545454]">
+          <div className="text-center text-[20px] sm:text-[40px] px-5 font-sans">
             <WordByWordAnimation
               text="Your Personalized Natural PCOS Guide. Powered By AI"
               delay={100}

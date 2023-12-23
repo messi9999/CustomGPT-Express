@@ -22,7 +22,6 @@ exports.signup = (req, res) => {
         threadID: thread.id,
       })
         .then((user) => {
-          console.log(user);
           if (req.body.roles) {
             Role.findAll({
               where: {

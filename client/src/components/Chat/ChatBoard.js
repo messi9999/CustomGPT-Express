@@ -16,10 +16,24 @@ import AuthService from "services/auth.service";
 function LoadingButton() {
   return (
     <div className="flex space-x-2 justify-right items-center bg-transparent h-[2rem] dark:invert">
-      <span className="sr-only">Loading...</span>
-      <div className="h-2 w-2 bg-[#f1d297] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-      <div className="h-2 w-2 bg-[#f1d297] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-      <div className="h-2 w-2 bg-[#f1d297] rounded-full animate-bounce"></div>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.28s]">Consulting </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.26s]">my </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.24s]">knowledge </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.20s]">base. </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.18s]">This </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.16s]">could </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.14s]">take </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.12s]">up </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.10s]">to </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.08s]">60 </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.06s]">seconds </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.04s]">. </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.02s]">. </span>
+      <span className="text-[15px] font-mono animate-bounce ">. </span>
+      {/* <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.3s]">Consulting my knowledge base. This could take up to 60 seconds</span> */}
+      {/* <div className="h-1 w-1 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+      <div className="h-1 w-1 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+      <div className="h-1 w-1 bg-black rounded-full animate-bounce"></div> */}
     </div>
   );
 }
@@ -191,6 +205,7 @@ export default function ChatBoard() {
                     <ChatMessage key={index} message={msg} />
                   ))}
                   {!isEditable && chatHistory.length > 1 && <LoadingButton />}
+                  {/* <LoadingButton /> */}
                 </ul>
               </div>
             </div>
