@@ -3,8 +3,8 @@ import axios from "axios";
 import ChatMessage from "./ChatMessage";
 
 import { ReactComponent as SendMsgIcon } from "assets/icons/sendmsg.svg";
-import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.svg";
-import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
+// import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.svg";
+// import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
 import { ReactComponent as BackCreateIcon } from "assets/icons/create-icon.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -46,7 +46,7 @@ export default function ChatBoard() {
   ]);
   const [userMessage, setUserMessage] = useState("");
   const [isEditable, setIsEditable] = useState(true);
-  const [isSpeaker, setIsSpeaker] = useState(false);
+  // const [isSpeaker, setIsSpeaker] = useState(false);
 
   const { displayText } = useContext(DisplayTextContext);
 
@@ -270,7 +270,7 @@ export default function ChatBoard() {
             >
               <LogoutIcon />
             </button>
-            <button
+            {/* <button
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover"
               type="button"
             >
@@ -285,7 +285,7 @@ export default function ChatBoard() {
                   onClick={() => setIsSpeaker(true)}
                 />
               )}
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
