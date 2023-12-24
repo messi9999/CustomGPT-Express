@@ -35,7 +35,7 @@ const Login = () => {
 
     AuthService.login(email, password).then(
       () => {
-        navigate("/dashboard");
+        navigate("/discover");
         window.location.reload();
       },
       (error) => {

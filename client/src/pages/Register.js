@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const Register = (props) => {
-
   const currentUser = AuthService.getCurrentUser();
 
   let navigate = useNavigate();
@@ -17,52 +16,77 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [cmPassword, setCmPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
-  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
+  const [fields, setFields] = useState({});
+
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
   };
 
-  const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
+  const handleInputChange = (field, e) => {
+    let newFields = fields;
+    newFields[field] = e.target.value;
+    let isValid = handleValidation();
+    setFields(newFields);
   };
 
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
+  const handleValidation = () => {
+    let errors = {};
+    let formIsValid = true;
 
-  const onChangeCmPassword = (e) => {
-    const cmPassword = e.target.value;
-    setCmPassword(cmPassword);
-  };
+    if (!fields["username"]) {
+      formIsValid = false;
+      errors["username"] = "Cannot be empty";
+    }
+
+    if (!validateEmail(fields["email"])) {
+      formIsValid = false;
+      errors["email"] = "Invalid email address";
+    }
+
+    if (!fields["password"] || fields["password"].length < 8) {
+      formIsValid = false;
+      errors["password"] = "Password must be at least 8 characters";
+    }
+
+    if (fields["cmpassword"] !== fields["password"]) {
+      formIsValid = false;
+      errors["cmpassword"] = "Passwords do not match";
+    }
+
+    setErrors(errors);
+    return formIsValid;
+  }
+
+  const isAllValidate = () => {
+    return Object.keys(errors).length === 0;
+  }
 
   const handleRegister = (e) => {
     e.preventDefault();
-    setMessage("");
     setSuccessful(false);
 
-    AuthService.register(username, email, password).then(
-      () => {
-        setSuccessful(true);
-        navigate("/dashboard");
-        window.location.reload();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setMessage(resMessage);
-        setSuccessful(false);
-      }
-    );
-    console.log(successful);
-    console.log(message);
+    if(handleValidation()) {
+      AuthService.register(username, email, password).then(
+        () => {
+          setSuccessful(true);
+          navigate("/dashboard");
+          window.location.reload();
+        },
+        (error) => {
+          // const resMessage =
+          //   (error.response &&
+          //     error.response.data &&
+          //     error.response.data.message) ||
+          //   error.message ||
+          //   error.toString();
+          setSuccessful(false);
+        }
+      );
+      console.log(successful);
+    }
   };
 
   return (
@@ -74,7 +98,8 @@ const Register = (props) => {
       >
         <div className="mx-auto max-w-lg">
           <form
-            className="mb-0 mt-6 space-y-8 rounded-lg p-4 shadow-lg sm:p-8 lg:p-8 group"
+            className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-8 lg:p-8"
+            onSubmit={handleRegister}
             noValidate
           >
             <p className="text-center text-lg font-medium">
@@ -87,13 +112,13 @@ const Register = (props) => {
                 <input
                   type="text"
                   name="username"
-                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm peer"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter username"
-                  onChange={onChangeUsername}
+                  onChange={(e) => handleInputChange("username", e)}
                   required
                 />
-                <span className="mt-2 ml-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                  Please enter a username
+                <span className="mt-2 ml-2 text-sm text-red-500">
+                  {errors.username}
                 </span>
               </label>
             </div>
@@ -104,13 +129,13 @@ const Register = (props) => {
                 <input
                   type="email"
                   name="email"
-                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm peer"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter email"
                   required
-                  onChange={onChangeEmail}
+                  onChange={(e) => handleInputChange("email", e)}
                 />
-                <span className="mt-2 ml-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                  Please enter a valid email address
+                <span className="mt-2 ml-2 text-sm text-red-500">
+                  {errors.email}
                 </span>
               </label>
             </div>
@@ -121,12 +146,14 @@ const Register = (props) => {
                 <input
                   type="password"
                   name="password"
-                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm peer"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter password"
-                  onChange={onChangePassword}
+                  onChange={(e) => handleInputChange("password", e)}
                   required
-                  pattern=".{8,}"
                 />
+                <span className="mt-2 ml-2 text-sm text-red-500">
+                  {errors.password}
+                </span>
               </label>
             </div>
 
@@ -138,18 +165,19 @@ const Register = (props) => {
                   name="password"
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm peer"
                   placeholder="Enter password"
-                  onChange={onChangeCmPassword}
+                  onChange={(e) => handleInputChange("cmpassword", e)}
                   required
-                  pattern=".{8,}"
                 />
+                <span className="mt-2 ml-2 text-sm text-red-500">
+                  {errors.cmpassword}
+                </span>
               </label>
             </div>
 
             <button
               type="submit"
-              className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white group-invalid:pointer-events-none group-invalid:opacity-50"
-              onClick={handleRegister}
-              disabled={password !== cmPassword}
+              className={`block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white ${isAllValidate() ? "opacity-100" : "opacity-50"}`}
+              disabled={!isAllValidate()}
             >
               REGISTER
             </button>
