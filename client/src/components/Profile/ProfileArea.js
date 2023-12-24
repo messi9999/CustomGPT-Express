@@ -71,7 +71,7 @@ export default function ProfileArea() {
       <div className="bg-transparent">
         <div className="flex items-center py-5 mt-2 rounded-t-[28px] md:mt-0 md:rounded-none px-4 lg:px-6">
           <NavLink
-            to="/discover"
+            to="/create"
             className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"
           >
             <BackIcon />
