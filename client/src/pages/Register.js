@@ -71,7 +71,7 @@ const Register = (props) => {
       AuthService.register(username, email, password).then(
         () => {
           setSuccessful(true);
-          navigate("/dashboard");
+          navigate("/create");
           window.location.reload();
         },
         (error) => {

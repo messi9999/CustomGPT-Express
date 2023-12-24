@@ -194,7 +194,7 @@ const ProtectedRoute = ({ isAuthenticated }) => {
 const ProtectLogOutRoute = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were trying to go to
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/create" replace />;
   }
 
   return <Outlet />; // renders the child routes if the user is authenticated
