@@ -33,7 +33,7 @@ export default function Feedback() {
             <div className='flex justify-center mt-[60px] mb-[60px] mx-[16px] w-full h-full'>
               <div onClick={() => {handleOnClick()}}>
                   <button>
-                  <BackIcon />
+                    <BackIcon />
                   </button>
                 <div className='w-full text-center text-[36px] font-bold mb-3'>Feedback</div>
                   <div className='w-full lg:w-[800px] font-sans text-[20px] lg:text-[24px] text-neutral-900'>

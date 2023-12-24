@@ -81,7 +81,6 @@ const Login = () => {
                   placeholder="Enter email"
                   required
                   onChange={onChangeUsername}
-                  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                 />
                 <span className="mt-2 ml-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                   Please enter a valid email address

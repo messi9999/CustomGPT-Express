@@ -108,7 +108,6 @@ const Register = (props) => {
                   placeholder="Enter email"
                   required
                   onChange={onChangeEmail}
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 />
                 <span className="mt-2 ml-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                   Please enter a valid email address
