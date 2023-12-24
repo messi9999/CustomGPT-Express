@@ -5,11 +5,11 @@ import ChatMessage from "./ChatMessage";
 import { ReactComponent as SendMsgIcon } from "assets/icons/sendmsg.svg";
 import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.svg";
 import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
-import { ReactComponent as BackDiscoverIcon } from "assets/icons/discover-icon.svg";
+import { ReactComponent as BackCreateIcon } from "assets/icons/create-icon.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
-import { DiscoverContext, DisplayTextContext } from "common/Context";
+import { CreateContext, DisplayTextContext } from "common/Context";
 
 import AuthService from "services/auth.service";
 
@@ -36,7 +36,7 @@ function LoadingButton() {
 
 export default function ChatBoard() {
   const navigate = useNavigate();
-  const { DISCOVERS, idxOfDiscover } = useContext(DiscoverContext);
+  const { CREATES, idxOfCreate } = useContext(CreateContext);
 
   const [chatHistory, setChatHistory] = useState([
     {
@@ -77,10 +77,10 @@ export default function ChatBoard() {
     setChatHistory([
       {
         role: "assistant",
-        text: DISCOVERS[idxOfDiscover].baseContext,
+        text: CREATES[idxOfCreate].baseContext,
       },
     ]);
-  }, [DISCOVERS, idxOfDiscover]);
+  }, [CREATES, idxOfCreate]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -120,7 +120,7 @@ export default function ChatBoard() {
     //Endpoint request here.
     const reqBody = {
       message: userMessage,
-      assistantID: DISCOVERS[idxOfDiscover].assistantID,
+      assistantID: CREATES[idxOfCreate].assistantID,
       threadID: currentUser.threadID,
     };
 
@@ -253,11 +253,11 @@ export default function ChatBoard() {
         <div className="absolute inset-x-4 top-8 flex items-start lg:flex-row-reverse z-40">
           <div className="flex grow items-center lg:hidden">
             <NavLink
-              to="/discover"
+              to="/Create"
               className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap"
               type="button"
             >
-              <BackDiscoverIcon />
+              <BackCreateIcon />
             </NavLink>
           </div>
           <div className="flex gap-x-2">

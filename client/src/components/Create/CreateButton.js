@@ -1,13 +1,13 @@
-import { DiscoverContext } from "common/Context";
+import { CreateContext } from "common/Context";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-const DiscoverButton = ({ content, id }) => {
+const CreateButton = ({ content, id }) => {
   const { title, imgUrl } = content;
-  const { setIdxOfDiscover } = useContext(DiscoverContext);
+  const { setIdxOfCreate } = useContext(CreateContext);
   const navigate = useNavigate();
   const onEvent = () => {
-    setIdxOfDiscover(id);
+    setIdxOfCreate(id);
     navigate("/dashboard");
   };
   return (
@@ -31,4 +31,4 @@ const DiscoverButton = ({ content, id }) => {
   );
 };
 
-export default DiscoverButton;
+export default CreateButton;

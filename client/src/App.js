@@ -13,9 +13,9 @@ import Register from "./pages/Register";
 import { useEffect, useState } from "react";
 import AuthService from "services/auth.service";
 
-import Discover from "pages/Discover";
+import Create from "pages/Create";
 import Profile from "pages/Profile";
-import { DiscoverContext } from "common/Context";
+import { CreateContext } from "common/Context";
 import Dashboard from "pages/Dashboard";
 import AccountBoard from "components/Profile/AccountBoard";
 import PaymentBoard from "components/Profile/PaymentBoard";
@@ -24,10 +24,10 @@ import WelcomePage from "pages/WelcomePage";
 import { DisplayTextContext } from "common/Context";
 import Feedback from "pages/Feedback";
 
-const DISCOVERS = [
+const CREATES = [
   {
     title: "Create a PCOS Friendly Meal Plan",
-    imgUrl: "assets/images/discover/Create PCOS Friendly Meal Plan.png",
+    imgUrl: "assets/images/create/Create PCOS Friendly Meal Plan.png",
     assistantID: "asst_j3JLCZxlIFrU2QgaYUHJQYyc",
     baseContext: `Great! Let’s make a meal plan together. Your meal plan will be PCOS friendly and customized to your needs.
 
@@ -38,7 +38,7 @@ const DISCOVERS = [
   },
   {
     title: "Explore Nutritional Supplement Options",
-    imgUrl: "assets/images/discover/Explore Nutritional Supplement Options.png",
+    imgUrl: "assets/images/create/Explore Nutritional Supplement Options.png",
     assistantID: "asst_1kcoR7EywMR0Ci8tAm7UqzNh",
     baseContext: `Sure! Let’s create a personalized supplement plan for your PCOS type.
 
@@ -49,7 +49,7 @@ const DISCOVERS = [
   },
   {
     title: "Understand my PCOS type",
-    imgUrl: "assets/images/discover/Understand my PCOS type.png",
+    imgUrl: "assets/images/create/Understand my PCOS type.png",
     assistantID: "asst_m7FDil5Gei1IUGIiydpWGNpm",
     baseContext: `Sure! I'd love to help you understand your PCOS type. 
 
@@ -60,7 +60,7 @@ const DISCOVERS = [
   },
   {
     title: "Personalize a Workout Routine",
-    imgUrl: "assets/images/discover/Personalize a workout routine.png",
+    imgUrl: "assets/images/create/Personalize a workout routine.png",
     assistantID: "asst_mGQfecbb9v5eUNwheAE38uld",
     baseContext: `Definitely! I can help you create a custom workout routine based on your age, fitness and energy levels.
 
@@ -71,7 +71,7 @@ const DISCOVERS = [
   },
   {
     title: "Find a PCOS Friendly Snack",
-    imgUrl: "assets/images/discover/Find a PCOS friendly snack.png",
+    imgUrl: "assets/images/create/Find a PCOS friendly snack.png",
     assistantID: "asst_VwKeai4n7dtrg1ctwXBwLMmP",
     baseContext: `Absolutely!
 
@@ -81,7 +81,7 @@ const DISCOVERS = [
   },
   {
     title: "Create a Recipe For My PCOS Type",
-    imgUrl: "assets/images/discover/Create a recipe for my PCOS type.png",
+    imgUrl: "assets/images/create/Create a recipe for my PCOS type.png",
     assistantID: "asst_HHKfVxspt9ZLEKwJubMnBNXE",
     baseContext: `Of course! Let’s create a tasty recipe that is simple and helps you achieve your goals.
 
@@ -92,7 +92,7 @@ const DISCOVERS = [
   },
   {
     title: "Plan a PCOS Friendly Shopping List",
-    imgUrl: "assets/images/discover/Plan A PCOS Friendly Shopping List.png",
+    imgUrl: "assets/images/create/Plan A PCOS Friendly Shopping List.png",
     assistantID: "asst_H6wwqLkXlKww2pkJpY1mnVXs",
     baseContext: `Perfect! 
 
@@ -104,7 +104,7 @@ const DISCOVERS = [
   {
     title: "Support PCOS at restaurants",
     imgUrl:
-      "assets/images/discover/Recommend a PCOS friendly restaurant in my area.png",
+      "assets/images/create/Recommend a PCOS friendly restaurant in my area.png",
     assistantID: "asst_NjyZmDLim6LsaS0XKF23KtoK",
     baseContext: `Perfect! 
 
@@ -115,7 +115,7 @@ const DISCOVERS = [
   },
   {
     title: "Fix My Symptoms",
-    imgUrl: "assets/images/discover/Fix my symptoms.png",
+    imgUrl: "assets/images/create/Fix my symptoms.png",
     assistantID: "asst_6JnvHrWBB3Cw4zU9DZlh71GL",
     baseContext: `Of course.
 
@@ -126,7 +126,7 @@ const DISCOVERS = [
   },
   {
     title: "Discover More PCOS Resources",
-    imgUrl: "assets/images/discover/Discover more PCOS resources.png",
+    imgUrl: "assets/images/create/Discover more PCOS resources.png",
     assistantID: "asst_bCA5S2ZHuukiABKTF6ZLtkJe",
     baseContext: `Definitely!
 
@@ -137,7 +137,7 @@ const DISCOVERS = [
   },
   {
     title: "Feel Calm",
-    imgUrl: "assets/images/discover/Feel calm.png",
+    imgUrl: "assets/images/create/Feel calm.png",
     assistantID: "asst_jNqlLlOptwouobwm2FuuPySP",
     baseContext: `Okay!
 
@@ -148,7 +148,7 @@ const DISCOVERS = [
   },
   {
     title: "Track My Symptoms",
-    imgUrl: "assets/images/discover/Track my symptoms.png",
+    imgUrl: "assets/images/create/Track my symptoms.png",
     assistantID: "asst_7L2p51JEyR5PQcODrePz0Tfh",
     baseContext: `Definitely! Let’s track your symptoms.
 
@@ -160,7 +160,7 @@ const DISCOVERS = [
   },
   {
     title: "Talk With Someone About PCOS",
-    imgUrl: "assets/images/discover/Talk with someone about PCOS.png",
+    imgUrl: "assets/images/create/Talk with someone about PCOS.png",
     assistantID: "asst_zpuMIpwCDvrrp2jbMY6ijRvr",
     baseContext: `Sure! I can answer any questions you might have about PCOS. If it’s emotional support you need, I’m here for that too.
 
@@ -169,14 +169,14 @@ const DISCOVERS = [
   },
   {
     title: "Just Talk To Someone",
-    imgUrl: "assets/images/discover/Just Talk To Someone.png",
+    imgUrl: "assets/images/create/Just Talk To Someone.png",
     assistantID: "asst_SrVRYOpsDyPTvkfbG8BowaMQ",
     baseContext: `Just need to vent or have someone listen? Go for it.
     `,
   },
   {
     title: "Learn More About This App",
-    imgUrl: "assets/images/discover/Learn More About This App.png",
+    imgUrl: "assets/images/create/Learn More About This App.png",
     assistantID: "asst_YQF53IFVaIThDkkBkQvXB8Rz",
     baseContext: `Of course! What would you like to know about me?
     `,
@@ -201,7 +201,7 @@ const ProtectLogOutRoute = ({ isAuthenticated }) => {
 };
 
 function App() {
-  const [idxOfDiscover, setIdxOfDiscover] = useState(0);
+  const [idxOfCreate, setIdxOfCreate] = useState(0);
   const [currentUser, setCurrentUser] = useState(undefined);
 
   const [displayText, setDisplayText] = useState();
@@ -233,8 +233,8 @@ function App() {
   const isAuthenticated = currentUser !== undefined;
   return (
     <div style={{ height: 'calc(100 * var(--vh))' }}>
-      <DiscoverContext.Provider
-        value={{ DISCOVERS, idxOfDiscover, setIdxOfDiscover }}
+      <CreateContext.Provider
+        value={{ CREATES, idxOfCreate, setIdxOfCreate }}
       >
         <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
           <Router>
@@ -244,7 +244,7 @@ function App() {
                 element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
               >
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/discover" element={<Discover />} />
+                <Route path="/create" element={<Create />} />
                 <Route path="/feedback" element={<Feedback />} />
                 <Route path="/profile" element={<Profile />}>
                   <Route path="account" element={<AccountBoard />} />
@@ -262,7 +262,7 @@ function App() {
             </Routes>
           </Router>
         </DisplayTextContext.Provider>
-      </DiscoverContext.Provider>
+      </CreateContext.Provider>
     </div>
   );
 }

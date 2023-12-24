@@ -1,7 +1,7 @@
 import React from "react";
 // import SidebarItem from "./SidebarItem";
 
-import { ReactComponent as DiscoverIcon } from "assets/icons/discover-icon.svg";
+import { ReactComponent as CreateIcon } from "assets/icons/create-icon.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/profile.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -9,9 +9,9 @@ import AuthService from "../services/auth.service";
 
 const routes = [
   {
-    to: "/discover",
-    title: "Discover",
-    icon: DiscoverIcon,
+    to: "/create",
+    title: "Create",
+    icon: CreateIcon,
   },
   {
     to: "/profile",

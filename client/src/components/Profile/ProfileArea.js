@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import AuthService from "services/auth.service";
 import { ReactComponent as PaymentIcon } from "assets/icons/payment-icon.svg";
 
 const UserIcon = () => {

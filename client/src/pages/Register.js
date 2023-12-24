@@ -11,10 +11,6 @@ const Register = (props) => {
     navigate("/chat");
   }
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [cmPassword, setCmPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -28,7 +24,7 @@ const Register = (props) => {
   const handleInputChange = (field, e) => {
     let newFields = fields;
     newFields[field] = e.target.value;
-    let isValid = handleValidation();
+    handleValidation();
     setFields(newFields);
   };
 
@@ -69,6 +65,9 @@ const Register = (props) => {
     setSuccessful(false);
 
     if(handleValidation()) {
+
+      let { username, email, password } = fields; 
+
       AuthService.register(username, email, password).then(
         () => {
           setSuccessful(true);
@@ -76,12 +75,13 @@ const Register = (props) => {
           window.location.reload();
         },
         (error) => {
-          // const resMessage =
-          //   (error.response &&
-          //     error.response.data &&
-          //     error.response.data.message) ||
-          //   error.message ||
-          //   error.toString();
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          alert(resMessage)
           setSuccessful(false);
         }
       );

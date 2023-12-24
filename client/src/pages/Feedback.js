@@ -45,7 +45,7 @@ export default function Feedback() {
                           <br />
                           <p className='indent-4'>We are obsessed with how to personalize PCOS treatment for everyone.</p>
                           <br />
-                          <p className='indent-4'>Get started by clicking the “Discover (Star)” icon in the top left.</p>
+                          <p className='indent-4'>Get started by clicking the Create (Star)” icon in the top left.</p>
                           <br />
                           <p className='indent-4'>You should find most PCOS topics there OR you can simply ask your questions below.</p>
                           <br />

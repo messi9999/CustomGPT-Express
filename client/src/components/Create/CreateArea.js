@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import DiscoverButton from "./DiscoverButton";
-import { DiscoverContext } from "common/Context";
+import CreateButton from "./CreateButton";
+import { CreateContext } from "common/Context";
 import { NavLink } from "react-router-dom";
 
-const DiscoverArea = () => {
-  const discovers = useContext(DiscoverContext).DISCOVERS;
+const CreateArea = () => {
+  const creates = useContext(CreateContext).CREATES;
 
   return (
     <div className="w-full h-screen lg:w-[450px] lg:shrink-0 lg:border-r lg:border-neutral-300 flex flex-col">
@@ -41,7 +41,7 @@ const DiscoverArea = () => {
           </NavLink>
           <div className="grow text-primary-700">
             <h1 className="hidden text-[24px] font-bold text-h-l-mobile lg:block lg:pl-0">
-              Discover
+              Create
             </h1>
           </div>
           <NavLink
@@ -62,11 +62,11 @@ const DiscoverArea = () => {
       </div>
       <div className="overflow-y-auto mb-14 lg:mb-0">
         <div className="pl-6 font-bold text-[32px] text-h-l-mobile lg:hidden">
-          Discover
+          Create
         </div>
         <div className="grid grid-cols-2 gap-3 px-6 pb-12 pt-8 lg:pb-8 lg:pt-0">
-          {discovers.map((item, idx) => (
-            <DiscoverButton
+          {creates.map((item, idx) => (
+            <CreateButton
               content={item}
               id={idx}
               key={idx}
@@ -79,4 +79,4 @@ const DiscoverArea = () => {
   );
 };
 
-export default DiscoverArea;
+export default CreateArea;
