@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState, useLayoutEffect } from "react";
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 
@@ -51,27 +51,40 @@ export default function ChatBoard() {
   const { displayText } = useContext(DisplayTextContext);
 
   const textareaRef = useRef(null);
-  const scrollingDivRef = useRef(null);
+  // const scrollingDivRef = useRef(null);
 
   const currentUser = AuthService.getCurrentUser();
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const div = scrollingDivRef.current;
+  //   const scrollStep = 8; // Adjust this value for faster or slower scrolling
+  //   const scrollInterval = 10; // Time in milliseconds between each scroll step
+
+  //   const scrollIntervalID = setInterval(() => {
+  //     // Check if we've reached the bottom
+  //     if (div.scrollTop + div.clientHeight >= div.scrollHeight) {
+  //       clearInterval(scrollIntervalID); // Stop scrolling when the bottom is reached
+  //     } else {
+  //       div.scrollTop += scrollStep;
+  //     }
+  //   }, scrollInterval);
+
+  //   // Clear interval on component unmount
+  //   return () => clearInterval(scrollIntervalID);
+  // }, [chatHistory, displayText]);
+  const scrollingDivRef = useRef(null);
+
+  useLayoutEffect(() => {
     const div = scrollingDivRef.current;
-    const scrollStep = 8; // Adjust this value for faster or slower scrolling
-    const scrollInterval = 10; // Time in milliseconds between each scroll step
+    const shouldScrollToBottom =
+      div.scrollTop + div.clientHeight === div.scrollHeight;
 
-    const scrollIntervalID = setInterval(() => {
-      // Check if we've reached the bottom
-      if (div.scrollTop + div.clientHeight >= div.scrollHeight) {
-        clearInterval(scrollIntervalID); // Stop scrolling when the bottom is reached
-      } else {
-        div.scrollTop += scrollStep;
-      }
-    }, scrollInterval);
-
-    // Clear interval on component unmount
-    return () => clearInterval(scrollIntervalID);
+    if (!shouldScrollToBottom) {
+      div.scrollTop = div.scrollHeight;
+    }
   }, [chatHistory, displayText]);
+
+
 
   useEffect(() => {
     setChatHistory([

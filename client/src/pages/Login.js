@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
-import { ReactComponent as GoogleIcon } from "assets/icons/google.svg";
+// import { ReactComponent as GoogleIcon } from "assets/icons/google.svg";
 
 const Login = () => {
   const currentUser = AuthService.getCurrentUser();
