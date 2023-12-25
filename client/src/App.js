@@ -17,12 +17,14 @@ import Create from "pages/Create";
 import Profile from "pages/Profile";
 import { CreateContext } from "common/Context";
 import Dashboard from "pages/Dashboard";
-import AccountBoard from "components/Profile/AccountBoard";
-import PaymentBoard from "components/Profile/PaymentBoard";
+import AccountBoard from "components/Profile/Account/AccountBoard";
+import PaymentBoard from "components/Profile/Payment/PaymentBoard";
 import WelcomePage from "pages/WelcomePage";
 
 import { DisplayTextContext } from "common/Context";
 import Feedback from "pages/Feedback";
+import Success from "components/Profile/Payment/Success";
+import Cancel from "components/Profile/Payment/Cancel";
 
 const CREATES = [
   {
@@ -206,6 +208,7 @@ function App() {
 
   const [displayText, setDisplayText] = useState();
 
+
   useEffect(() => {
     const user = AuthService.getCurrentUser();
 
@@ -214,53 +217,37 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const setVhVariable = () => {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    };
-
-      // Run the function when the component mounts
-      setVhVariable();
-
-      // Add the event listener
-      window.addEventListener('resize', setVhVariable);
-
-      // Remove the event listener when the component unmounts
-      return () => window.removeEventListener('resize', setVhVariable);
-    }, []);
-
   const isAuthenticated = currentUser !== undefined;
   return (
-    <div style={{ height: 'calc(100 * var(--vh))' }}>
-      <CreateContext.Provider
-        value={{ CREATES, idxOfCreate, setIdxOfCreate }}
-      >
+    <div>
+      <CreateContext.Provider value={{ CREATES, idxOfCreate, setIdxOfCreate }}>
         <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
-          <Router>
-            <Routes>
-              <Route path="/" element={<WelcomePage />} />
-              <Route
-                element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
-              >
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/create" element={<Create />} />
-                <Route path="/feedback" element={<Feedback />} />
-                <Route path="/profile" element={<Profile />}>
-                  <Route path="account" element={<AccountBoard />} />
-                  <Route path="payment" element={<PaymentBoard />} />
+            <Router>
+              <Routes>
+                <Route path="/" element={<WelcomePage />} />
+                <Route
+                  element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
+                >
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/create" element={<Create />} />
+                  <Route path="/feedback" element={<Feedback />} />
+                  <Route path="/profile" element={<Profile />}>
+                    <Route path="account" element={<AccountBoard />} />
+                    <Route path="payment" element={<PaymentBoard />} />
+                  </Route>
                 </Route>
-              </Route>
-              <Route
-                element={
-                  <ProtectLogOutRoute isAuthenticated={isAuthenticated} />
-                }
-              >
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-              </Route>
-            </Routes>
-          </Router>
+                <Route path="/profile/payment/success" element={<Success />} />
+                <Route path="/profile/payment/cancel" element={<Cancel />} />
+                <Route
+                  element={
+                    <ProtectLogOutRoute isAuthenticated={isAuthenticated} />
+                  }
+                >
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                </Route>
+              </Routes>
+            </Router>
         </DisplayTextContext.Provider>
       </CreateContext.Provider>
     </div>

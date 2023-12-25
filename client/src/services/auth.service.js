@@ -44,7 +44,6 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
-// const updateCurrentUser = () => {};
 
 const AuthService = {
   register,

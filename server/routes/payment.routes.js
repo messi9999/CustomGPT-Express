@@ -10,7 +10,7 @@ module.exports = (app) => {
     controller.createSubscriptionCheckoutSession
   );
   router.post(
-    "/create-subscription-checkout-session",
+    "/payment-success",
     [authJwt.verifyToken],
     controller.paymentSuccess
   );

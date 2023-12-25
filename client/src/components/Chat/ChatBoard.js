@@ -135,6 +135,7 @@ export default function ChatBoard() {
       message: userMessage,
       assistantID: CREATES[idxOfCreate].assistantID,
       threadID: currentUser.threadID,
+      userId: currentUser.id
     };
 
     const header = {

@@ -10,12 +10,12 @@ module.exports = function (app) {
     next();
   });
 
-  router.get("/api/test/all", controller.allAccess);
+  router.get("/all", controller.allAccess);
 
-  router.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
+  router.post("/user", [authJwt.verifyToken], controller.userBoard);
 
   router.get(
-    "/api/test/admin",
+    "/admin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );

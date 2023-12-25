@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { ReactComponent as PaymentIcon } from "assets/icons/payment-icon.svg";
 
 const UserIcon = () => {
@@ -66,8 +66,9 @@ const profiles = [
 ];
 
 export default function ProfileArea() {
+  const { pathname } = useLocation();
   return (
-    <div className="w-full h-screen lg:w-[450px] lg:shrink-0 lg:border-r lg:border-neutral-300 flex flex-col">
+    <div className={`${pathname !== "/profile" && "hidden lg:show"} w-full h-screen lg:w-[450px] lg:shrink-0 lg:border-r lg:border-neutral-300 lg:flex flex-col`}>
       <div className="bg-transparent">
         <div className="flex items-center py-5 mt-2 rounded-t-[28px] md:mt-0 md:rounded-none px-4 lg:px-6">
           <NavLink

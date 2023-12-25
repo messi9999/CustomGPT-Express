@@ -1,21 +1,21 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
-const Role = db.role;
-
-const Op = db.Sequelize.Op;
+var jwt = require("jsonwebtoken");
 
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
 
 exports.userBoard = (req, res) => {
+  console.log("@@@@@@@@@@@", req.body.userId)
   User.findOne({
     where: {
-      email: req.body.userId,
+      id: req.body.userId,
     },
   })
     .then((user) => {
+      console.log(user)
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
@@ -45,7 +45,6 @@ exports.userBoard = (req, res) => {
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
-  res.status(200).send("User Content.");
 };
 
 exports.adminBoard = (req, res) => {

@@ -1,13 +1,13 @@
 const openaiConfig = require("../config/openai.config");
 // const OpenAI = require("openai");
-const axios = require("axios")
+const axios_raw = require("axios")
 const { SocksProxyAgent } = require('socks-proxy-agent');
 
-// const agent = new SocksProxyAgent('socks5://14aae74da516b:91a1671310@161.77.153.72:12324');
+const agent = new SocksProxyAgent('socks5://14aae74da516b:91a1671310@161.77.153.72:12324');
 
-// const axios = axios_raw.create({
-//   httpsAgent: agent
-// });
+const axios = axios_raw.create({
+  httpsAgent: agent
+});
 
 const file_ids = [
   "file-VlmhM4CyMeaS8kM2Eqn3UzgO",
