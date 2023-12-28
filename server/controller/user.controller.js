@@ -8,7 +8,6 @@ exports.allAccess = (req, res) => {
 };
 
 exports.userBoard = (req, res) => {
-  console.log("@@@@@@@@@@@", req.body.userId)
   User.findOne({
     where: {
       id: req.body.userId,
@@ -48,5 +47,7 @@ exports.userBoard = (req, res) => {
 };
 
 exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
+  User.count().then((count) => {
+    res.status(200).send({userCount: count});
+  }).catch((error) => {res.status(500).send(error)})
 };

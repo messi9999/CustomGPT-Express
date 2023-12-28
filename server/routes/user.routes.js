@@ -14,7 +14,7 @@ module.exports = function (app) {
 
   router.post("/user", [authJwt.verifyToken], controller.userBoard);
 
-  router.get(
+  router.post(
     "/admin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
