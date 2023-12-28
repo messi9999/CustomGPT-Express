@@ -190,9 +190,9 @@ const ProtectedRoute = ({ isAuthenticated, isPayment }) => {
     // Redirect them to the /login page, but save the current location they were trying to go to
     return <Navigate to="/login" replace />;
   }
-  if (!isPayment) {
-    return <Navigate to="/profile/account/payment" replace />;
-  }
+  // if (!isPayment) {
+  //   return <Navigate to="/profile/account/payment" replace />;
+  // }
   
 
   return <Outlet />; // renders the child routes if the user is authenticated
