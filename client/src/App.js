@@ -191,12 +191,18 @@ const ProtectedRoute = ({ isAuthenticated }) => {
     return <Navigate to="/login" replace />;
   }
 
+  
+
   return <Outlet />; // renders the child routes if the user is authenticated
 };
-const ProtectLogOutRoute = ({ isAuthenticated }) => {
+const ProtectLogOutRoute = ({ isAuthenticated, isPayment }) => {
   if (isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were trying to go to
-    return <Navigate to="/create" replace />;
+    return <Navigate to="/profile/payment" replace />;
+  }
+
+  if (!isPayment) {
+    return <Navigate to="/payment" replace />;
   }
 
   return <Outlet />; // renders the child routes if the user is authenticated
@@ -208,13 +214,27 @@ function App() {
 
   const [displayText, setDisplayText] = useState();
 
+  const [isPayment, setIsPayment] = useState(false)
+
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
 
     if (user) {
       setCurrentUser(user);
+
+      try {
+        if(user.subscription.planDuration > 0) {
+          setIsPayment(true)
+        } else {
+          setIsPayment(false)
+        }
+      } catch {
+        setIsPayment(false)
+      }
     }
+
+    
   }, []);
 
   const isAuthenticated = currentUser !== undefined;
@@ -226,7 +246,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<WelcomePage />} />
                 <Route
-                  element={<ProtectedRoute isAuthenticated={isAuthenticated} />}
+                  element={<ProtectedRoute isAuthenticated={{isAuthenticated, isPayment}} />}
                 >
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/create" element={<Create />} />
