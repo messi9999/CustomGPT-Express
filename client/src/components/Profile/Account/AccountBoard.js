@@ -6,11 +6,12 @@ import axios from "axios";
 export default function AccountBoard() {
   const currentUser = AuthService.getCurrentUser();
 
-  const [count, SetCount] = useState(0);
-
+  const [count, setCount] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
-
-    let isAdmin = currentUser.roles.includes("ROLE_ADMIN");
+    setIsAdmin(currentUser.roles.includes("ROLE_ADMIN"));
+    console.log(currentUser)
+    console.log(isAdmin)
     if (isAdmin) {
       const reqBody = {
         userId: currentUser.id,
@@ -24,10 +25,10 @@ export default function AccountBoard() {
         headers: header,
       }).then((res) => {
         console.log(res.data)
-        SetCount(res.data.userCount)
+        setCount(res.data.userCount)
       }).catch((error) => {alert(error)})
     }
-  }, [currentUser])
+  }, [currentUser, isAdmin])
 
 
   return (
@@ -67,12 +68,14 @@ export default function AccountBoard() {
                 </label>
                 <span>{currentUser.email}</span>
               </div>
-              <div className="justify-start gap-x-6">
+              {
+                isAdmin && (<div className="justify-start gap-x-6">
                 <label className="w-[150px] text-right font-bold">
                   Total Users:{" "}
                 </label>
                 <span>{count}</span>
-              </div>
+              </div>)
+              }
             </div>
           </div>
         </div>
