@@ -10,8 +10,7 @@ export default function AccountBoard() {
   const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
     setIsAdmin(currentUser.roles.includes("ROLE_ADMIN"));
-    console.log(currentUser)
-    console.log(isAdmin)
+ 
     if (isAdmin) {
       const reqBody = {
         userId: currentUser.id,
