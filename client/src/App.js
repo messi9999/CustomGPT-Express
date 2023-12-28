@@ -185,25 +185,25 @@ const CREATES = [
   },
 ];
 
-const ProtectedRoute = ({ isAuthenticated }) => {
+const ProtectedRoute = ({ isAuthenticated, isPayment }) => {
   if (!isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were trying to go to
     return <Navigate to="/login" replace />;
   }
-
+  if (!isPayment) {
+    return <Navigate to="/payment" replace />;
+  }
   
 
   return <Outlet />; // renders the child routes if the user is authenticated
 };
-const ProtectLogOutRoute = ({ isAuthenticated, isPayment }) => {
+const ProtectLogOutRoute = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were trying to go to
     return <Navigate to="/profile/payment" replace />;
   }
 
-  if (!isPayment) {
-    return <Navigate to="/payment" replace />;
-  }
+  
 
   return <Outlet />; // renders the child routes if the user is authenticated
 };
