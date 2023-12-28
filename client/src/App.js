@@ -191,7 +191,7 @@ const ProtectedRoute = ({ isAuthenticated, isPayment }) => {
     return <Navigate to="/login" replace />;
   }
   if (!isPayment) {
-    return <Navigate to="/profile/payment" replace />;
+    return <Navigate to="/profile/account/payment" replace />;
   }
   
 
