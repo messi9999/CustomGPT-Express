@@ -20,6 +20,9 @@ exports.signup = (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
         threadID: thread.id,
+        subscription: {
+          subscription: null
+        }
       })
         .then((user) => {
           if (req.body.roles) {

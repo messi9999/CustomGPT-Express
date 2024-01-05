@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState, useLayoutEffect } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from "react";
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 
@@ -12,23 +18,50 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { CreateContext, DisplayTextContext } from "common/Context";
 
 import AuthService from "services/auth.service";
+import CalService from "services/cal.service";
 
 function LoadingButton() {
   return (
     <div className="flex flex-wrap space-x-2 justify-right items-center bg-transparent">
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.28s]">Consulting </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.26s]">my </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.24s]">knowledge </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.20s]">base. </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.18s]">This </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.16s]">could </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.14s]">take </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.12s]">up </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.10s]">to </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.08s]">60 </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.06s]">seconds </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.04s]">. </span>
-      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.02s]">. </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.28s]">
+        Consulting{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.26s]">
+        my{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.24s]">
+        knowledge{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.20s]">
+        base.{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.18s]">
+        This{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.16s]">
+        could{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.14s]">
+        take{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.12s]">
+        up{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.10s]">
+        to{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.08s]">
+        60{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.06s]">
+        seconds{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.04s]">
+        .{" "}
+      </span>
+      <span className="text-[15px] font-mono animate-bounce [animation-delay:-0.02s]">
+        .{" "}
+      </span>
       <span className="text-[15px] font-mono animate-bounce ">. </span>
     </div>
   );
@@ -55,24 +88,22 @@ export default function ChatBoard() {
 
   const currentUser = AuthService.getCurrentUser();
 
-  // useEffect(() => {
-  //   const div = scrollingDivRef.current;
-  //   const scrollStep = 8; // Adjust this value for faster or slower scrolling
-  //   const scrollInterval = 10; // Time in milliseconds between each scroll step
-
-  //   const scrollIntervalID = setInterval(() => {
-  //     // Check if we've reached the bottom
-  //     if (div.scrollTop + div.clientHeight >= div.scrollHeight) {
-  //       clearInterval(scrollIntervalID); // Stop scrolling when the bottom is reached
-  //     } else {
-  //       div.scrollTop += scrollStep;
-  //     }
-  //   }, scrollInterval);
-
-  //   // Clear interval on component unmount
-  //   return () => clearInterval(scrollIntervalID);
-  // }, [chatHistory, displayText]);
   const scrollingDivRef = useRef(null);
+
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+
+  const isPayment = "planType" in currentUser.subscription
+  let freeTrails = -1
+  let duration = -1
+  if(isPayment) {
+    freeTrails = CalService.calDateDifference(formattedDate, currentUser.subscription.trialEndDate)
+    duration = CalService.calDateDifference(formattedDate, currentUser.subscription.planEndDate)
+  }
+
 
   useLayoutEffect(() => {
     const div = scrollingDivRef.current;
@@ -83,8 +114,6 @@ export default function ChatBoard() {
       div.scrollTop = div.scrollHeight;
     }
   }, [chatHistory, displayText]);
-
-
 
   useEffect(() => {
     setChatHistory([
@@ -135,7 +164,7 @@ export default function ChatBoard() {
       message: userMessage,
       assistantID: CREATES[idxOfCreate].assistantID,
       threadID: currentUser.threadID,
-      userId: currentUser.id
+      userId: currentUser.id,
     };
 
     const header = {
@@ -214,9 +243,9 @@ export default function ChatBoard() {
                   {chatHistory.map((msg, index) => (
                     <ChatMessage key={index} message={msg} />
                   ))}
-                  
-                  <div className="px-[16px]">   
-                  {!isEditable && chatHistory.length > 1 && <LoadingButton />}                 
+
+                  <div className="px-[16px]">
+                    {!isEditable && chatHistory.length > 1 && <LoadingButton />}
                     {/* <LoadingButton/> */}
                   </div>
                 </ul>
@@ -252,13 +281,20 @@ export default function ChatBoard() {
               </button>
             </div>
           </div>
+          <div className="flex justify-center text-lime-600">{isPayment && (
+            <div>
+              {freeTrails >= 0 ? (<p>{"Free trial remains " + freeTrails + " days"}</p>) : (<p>{"You payment period remains " + duration + " days"}</p>)}
+            </div>
+          )}</div>
           <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
-          <NavLink
-            to={"/feedback"}
-          >
-            Feedback? <u><i className='text-[#0a60f5]'>Please help improve this product here.</i></u>
-          </NavLink>
-            
+            <NavLink to={"/feedback"}>
+              Feedback?{" "}
+              <u>
+                <i className="text-[#0a60f5]">
+                  Please help improve this product here.
+                </i>
+              </u>
+            </NavLink>
           </div>
           <div className="text-slate-900 text-md mb-3 flex justify-center">
             @Copyright Nourished Natural Health

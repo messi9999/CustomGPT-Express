@@ -14,6 +14,11 @@ module.exports = (app) => {
     [authJwt.verifyToken],
     controller.paymentSuccess
   );
+  router.post(
+    "/payment-cancel",
+    [authJwt.verifyToken],
+    controller.paymentCancel
+  )
 
   app.use("/api/payment", router);
 };

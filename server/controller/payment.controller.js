@@ -14,6 +14,9 @@ const stripeSession = (plan) => {
           quantity: 1,
         },
       ],
+      subscription_data: {
+        trial_period_days: 7
+      },
       success_url: `${process.env.DOMAIN}/profile/payment/success`,
       cancel_url: `${process.env.DOMAIN}/profile/payment/cancel`,
     })
@@ -31,7 +34,6 @@ exports.createSubscriptionCheckoutSession = (req, res) => {
 
   stripeSession(planId)
     .then((session) => {
-      console.log(session);
       // Do something with the session
       subscription = {
         subscription: {
@@ -56,7 +58,7 @@ exports.createSubscriptionCheckoutSession = (req, res) => {
         .catch((err) => {
           console.log("2");
           res.status(500).send({
-            message: "Error updating Tutorial with id=" + id,
+            message: "Error updating subscription with id=" + id,
           });
         });
       //   User.res.send(session);
@@ -69,20 +71,21 @@ exports.createSubscriptionCheckoutSession = (req, res) => {
 
 exports.paymentSuccess = async (req, res) => {
   const { userId, sessionId } = req.body;
-
   stripe.checkout.sessions
     .retrieve(sessionId)
     .then((session) => {
       if (session.payment_status === "paid") {
         const subscriptionId = session.subscription;
+        console.log(session.subscription)
         stripe.subscriptions
           .retrieve(subscriptionId)
           .then((subscription) => {
+            console.log(subscription)
             const planId = subscription.plan.id;
-            const planType = "";
-            if (subscription.plan.amount === process.env.BASIC_AMOUNT) {
-              planType = "basic";
-            }
+            const planType = "basic";
+            // if (subscription.plan.amount / 100 === process.env.BASIC_AMOUNT) {
+            //   planType = "basic";
+            // }
             const startDate = moment
               .unix(subscription.current_period_start)
               .format("YYYY-MM-DD");
@@ -95,11 +98,15 @@ exports.paymentSuccess = async (req, res) => {
             const durationInDays = moment
               .duration(durationInSeconds, "seconds")
               .asDays();
+            
+            const trialEndDate = moment.unix(subscription.trial_end).format("YYYY-MM-DD")
 
             User.update(
               {
                 subscription: {
                   sessionId: null,
+                  subscriptionID: subscription.id,
+                  trialEndDate: trialEndDate,
                   planId: planId,
                   planType: planType,
                   planStartDate: startDate,
@@ -137,3 +144,39 @@ exports.paymentSuccess = async (req, res) => {
       res.status(500).send(error);
     });
 };
+
+
+exports.paymentCancel = async (req, res) => {
+  const subscriptionId = req.body.subscriptionId
+  const userId = req.body.userId
+  console.log(req.body.subscriptionId)
+  console.log(subscriptionId)
+  stripe.subscriptions.cancel(subscriptionId).then((subscription) => {
+    console.log(subscription)
+    User.update(
+      {
+        subscription: {
+          subscription: null
+        }
+      },
+      {
+        where: { id: userId },
+      }
+    ).then((num)=>{
+      if (num ==1) {
+        res.status(200).send({message: "Payment Canceled."});
+      } else {
+        res.status(500).send({
+          message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
+        })
+      }
+    }).catch((error) => {
+      console.log("first", error)
+      res.status(500).send(error)
+    })
+  }).catch((error) => {
+    console.log("second", error)
+    res.status(500).send(error)
+  })
+
+}
