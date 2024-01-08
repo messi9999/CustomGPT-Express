@@ -200,7 +200,7 @@ const ProtectedRoute = ({ isAuthenticated, isPayment }) => {
 const ProtectLogOutRoute = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were trying to go to
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   
@@ -236,7 +236,6 @@ function App() {
 
     
   }, []);
-
   const isAuthenticated = currentUser !== undefined;
   return (
     <div>
