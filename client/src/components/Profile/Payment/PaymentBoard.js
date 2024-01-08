@@ -55,7 +55,7 @@ export default function PaymentBoard() {
               currentUser.subscription.planEndDate}
           </p>
           <p>
-            {"4. Your your payment peoriod remains " +
+            {"4. Your your payment peoriod is " +
               currentUser.subscription.planDuration +
               " days"}
           </p>
