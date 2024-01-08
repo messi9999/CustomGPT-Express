@@ -5,12 +5,12 @@ import AuthService from "../services/auth.service";
 // import { ReactComponent as GoogleIcon } from "assets/icons/google.svg";
 
 const Login = () => {
-  const currentUser = AuthService.getCurrentUser();
+  // const currentUser = AuthService.getCurrentUser();
 
   let navigate = useNavigate();
-  if (currentUser) {
-    navigate("/chat");
-  }
+  // if (currentUser) {
+  //   navigate("/chat");
+  // }
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

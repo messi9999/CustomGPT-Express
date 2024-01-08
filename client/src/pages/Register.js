@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const Register = (props) => {
-  const currentUser = AuthService.getCurrentUser();
+  // const currentUser = AuthService.getCurrentUser();
 
   let navigate = useNavigate();
-  if (currentUser) {
-    navigate("/chat");
-  }
+  // if (currentUser) {
+  //   navigate("/chat");
+  // }
 
   const [successful, setSuccessful] = useState(false);
   const [errors, setErrors] = useState({});

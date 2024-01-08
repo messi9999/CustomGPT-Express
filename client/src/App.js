@@ -193,20 +193,17 @@ const ProtectedRoute = ({ isAuthenticated, isPayment }) => {
   // if (!isPayment) {
   //   return <Navigate to="/profile/payment" replace />;
   // }
-  
 
   return <Outlet />; // renders the child routes if the user is authenticated
 };
-const ProtectLogOutRoute = ({ isAuthenticated }) => {
-  if (isAuthenticated) {
-    // Redirect them to the /login page, but save the current location they were trying to go to
-    return <Navigate to="/dashboard" replace />;
-  }
+// const ProtectLogOutRoute = ({ isAuthenticated }) => {
+//   if (isAuthenticated) {
+//     // Redirect them to the /login page, but save the current location they were trying to go to
+//     return <Navigate to="/dashboard" replace />;
+//   }
 
-  
-
-  return <Outlet />; // renders the child routes if the user is authenticated
-};
+//   return <Outlet />; // renders the child routes if the user is authenticated
+// };
 
 function App() {
   const [idxOfCreate, setIdxOfCreate] = useState(0);
@@ -214,8 +211,7 @@ function App() {
 
   const [displayText, setDisplayText] = useState();
 
-  const [isPayment, setIsPayment] = useState(false)
-
+  const [isPayment, setIsPayment] = useState(false);
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
@@ -224,49 +220,51 @@ function App() {
       setCurrentUser(user);
 
       try {
-        if(user.subscription.planDuration > 0) {
-          setIsPayment(true)
+        if (user.subscription.planDuration > 0) {
+          setIsPayment(true);
         } else {
-          setIsPayment(false)
+          setIsPayment(false);
         }
       } catch {
-        setIsPayment(false)
+        setIsPayment(false);
       }
     }
-
-    
   }, []);
-  const isAuthenticated = currentUser !== undefined;
+  const isAuthenticated = currentUser && typeof currentUser === 'object';
   return (
     <div>
       <CreateContext.Provider value={{ CREATES, idxOfCreate, setIdxOfCreate }}>
         <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
-            <Router>
-              <Routes>
-                <Route path="/" element={<WelcomePage />} />
-                <Route
-                  element={<ProtectedRoute isAuthenticated={{isAuthenticated, isPayment}} />}
-                >
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/create" element={<Create />} />
-                  <Route path="/feedback" element={<Feedback />} />
-                  <Route path="/profile" element={<Profile />}>
-                    <Route path="account" element={<AccountBoard />} />
-                    <Route path="payment" element={<PaymentBoard />} />
-                  </Route>
+          <Router>
+            <Routes>
+              <Route path="/" element={<WelcomePage />} />
+              <Route
+                element={
+                  <ProtectedRoute
+                    isAuthenticated={{ isAuthenticated, isPayment }}
+                  />
+                }
+              >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/create" element={<Create />} />
+                <Route path="/feedback" element={<Feedback />} />
+                <Route path="/profile" element={<Profile />}>
+                  <Route path="account" element={<AccountBoard />} />
+                  <Route path="payment" element={<PaymentBoard />} />
                 </Route>
-                <Route path="/profile/payment/success" element={<Success />} />
-                <Route path="/profile/payment/cancel" element={<Cancel />} />
-                <Route
+              </Route>
+              <Route path="/profile/payment/success" element={<Success />} />
+              <Route path="/profile/payment/cancel" element={<Cancel />} />
+              {/* <Route
                   element={
                     <ProtectLogOutRoute isAuthenticated={isAuthenticated} />
                   }
-                >
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                {/* </Route> */}
-              </Routes>
-            </Router>
+                > */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              {/* </Route> */}
+            </Routes>
+          </Router>
         </DisplayTextContext.Provider>
       </CreateContext.Provider>
     </div>
