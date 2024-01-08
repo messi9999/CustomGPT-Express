@@ -200,7 +200,7 @@ const ProtectedRoute = ({ isAuthenticated, isPayment }) => {
 const ProtectLogOutRoute = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were trying to go to
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   
@@ -264,7 +264,7 @@ function App() {
                 >
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
-                </Route>
+                {/* </Route> */}
               </Routes>
             </Router>
         </DisplayTextContext.Provider>
