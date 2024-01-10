@@ -38,6 +38,7 @@ exports.userBoard = (req, res) => {
           subscription: user.subscription,
           roles: authorities,
           accessToken: token,
+          freeAttempts: user.freeAttempts
         });
       });
     })

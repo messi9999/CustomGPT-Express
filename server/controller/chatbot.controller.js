@@ -1,9 +1,17 @@
 const chatGptUtils = require("../utils/chatgpt.utils");
+const db = require("../models");
+const config = require("../config/auth.config");
+const User = db.user;
+const Role = db.role;
+
+const Op = db.Sequelize.Op;
 
 exports.getResponseFromGpt = (req, res) => {
   const userMessage = req.body.message;
   const threadId = req.body.threadID;
   const assistantID = req.body.assistantID;
+  let freeAttempts = req.body.freeAttempts;
+  const userId = req.body.userId;
 
   chatGptUtils
     .addNewMessage(userMessage, threadId)
@@ -30,9 +38,39 @@ exports.getResponseFromGpt = (req, res) => {
     })
     .then((messages) => {
       if (messages.data[0].role === "assistant") {
-        res.send({
-          message: messages.data[0].content[0].text.value,
-        });
+        context = messages.data[0].content[0].text.value;
+
+        if (freeAttempts > 0) {
+          freeAttempts = freeAttempts - 1;
+          console.log(freeAttempts)
+          console.log(context)
+          console.log(userId)
+          User.update(
+            {
+              freeAttempts: freeAttempts,
+            },
+            {
+              where: { id: userId },
+            }
+          )
+            .then((num) => {
+              if (num == 1) {
+                res.send({
+                  message: context,
+                });
+              }
+            })
+            .catch((error) => {
+              res.status(500).send({
+                message: "Error updating freeAttempts with id=" + userId,
+              });
+            });
+        }
+        else {
+          res.send({
+            message: messages.data[0].content[0].text.value,
+          });
+        }
       } else {
         res.send({
           message: "You did not get from customGPT.",

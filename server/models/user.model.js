@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
     subscription: {
       type: Sequelize.JSONB,
     },
+    freeAttempts: {
+      type: Sequelize.SMALLINT,
+    }
   });
 
   return User;

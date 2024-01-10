@@ -22,7 +22,8 @@ exports.signup = (req, res) => {
         threadID: thread.id,
         subscription: {
           subscription: null
-        }
+        },
+        freeAttempts: 5
       })
         .then((user) => {
           if (req.body.roles) {
@@ -53,6 +54,7 @@ exports.signup = (req, res) => {
                     subscription: user.subscription,
                     roles: authorities,
                     accessToken: token,
+                    freeAttempts: user.freeAttempts
                   });
                 });
               });
@@ -79,6 +81,7 @@ exports.signup = (req, res) => {
                   subscription: user.subscription,
                   roles: authorities,
                   accessToken: token,
+                  freeAttempts: user.freeAttempts
                 });
               });
             });
@@ -135,6 +138,7 @@ exports.signin = (req, res) => {
           subscription: user.subscription,
           roles: authorities,
           accessToken: token,
+          freeAttempts: user.freeAttempts
         });
       });
     })

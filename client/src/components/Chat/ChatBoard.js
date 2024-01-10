@@ -19,6 +19,7 @@ import { CreateContext, DisplayTextContext } from "common/Context";
 
 import AuthService from "services/auth.service";
 import CalService from "services/cal.service";
+import UserService from "services/user.service";
 
 function LoadingButton() {
   return (
@@ -86,24 +87,29 @@ export default function ChatBoard() {
   const textareaRef = useRef(null);
   // const scrollingDivRef = useRef(null);
 
-  const currentUser = AuthService.getCurrentUser();
+  let currentUser = AuthService.getCurrentUser();
 
   const scrollingDivRef = useRef(null);
 
   const currentDate = new Date();
   const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const day = String(currentDate.getDate()).padStart(2, '0');
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
 
-  const isPayment = "planType" in currentUser.subscription
-  let freeTrails = -1
-  let duration = -1
-  if(isPayment) {
-    freeTrails = CalService.calDateDifference(formattedDate, currentUser.subscription.trialEndDate)
-    duration = CalService.calDateDifference(formattedDate, currentUser.subscription.planEndDate)
+  const isPayment = "planType" in currentUser.subscription;
+  let freeTrails = -1;
+  let duration = -1;
+  if (isPayment) {
+    freeTrails = CalService.calDateDifference(
+      formattedDate,
+      currentUser.subscription.trialEndDate
+    );
+    duration = CalService.calDateDifference(
+      formattedDate,
+      currentUser.subscription.planEndDate
+    );
   }
-
 
   useLayoutEffect(() => {
     const div = scrollingDivRef.current;
@@ -165,12 +171,19 @@ export default function ChatBoard() {
       assistantID: CREATES[idxOfCreate].assistantID,
       threadID: currentUser.threadID,
       userId: currentUser.id,
+      freeAttempts: currentUser.freeAttempts,
     };
 
     const header = {
       "Content-Type": "application/json",
       "x-access-token": currentUser.accessToken,
     };
+
+    // Get User info if freeAttemps is more than 0.
+    if (currentUser.freeAttempts > 0) {
+      UserService.getUserBoard(currentUser.id);
+      currentUser = AuthService.getCurrentUser();
+    }
 
     try {
       const response = await axios.post(
@@ -180,6 +193,7 @@ export default function ChatBoard() {
           headers: header,
         }
       );
+
       // Handle successful response here
       var chatBotMsg = response.data.message;
 
@@ -281,11 +295,17 @@ export default function ChatBoard() {
               </button>
             </div>
           </div>
-          <div className="flex justify-center text-lime-600">{isPayment && (
-            <div>
-              {freeTrails >= 0 ? (<p>{freeTrails + " Days Remaining On Free Trial"}</p>) : (<p>{"You payment period remains " + duration + " days"}</p>)}
-            </div>
-          )}</div>
+          <div className="flex justify-center text-lime-600">
+            {isPayment && (
+              <div>
+                {freeTrails >= 0 ? (
+                  <p>{freeTrails + " Days Remaining On Free Trial"}</p>
+                ) : (
+                  <p>{"You payment period remains " + duration + " days"}</p>
+                )}
+              </div>
+            )}
+          </div>
           <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
             <NavLink to={"/feedback"}>
               Feedback?{" "}
