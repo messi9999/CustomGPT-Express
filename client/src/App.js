@@ -183,6 +183,12 @@ const CREATES = [
     baseContext: `Of course! What would you like to know about me?
     `,
   },
+  {
+    title: "Get pregnant with PCOS",
+    imgUrl: "assets/images/create/Get pregnant with PCOS.png",
+    assistantID: "asst_YQF53IFVaIThDkkBkQvXB8Rz",
+    baseContext: ``,
+  },
 ];
 
 const ProtectedRoute = ({ isAuthenticated, isPayment }) => {

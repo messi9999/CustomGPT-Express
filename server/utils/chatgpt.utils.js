@@ -39,6 +39,7 @@ const assistant_ids = [
   "asst_zpuMIpwCDvrrp2jbMY6ijRvr",
   "asst_SrVRYOpsDyPTvkfbG8BowaMQ",
   "asst_YQF53IFVaIThDkkBkQvXB8Rz",
+  "asst_lZs3Iv997lmxiXNDQvaGNdt2",
 ]
 
 exports.updatedAssistant = () => {

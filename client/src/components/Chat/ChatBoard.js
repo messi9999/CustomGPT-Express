@@ -283,7 +283,7 @@ export default function ChatBoard() {
           </div>
           <div className="flex justify-center text-lime-600">{isPayment && (
             <div>
-              {freeTrails >= 0 ? (<p>{"Free trial remains " + freeTrails + " days"}</p>) : (<p>{"You payment period remains " + duration + " days"}</p>)}
+              {freeTrails >= 0 ? (<p>{freeTrails + " Days Remaining On Free Trial"}</p>) : (<p>{"You payment period remains " + duration + " days"}</p>)}
             </div>
           )}</div>
           <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
