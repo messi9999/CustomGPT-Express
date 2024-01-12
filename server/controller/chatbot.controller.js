@@ -41,13 +41,12 @@ exports.getResponseFromGpt = (req, res) => {
         context = messages.data[0].content[0].text.value;
 
         if (freeAttempts > 0) {
-          freeAttempts = freeAttempts - 1;
           console.log(freeAttempts)
           console.log(context)
           console.log(userId)
           User.update(
             {
-              freeAttempts: freeAttempts,
+              freeAttempts: freeAttempts - 1,
             },
             {
               where: { id: userId },

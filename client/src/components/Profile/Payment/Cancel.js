@@ -10,7 +10,7 @@ const Cancel = () => {
             <PaymentCancel className="w-[200px] h-[200px] lg:block"/>
           </div>
           <h3 className="text-4xl pt-20 font-bold text-center text-slate-700">
-            Something Went Wrong
+            Your payment Canceled!
           </h3>
           <a 
             href="/dashboard" 

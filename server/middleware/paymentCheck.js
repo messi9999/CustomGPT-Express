@@ -9,9 +9,6 @@ const calDateDifference = (start, end) => {
   const differenceInTime = endDate.getTime() - startDate.getTime();
   const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
-  console.log("differenceInTime", differenceInTime);
-  console.log("differenceInDays", differenceInDays);
-
   return differenceInDays > 0;
 };
 
@@ -42,7 +39,7 @@ checkPaymentExpiration = (req, res, next) => {
           return;
         }
       } else {
-        return res.status(500).send({ message: "Subscribe your payment!" });
+        return res.status(500).send({ message: "You have used your 10 free questions. Subscribe for unlimited questions." });
       }
     }
   });

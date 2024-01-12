@@ -46,7 +46,7 @@ export default function WelcomePage() {
         </div>
         <div className="flex justify-center">
           <NavLink
-            to="/login"
+            to="/register"
             className="text-white bg-[#386bb6] font-sans text-[24px] lg:text-[36px] rounded-full p-1 px-7 hover:text-[26px] hover:lg:text-[38px] lg:hover:bg-[#415675]"
           >
             GET STARTED FOR FREE

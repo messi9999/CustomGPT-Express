@@ -181,8 +181,8 @@ export default function ChatBoard() {
 
     // Get User info if freeAttemps is more than 0.
     if (currentUser.freeAttempts > 0) {
-      UserService.getUserBoard(currentUser.id);
-      currentUser = AuthService.getCurrentUser();
+      currentUser = await UserService.getUserBoard(currentUser.id);
+      console.log(currentUser);
     }
 
     try {
@@ -202,28 +202,32 @@ export default function ChatBoard() {
         text: chatBotMsg,
       };
       appendChatHistory(newMessage);
+      if (currentUser.freeAttempts > 0) {
+        currentUser = UserService.getUserBoard(currentUser.id);
+      }
     } catch (error) {
       // Handle error here
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
         if (error.response.status) {
           alert(error.response.data.message);
+          console.log("1");
+          navigate("/profile/payment");
+          window.location.reload();
         }
         console.log(error.response.headers);
       } else if (error.request) {
         // The request was made but no response was received
         console.log(error.request);
         alert(error.request);
+        console.log("2");
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
         alert(error.message);
+        console.log("3");
       }
-      console.log(error.config);
-
       setChatHistory((currentArray) => currentArray.slice(0, -1));
     }
 
@@ -296,12 +300,29 @@ export default function ChatBoard() {
             </div>
           </div>
           <div className="flex justify-center text-lime-600">
-            {isPayment && (
+            {isPayment ? (
               <div>
                 {freeTrails >= 0 ? (
                   <p>{freeTrails + " Days Remaining On Free Trial"}</p>
                 ) : (
                   <p>{"You payment period remains " + duration + " days"}</p>
+                )}
+              </div>
+            ) : (
+              <div>
+                {currentUser.freeAttempts > 0 ? (
+                  <p>{currentUser.freeAttempts + " free questions left"}</p>
+                ) : (
+                  <div className="flex flex-row">
+                    <p>{currentUser.freeAttempts + " free questions left!"}</p>
+                    <p>&nbsp;&nbsp;</p>
+
+                    <NavLink to={"/feedback"}>
+                      <u>
+                        <i className="text-[#0a60f5]">Subscribe payment now!</i>
+                      </u>
+                    </NavLink>
+                  </div>
                 )}
               </div>
             )}

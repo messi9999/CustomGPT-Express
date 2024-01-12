@@ -70,7 +70,7 @@ const Success = () => {
               handlePaymentSuccess();
             }}
           >
-            Proceed
+            Return to PCOS Copilot
           </button>
         </div>
       </div>

@@ -45,17 +45,18 @@ export default function PaymentBoard() {
           <label>Payment Status</label>
         </div>
         <div className="text-2xl flex flex-col gap-4 font-serif">
-          <p>{"1. Plan Type: " + currentUser.subscription.planType}</p>
+          {/* <p>{"1. Plan Type: " + currentUser.subscription.planType}</p> */}
+          <p>{"1. Plan Type: Unlimited"}</p>
           <p>
             {"2. Your payment started at " +
-              currentUser.subscription.planStartDate}
+              currentUser.subscription.planStartDate} 
           </p>
           <p>
             {"3. Your payment will be ended at " +
               currentUser.subscription.planEndDate}
           </p>
           <p>
-            {"4. Your your payment peoriod is " +
+            {"4. Your your payment period is " +
               currentUser.subscription.planDuration +
               " days"}
           </p>
@@ -65,7 +66,7 @@ export default function PaymentBoard() {
           </p>
         </div>
         <div className="flex justify-center mt-6">
-          <button className="text-2xl bg-red-400 text-white px-4 py-2 rounded-full font-bold" onClick={handleOnCancelPayment}>Payment Cancel</button>
+          <button className="text-2xl bg-red-400 text-white px-4 py-2 rounded-full font-bold" onClick={handleOnCancelPayment}>Cancel Subscription</button>
         </div>
       </div>
     );

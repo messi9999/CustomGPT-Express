@@ -23,7 +23,7 @@ exports.signup = (req, res) => {
         subscription: {
           subscription: null
         },
-        freeAttempts: 5
+        freeAttempts: 10
       })
         .then((user) => {
           if (req.body.roles) {
