@@ -21,9 +21,11 @@ const stripeSession = (plan) => {
       cancel_url: `${process.env.DOMAIN}/profile/payment/cancel`,
     })
     .then((session) => {
+      console.log(session)
       return session;
     })
     .catch((e) => {
+      console.log(e)
       return e;
     });
 };

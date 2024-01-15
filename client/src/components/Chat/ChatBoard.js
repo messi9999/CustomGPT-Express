@@ -279,7 +279,7 @@ export default function ChatBoard() {
                 placeholder="Type your Message"
                 spellCheck="true"
                 required
-                autoFocus
+                // autoFocus
                 value={userMessage}
                 onKeyDown={handleKeyDown}
                 onChange={(e) => handleTextAreaChange(e)}
@@ -317,7 +317,7 @@ export default function ChatBoard() {
                     <p>{currentUser.freeAttempts + " free questions left!"}</p>
                     <p>&nbsp;&nbsp;</p>
 
-                    <NavLink to={"/feedback"}>
+                    <NavLink to={"/profile/payment"}>
                       <u>
                         <i className="text-[#0a60f5]">Subscribe payment now!</i>
                       </u>
