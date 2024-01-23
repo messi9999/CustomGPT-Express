@@ -11,6 +11,7 @@ import {
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useEffect, useState } from "react";
+import { PrimeReactProvider } from 'primereact/api';
 import AuthService from "services/auth.service";
 
 import Create from "pages/Create";
@@ -25,6 +26,12 @@ import { DisplayTextContext } from "common/Context";
 import Feedback from "pages/Feedback";
 import Success from "components/Profile/Payment/Success";
 import Cancel from "components/Profile/Payment/Cancel";
+import AdminDashboard from "components/Profile/Admin/AdminDashboard";
+
+
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+
 
 const CREATES = [
   {
@@ -239,6 +246,7 @@ function App() {
   const isAuthenticated = currentUser && typeof currentUser === 'object';
   return (
     <div>
+      <PrimeReactProvider>
       <CreateContext.Provider value={{ CREATES, idxOfCreate, setIdxOfCreate }}>
         <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
           <Router>
@@ -257,6 +265,7 @@ function App() {
                 <Route path="/profile" element={<Profile />}>
                   <Route path="account" element={<AccountBoard />} />
                   <Route path="payment" element={<PaymentBoard />} />
+                  <Route path="admindashboard" element={<AdminDashboard />} />
                 </Route>
               </Route>
               <Route path="/profile/payment/success" element={<Success />} />
@@ -273,6 +282,7 @@ function App() {
           </Router>
         </DisplayTextContext.Provider>
       </CreateContext.Provider>
+      </PrimeReactProvider>
     </div>
   );
 }

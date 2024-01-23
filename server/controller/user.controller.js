@@ -52,3 +52,13 @@ exports.adminBoard = (req, res) => {
     res.status(200).send({userCount: count});
   }).catch((error) => {res.status(500).send(error)})
 };
+
+exports.getAllUser = (req, res) => {
+  User.findAll({}).then(users => {
+    res.send(users)
+  }).catch(error => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving users."
+    })
+  })
+}

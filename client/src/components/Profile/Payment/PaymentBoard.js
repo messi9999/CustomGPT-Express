@@ -11,8 +11,6 @@ export default function PaymentBoard() {
 
   const navagate = useNavigate()
 
-  console.log(currentUser.subscription)
-
   const PaymentInfo = () => {
     const handleOnCancelPayment = () => {
       axios

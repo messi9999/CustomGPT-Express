@@ -1,6 +1,9 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ReactComponent as PaymentIcon } from "assets/icons/payment-icon.svg";
+import { ReactComponent as AdminIcon } from "assets/icons/admin-icon.svg";
+
+import AuthService from "services/auth.service";
 
 const UserIcon = () => {
   return (
@@ -65,8 +68,27 @@ const profiles = [
   },
 ];
 
+const adminProfiles = [
+  {
+    Icon: UserIcon,
+    text: "Account",
+    tag: "account",
+  },
+  {
+    Icon: PaymentIcon,
+    text: "Payment",
+    tag: "payment",
+  },
+  {
+    Icon: AdminIcon,
+    text: "Admin Dashboard",
+    tag: "admindashboard",
+  },
+]
+
 export default function ProfileArea() {
   const { pathname } = useLocation();
+  const currentUser = AuthService.getCurrentUser();
   return (
     <div className={`${pathname !== "/profile" && "hidden lg:show"} w-full h-screen lg:w-[450px] lg:shrink-0 lg:border-r lg:border-neutral-300 lg:flex flex-col`}>
       <div className="bg-transparent">
@@ -88,9 +110,21 @@ export default function ProfileArea() {
         <div className="pl-6 font-bold text-[32px] text-h-l-mobile lg:hidden">
           Profile
         </div>
-        {profiles.map((item, idx) => (
-          <ProfileComponents item={item} key={idx} />
-        ))}
+        {
+          currentUser.roles[0] === "ROLE_ADMIN" ? (
+            <div>
+              {adminProfiles.map((item, idx) => (
+                <ProfileComponents item={item} key={idx} />
+              ))}
+              </div>
+          ) : (
+            <div>
+              {profiles.map((item, idx) => (
+                <ProfileComponents item={item} key={idx} />
+              ))}
+            </div>
+          )
+        }
       </div>
     </div>
   );

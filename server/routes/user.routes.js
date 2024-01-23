@@ -20,5 +20,11 @@ module.exports = function (app) {
     controller.adminBoard
   );
 
+  router.post(
+    "/getAllUsers",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.getAllUser
+  )
+
   app.use("/api/test", router);
 };
