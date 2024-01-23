@@ -71,6 +71,7 @@ export default function AdminDashboard() {
     return rowData.subscription.subscription === null ? "false" : "true";
   };
 
+
   return (
     <div className="overflow-x-auto scrollbar-thumb scrollbar-track h-screen flex-auto justify-center">
       <div className="card mt-6 h-[80vh]">
@@ -80,7 +81,7 @@ export default function AdminDashboard() {
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           stripedRows
-          tableStyle={{ minWidth: "50rem"}}
+          tableStyle={{ minWidth: "50rem" }}
           dataKey="id"
           filters={filters}
           filterDisplay="row"
@@ -93,7 +94,6 @@ export default function AdminDashboard() {
             field="id"
             header="Id"
             sortable
-            // style={{ width: "30px" }}
             headerStyle={{ textAlign: "center" }}
             bodyStyle={{ textAlign: "center" }}
           ></Column>
@@ -101,7 +101,6 @@ export default function AdminDashboard() {
             field="username"
             header="Username"
             sortable
-            // style={{ width: "50px" }}
             headerStyle={{ textAlign: "center" }}
             bodyStyle={{ textAlign: "center" }}
           ></Column>
@@ -109,7 +108,6 @@ export default function AdminDashboard() {
             field="email"
             header="Email"
             sortable
-            // style={{ width: "20%" }}
             headerStyle={{ textAlign: "center" }}
             bodyStyle={{ textAlign: "center" }}
           ></Column>
@@ -117,14 +115,12 @@ export default function AdminDashboard() {
             field="freeAttempts"
             header="FreeATP"
             sortable
-            // style={{ width: "12%" }}
             headerStyle={{ textAlign: "center" }}
             bodyStyle={{ textAlign: "center" }}
           ></Column>
           <Column
             field="subscription"
             header="isPayment?"
-            sortable
             body={paymentBodyTemplate}
             headerStyle={{ textAlign: "center" }}
             bodyStyle={{ textAlign: "center" }}
@@ -133,7 +129,6 @@ export default function AdminDashboard() {
             field="createdAt"
             header="Created At"
             sortable
-            // style={{ width: "25%" }}
             body={createdAtBodyTemplate}
             headerStyle={{ textAlign: "center" }}
             bodyStyle={{ textAlign: "center" }}
