@@ -54,19 +54,18 @@ const Register = (props) => {
 
     setErrors(errors);
     return formIsValid;
-  }
+  };
 
   const isAllValidate = () => {
     return Object.keys(errors).length === 0;
-  }
+  };
 
   const handleRegister = (e) => {
     e.preventDefault();
     setSuccessful(false);
 
-    if(handleValidation()) {
-
-      let { username, email, password } = fields; 
+    if (handleValidation()) {
+      let { username, email, password } = fields;
 
       AuthService.register(username, email, password).then(
         () => {
@@ -81,7 +80,7 @@ const Register = (props) => {
               error.response.data.message) ||
             error.message ||
             error.toString();
-          alert(resMessage)
+          alert(resMessage);
           setSuccessful(false);
         }
       );
@@ -176,12 +175,20 @@ const Register = (props) => {
 
             <button
               type="submit"
-              className={`block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white ${isAllValidate() ? "opacity-100" : "opacity-50"}`}
+              className={`block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white ${
+                isAllValidate() ? "opacity-100" : "opacity-50"
+              }`}
               disabled={!isAllValidate()}
             >
               REGISTER
             </button>
 
+            <p className="text-center text-sm text-gray-500">
+              By creating an account &nbsp;
+              <Link to="/terms" className="text-blue-800">
+                I agree to the terms and conditions
+              </Link>
+            </p>
             <p className="text-center text-sm text-gray-500">
               Already have an account?&nbsp;
               <Link to="/login" className="text-blue-800">

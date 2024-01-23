@@ -68,20 +68,19 @@ export default function AdminDashboard() {
   const header = renderHeader();
 
   const paymentBodyTemplate = (rowData) => {
-    return rowData.subscription.subscription === null ? 'false' : 'true';
+    return rowData.subscription.subscription === null ? "false" : "true";
   };
 
   return (
-    <div className="overflow-x-scroll h-[100vh]">
-
-      <div className="card">
+    <div className="overflow-x-auto scrollbar-thumb scrollbar-track h-screen flex-auto justify-center">
+      <div className="card mt-6 h-[80vh]">
         <DataTable
           value={users}
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           stripedRows
-          tableStyle={{ minWidth: "50rem" }}
+          tableStyle={{ minWidth: "50rem"}}
           dataKey="id"
           filters={filters}
           filterDisplay="row"

@@ -31,6 +31,7 @@ import AdminDashboard from "components/Profile/Admin/AdminDashboard";
 
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import Terms from "pages/Terms";
 
 
 const CREATES = [
@@ -277,6 +278,7 @@ function App() {
                 > */}
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/terms" element={<Terms />} />
               {/* </Route> */}
             </Routes>
           </Router>

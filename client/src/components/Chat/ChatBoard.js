@@ -256,7 +256,7 @@ export default function ChatBoard() {
           >
             <div className="relative space-y-6 px-5 text-primary-700 mx-auto max-w-[50rem] 2xl:max-w-[60rem]">
               <div className="absolute top-0 h-[50px] bg-opacity-gradient"></div>
-              <div className=" overflow-y-auto scrollbar-thumb scrollbar-track w-full">
+              <div className="overflow-y-auto scrollbar-thumb scrollbar-track w-full">
                 <ul>
                   {chatHistory.map((msg, index) => (
                     <ChatMessage key={index} message={msg} />
