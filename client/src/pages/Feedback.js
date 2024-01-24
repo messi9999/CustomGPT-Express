@@ -31,8 +31,8 @@ export default function Feedback() {
           <div className={`flex flex-row bg-[#fcf4e6]`}>
             <Sidebar />
             <div className='flex justify-center mt-[60px] mb-[60px] mx-[16px] w-full h-full'>
-              <div onClick={() => {handleOnClick()}}>
-                  <button>
+              <div>
+                  <button onClick={() => {handleOnClick()}}>
                     <BackIcon />
                   </button>
                 <div className='w-full text-center text-[36px] font-bold mb-3'>Feedback</div>

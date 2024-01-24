@@ -328,14 +328,21 @@ export default function ChatBoard() {
             )}
           </div>
           <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
-            <NavLink to={"/feedback"}>
+            {/* <NavLink to={"/feedback"}> */}
               Feedback?{" "}
-              <u>
-                <i className="text-[#0a60f5]">
-                  Please help improve this product here.
-                </i>
-              </u>
-            </NavLink>
+              <a
+                href="https://forms.gle/3iFGAtmT8nSEG3Vq6"
+                className="underline text-[#0a60f5]"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <u>
+                  <i className="text-[#0a60f5]">
+                    Please help improve this product here.
+                  </i>
+                </u>
+              </a>
+            {/* </NavLink> */}
           </div>
           <div className="text-slate-900 text-md mb-3 flex justify-center">
             @Copyright Nourished Natural Health
