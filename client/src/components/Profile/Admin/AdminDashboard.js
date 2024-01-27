@@ -68,7 +68,11 @@ export default function AdminDashboard() {
   const header = renderHeader();
 
   const paymentBodyTemplate = (rowData) => {
-    return rowData.subscription.subscription === null ? "false" : "true";
+    if (rowData.subscription.subscription.subscriptionID) {
+      return "true"
+    } else {
+      return "false"
+    }
   };
 
 
