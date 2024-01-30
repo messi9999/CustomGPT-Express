@@ -319,7 +319,7 @@ export default function ChatBoard() {
 
                     <NavLink to={"/profile/payment"}>
                       <u>
-                        <i className="text-[#0a60f5]">Subscribe payment now!</i>
+                        <i className="text-[#0a60f5]">Start free trial here!</i>
                       </u>
                     </NavLink>
                   </div>
