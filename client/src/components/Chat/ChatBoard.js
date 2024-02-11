@@ -338,7 +338,7 @@ export default function ChatBoard() {
               >
                 <u>
                   <i className="text-[#0a60f5]">
-                    Please help improve this product here.
+                    Feedback? Share here and get free products.
                   </i>
                 </u>
               </a>
