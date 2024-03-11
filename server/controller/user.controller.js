@@ -58,7 +58,7 @@ exports.getAllUser = (req, res) => {
     res.send(users)
   }).catch(error => {
     res.status(500).send({
-      message: err.message || "Some error occurred while retrieving users."
+      message: error.message || "Some error occurred while retrieving users."
     })
   })
 }

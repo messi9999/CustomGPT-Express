@@ -34,7 +34,7 @@ export default function Subscription() {
       <div className="flex justify-center items-center flex-col">
         <h1 className="font-bold text-[36px] p-2">Unlimited</h1>
         <p className="text-[20px] mb-[24px]">
-          <span class="line-through">$9.97</span>
+          <span className="line-through">$9.97</span>
           <span> $3.97</span>
         </p>
         <button
@@ -48,8 +48,8 @@ export default function Subscription() {
         <ul className="pl-3 list-disc">
           <li className="mb-2">
             <span>Launch Offer: </span>
-            <span class="line-through text-lg">$9.97</span>
-            <span class="text-lg"> $3.97</span>
+            <span className="line-through text-lg">$9.97</span>
+            <span className="text-lg"> $3.97</span>
             <span> per month</span>
           </li>
 

@@ -10,6 +10,11 @@ module.exports = (app) => {
     controller.getResponseFromGpt
   );
   router.get("/createThread", controller.createThread);
+  router.post(
+    "/getChatHistory",
+    [authJwt.verifyToken],
+    controller.getChatHistory
+  )
 
   app.use("/api/chatbots", router);
 };

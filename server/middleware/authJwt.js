@@ -16,9 +16,11 @@ verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({
         message: "Unauthorized!",
-      });
+      });      
     }
     req.userId = decoded.indexOf;
+    const date1 = new Date(decoded.exp * 1000);
+    const date2 = new Date(decoded.iat * 1000);
     next();
   });
 };

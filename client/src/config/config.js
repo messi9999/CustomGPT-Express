@@ -1,0 +1,3 @@
+const BASEURL = process.env.REACT_APP_ENDPOINT
+const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY
+export {BASEURL, OPENAI_API_KEY};

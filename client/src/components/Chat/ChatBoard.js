@@ -4,13 +4,15 @@ import React, {
   useRef,
   useState,
   useLayoutEffect,
+  useMemo,
+  useCallback,
 } from "react";
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 
 import { ReactComponent as SendMsgIcon } from "assets/icons/sendmsg.svg";
-// import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.svg";
-// import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
+import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.svg";
+import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
 import { ReactComponent as BackCreateIcon } from "assets/icons/create-icon.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -20,6 +22,14 @@ import { CreateContext, DisplayTextContext } from "common/Context";
 import AuthService from "services/auth.service";
 import CalService from "services/cal.service";
 import UserService from "services/user.service";
+import { BASEURL, OPENAI_API_KEY } from "config/config";
+import OpenAI from "openai";
+import AudioPlayer from "react-audio-player";
+
+const client = new OpenAI({
+  apiKey: OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true,
+});
 
 function LoadingButton() {
   return (
@@ -80,12 +90,13 @@ export default function ChatBoard() {
   ]);
   const [userMessage, setUserMessage] = useState("");
   const [isEditable, setIsEditable] = useState(true);
-  // const [isSpeaker, setIsSpeaker] = useState(false);
+  const [isSpeaker, setIsSpeaker] = useState(false);
 
   const { displayText } = useContext(DisplayTextContext);
 
+  const [audioSrc, setAudioSrc] = useState(null);
+
   const textareaRef = useRef(null);
-  // const scrollingDivRef = useRef(null);
 
   let currentUser = AuthService.getCurrentUser();
 
@@ -110,6 +121,14 @@ export default function ChatBoard() {
       currentUser.subscription.planEndDate
     );
   }
+
+  const header = useMemo(
+    () => ({
+      "Content-Type": "application/json",
+      "x-access-token": currentUser.accessToken,
+    }),
+    [currentUser.accessToken]
+  );
 
   useLayoutEffect(() => {
     const div = scrollingDivRef.current;
@@ -171,32 +190,38 @@ export default function ChatBoard() {
       assistantID: CREATES[idxOfCreate].assistantID,
       threadID: currentUser.threadID,
       userId: currentUser.id,
+      createId: idxOfCreate,
       freeAttempts: currentUser.freeAttempts,
-    };
-
-    const header = {
-      "Content-Type": "application/json",
-      "x-access-token": currentUser.accessToken,
     };
 
     // Get User info if freeAttemps is more than 0.
     if (currentUser.freeAttempts > 0) {
       currentUser = await UserService.getUserBoard(currentUser.id);
-      console.log(currentUser);
     }
 
     try {
       const response = await axios.post(
-        "/api/chatbots/getResponseFromGpt",
+        BASEURL + "/api/chatbots/getResponseFromGpt",
         reqBody,
         {
           headers: header,
         }
       );
-
       // Handle successful response here
       var chatBotMsg = response.data.message;
 
+      if (isSpeaker) {
+        const mp3 = await client.audio.speech.create({
+          model: "tts-1",
+          voice: "alloy",
+          input: chatBotMsg,
+        });
+
+        const buffer = new Uint8Array(await mp3.arrayBuffer());
+        const blob = new Blob([buffer], { type: "audio/mpeg" });
+        const url = URL.createObjectURL(blob);
+        setAudioSrc(url);
+      }
       newMessage = {
         type: "chatbot",
         text: chatBotMsg,
@@ -234,14 +259,52 @@ export default function ChatBoard() {
     setIsEditable(true);
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = useCallback(() => {
     AuthService.logout();
     navigate("/");
     window.location.reload();
-  };
+  }, [navigate]);
 
   const { pathname } = useLocation();
 
+  useEffect(() => {
+    const LoadUserData = async () => {
+      try{
+
+        const response = await axios.post(
+          BASEURL + "/api/chatbots/getChatHistory",
+          {
+            userId: currentUser.id,
+            createId: idxOfCreate,
+          },
+          {
+            headers: header,
+          }
+        );
+        const newChatHistory = [];
+        for (let i = 0; i < response.data.length; i++) {
+          newChatHistory.push({
+            type: response.data[i].chatType,
+            text: response.data[i].text,
+          });
+        }
+        setChatHistory((prevChatHistory) => [
+          ...prevChatHistory,
+          ...newChatHistory,
+        ]);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          // Handle 401 error here
+          console.log('Unauthorized');
+          handleLogOut()
+        } else {
+          // Handle other errors here
+          console.log('An error occurred:', error);
+        }
+      }
+    };
+    LoadUserData();
+  }, [currentUser.id, header, idxOfCreate, handleLogOut]);
   return (
     <>
       <div
@@ -259,7 +322,13 @@ export default function ChatBoard() {
               <div className="overflow-y-auto scrollbar-thumb scrollbar-track w-full">
                 <ul>
                   {chatHistory.map((msg, index) => (
-                    <ChatMessage key={index} message={msg} />
+                    <div key={index}>
+                      <ChatMessage
+                        id={index}
+                        message={msg}
+                        length={chatHistory.length}
+                      />
+                    </div>
                   ))}
 
                   <div className="px-[16px]">
@@ -329,19 +398,19 @@ export default function ChatBoard() {
           </div>
           <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
             {/* <NavLink to={"/feedback"}> */}
-              Feedback?{" "}
-              <a
-                href="https://forms.gle/3iFGAtmT8nSEG3Vq6"
-                className="underline text-[#0a60f5]"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <u>
-                  <i className="text-[#0a60f5]">
-                    Share here and get free products.
-                  </i>
-                </u>
-              </a>
+            Feedback?{" "}
+            <a
+              href="https://forms.gle/3iFGAtmT8nSEG3Vq6"
+              className="underline text-[#0a60f5]"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <u>
+                <i className="text-[#0a60f5]">
+                  Share here and get free products.
+                </i>
+              </u>
+            </a>
             {/* </NavLink> */}
           </div>
           <div className="text-slate-900 text-md mb-3 flex justify-center">
@@ -368,22 +437,25 @@ export default function ChatBoard() {
             >
               <LogoutIcon />
             </button>
-            {/* <button
+            <button
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover"
               type="button"
             >
               {isSpeaker ? (
-                <OpenSpeackerIcon
-                  className="w-6 h-6 hover:cursor-pointer"
-                  onClick={() => setIsSpeaker(false)}
-                />
+                <div>
+                  <OpenSpeackerIcon
+                    className="w-6 h-6 hover:cursor-pointer"
+                    onClick={() => setIsSpeaker(false)}
+                  />
+                  <AudioPlayer src={audioSrc} autoPlay />
+                </div>
               ) : (
                 <CloseSpeakerIcon
                   className="w-6 h-6 hover:cursor-pointer"
                   onClick={() => setIsSpeaker(true)}
                 />
               )}
-            </button> */}
+            </button>
           </div>
         </div>
       </div>

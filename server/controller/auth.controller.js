@@ -35,11 +35,7 @@ exports.signup = (req, res) => {
               },
             }).then((roles) => {
               user.setRoles(roles).then(() => {
-                const token = jwt.sign({ id: user.id }, config.secret, {
-                  algorithm: "HS256",
-                  allowInsecureKeySizes: true,
-                  expiresIn: 86400, // 24 hours
-                });
+                const token = jwt.sign({ id: user.id }, config.secret, config.options);
 
                 var authorities = [];
                 user.getRoles().then((roles) => {
@@ -62,11 +58,7 @@ exports.signup = (req, res) => {
           } else {
             // user role = 1
             user.setRoles([1]).then(() => {
-              const token = jwt.sign({ id: user.id }, config.secret, {
-                algorithm: "HS256",
-                allowInsecureKeySizes: true,
-                expiresIn: 86400, // 24 hours
-              });
+              const token = jwt.sign({ id: user.id }, config.secret, config.options);
 
               var authorities = [];
               user.getRoles().then((roles) => {
@@ -119,11 +111,7 @@ exports.signin = (req, res) => {
         });
       }
 
-      const token = jwt.sign({ id: user.id }, config.secret, {
-        algorithm: "HS256",
-        allowInsecureKeySizes: true,
-        expiresIn: 86400, // 24 hours
-      });
+      const token = jwt.sign({ id: user.id }, config.secret, config.options);
 
       var authorities = [];
       user.getRoles().then((roles) => {

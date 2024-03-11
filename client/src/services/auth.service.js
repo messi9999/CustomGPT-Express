@@ -1,6 +1,7 @@
 import axios from "axios";
+import { BASEURL } from "config/config";
 
-const API_URL = "/api/auth/";
+const API_URL = BASEURL + "/api/auth/";
 
 const register = (username, email, password) => {
   return axios
