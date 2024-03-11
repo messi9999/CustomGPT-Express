@@ -130,6 +130,7 @@ export default function ChatBoard() {
     [currentUser.accessToken]
   );
 
+
   useLayoutEffect(() => {
     const div = scrollingDivRef.current;
     const shouldScrollToBottom =
@@ -227,6 +228,7 @@ export default function ChatBoard() {
         text: chatBotMsg,
       };
       appendChatHistory(newMessage);
+
       if (currentUser.freeAttempts > 0) {
         currentUser = UserService.getUserBoard(currentUser.id);
       }
@@ -237,7 +239,6 @@ export default function ChatBoard() {
         // that falls out of the range of 2xx
         if (error.response.status) {
           alert(error.response.data.message);
-          console.log("1");
           navigate("/profile/payment");
           window.location.reload();
         }
@@ -246,12 +247,10 @@ export default function ChatBoard() {
         // The request was made but no response was received
         console.log(error.request);
         alert(error.request);
-        console.log("2");
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
         alert(error.message);
-        console.log("3");
       }
       setChatHistory((currentArray) => currentArray.slice(0, -1));
     }

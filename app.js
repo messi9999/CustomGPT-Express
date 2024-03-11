@@ -23,14 +23,15 @@ app.use(express.urlencoded({ extended: true }));
 
 const db = require("./server/models");
 
+// const Chat = db.chat
+// try {
+//   Chat.sync();
+// } catch (error) {
+//   console.error('Error:', error);
+// }
+
 db.sequelize.sync();
 
-const Chat = db.chat
-try {
-  Chat.sync();
-} catch (error) {
-  console.error('Error:', error);
-}
 
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and Resync DB.");

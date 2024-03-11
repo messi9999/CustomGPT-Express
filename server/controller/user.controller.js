@@ -19,11 +19,7 @@ exports.userBoard = (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
 
-      const token = jwt.sign({ id: user.id }, config.secret, {
-        algorithm: "HS256",
-        allowInsecureKeySizes: true,
-        expiresIn: 86400, // 24 hours
-      });
+      let token = req.headers["x-access-token"];
 
       var authorities = [];
       user.getRoles().then((roles) => {
