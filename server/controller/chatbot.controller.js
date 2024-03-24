@@ -17,8 +17,6 @@ exports.getResponseFromGpt = (req, res) => {
 
   let fullMessage = "";
 
-  let endtime = Date.now();
-  let starttime = Date.now();
 
   chatGptUtils
     .addNewMessage(userMessage, threadId)
@@ -37,10 +35,7 @@ exports.getResponseFromGpt = (req, res) => {
         });
     })
     .then(() => {
-      console.log("display assistant");
-      endtime = Date.now();
-      console.log(endtime - starttime);
-      starttime = Date.now();
+
       res.setHeader("Content-Type", "text/event-stream");
       res.setHeader("Cache-Control", "no-cache");
       res.setHeader("Connection", "keep-alive");
@@ -50,7 +45,6 @@ exports.getResponseFromGpt = (req, res) => {
           .createAndStream(threadId, { assistant_id: assistantID })
           .on("textDelta", (textDelta, snapshot) => {
             fullMessage += textDelta.value;
-            console.log(textDelta.value)
             res.write(textDelta.value);
           })
           .on("error", (error) => {
