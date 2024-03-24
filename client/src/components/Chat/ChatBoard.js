@@ -22,7 +22,7 @@ import { CreateContext, DisplayTextContext } from "common/Context";
 import AuthService from "services/auth.service";
 import CalService from "services/cal.service";
 import UserService from "services/user.service";
-import { BASEURL, OPENAI_API_KEY } from "config/config";
+import { BASEURL, OPENAI_API_KEY, STREAMENDPOINT } from "config/config";
 import OpenAI from "openai";
 import AudioPlayer from "react-audio-player";
 import { sleep } from "openai/core";
@@ -202,7 +202,7 @@ export default function ChatBoard() {
       currentUser = await UserService.getUserBoard(currentUser.id);
     }
 
-    const response = await fetch(BASEURL + "/api/chatbots/getResponseFromGpt", {
+    const response = await fetch(STREAMENDPOINT + "/api/chatbots/getResponseFromGpt", {
       method: "POST",
       headers: header,
       body: JSON.stringify(reqBody),
