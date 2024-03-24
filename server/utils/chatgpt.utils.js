@@ -94,7 +94,7 @@ exports.addNewMessage = (userMessage, threadId) => {
 exports.createRunAssistant = (threadId, assistantID) => {
   return axios.post(`https://api.openai.com/v1/threads/${threadId}/runs`, {
     assistant_id: assistantID,
-    instructions: "",
+    additional_instructions: "",
   }, {
     headers: {
       'Authorization': `Bearer ${openaiConfig.OPENAI_API_KEY}`,
