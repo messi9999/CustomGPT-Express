@@ -21,10 +21,6 @@ exports.getResponseFromGpt = (req, res) => {
   chatGptUtils
     .addNewMessage(userMessage, threadId)
     .then((message) => {
-      console.log("display assistant");
-      endtime = Date.now();
-      console.log(endtime - starttime);
-      starttime = Date.now();
       chatHistory
         .insertChat(userId, createId, "user", userMessage)
         .catch((error) => {
