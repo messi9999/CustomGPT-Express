@@ -25,6 +25,7 @@ import UserService from "services/user.service";
 import { BASEURL, OPENAI_API_KEY } from "config/config";
 import OpenAI from "openai";
 import AudioPlayer from "react-audio-player";
+import { sleep } from "openai/core";
 
 const client = new OpenAI({
   apiKey: OPENAI_API_KEY,
@@ -88,6 +89,7 @@ export default function ChatBoard() {
       text: "",
     },
   ]);
+
   const [userMessage, setUserMessage] = useState("");
   const [isEditable, setIsEditable] = useState(true);
   const [isSpeaker, setIsSpeaker] = useState(false);
@@ -129,7 +131,6 @@ export default function ChatBoard() {
     }),
     [currentUser.accessToken]
   );
-
 
   useLayoutEffect(() => {
     const div = scrollingDivRef.current;
@@ -174,6 +175,7 @@ export default function ChatBoard() {
   const appendChatHistory = (newMessage) => {
     setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
   };
+
   const handleSendMessage = async () => {
     console.log("Sending...");
 
@@ -200,22 +202,85 @@ export default function ChatBoard() {
       currentUser = await UserService.getUserBoard(currentUser.id);
     }
 
-    try {
-      const response = await axios.post(
-        BASEURL + "/api/chatbots/getResponseFromGpt",
-        reqBody,
-        {
-          headers: header,
-        }
-      );
-      // Handle successful response here
-      var chatBotMsg = response.data.message;
+    const response = await fetch(BASEURL + "/api/chatbots/getResponseFromGpt", {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify(reqBody),
+    });
 
+    const reader = response.body.getReader();
+
+    newMessage = {
+      type: "chatbot",
+      text: "",
+    };
+    appendChatHistory(newMessage);
+    let streamResposne = "";
+    // This function recursively reads data from the stream
+    async function read() {
+      const { done, value } = await reader.read();
+      if (done) {
+        console.log("Stream finished");
+        return;
+      }
+
+      // Assuming the streamed data is text, decode and process it
+      const text = new TextDecoder().decode(value);
+
+      try {
+        streamResposne = streamResposne + text;
+        setChatHistory((prevChatHistory) => {
+          return prevChatHistory.map((item, index) => {
+            if (index === prevChatHistory.length - 1) {
+              // This is the last item, return the updated item
+              return {
+                type: "chatbot",
+                text: streamResposne,
+              };
+            } else {
+              // This is not the last item, return it as is
+              return item;
+            }
+          });
+        });
+      } catch (error) {
+        // Handle error here
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          if (error.response.status) {
+            alert(error.response.data.message);
+            navigate("/profile/payment");
+            window.location.reload();
+          }
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+          alert(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log("Error", error.message);
+          alert(error.message);
+        }
+        setChatHistory((currentArray) => currentArray.slice(0, -1));
+      }
+
+      // Recursively read the next chunk
+      read();
+    }
+
+    await read();
+    setIsEditable(true);
+    await sleep(6000)
+
+    // console.log(streamResposne)
+    try {
       if (isSpeaker) {
         const mp3 = await client.audio.speech.create({
           model: "tts-1",
           voice: "alloy",
-          input: chatBotMsg,
+          input: streamResposne,
         });
 
         const buffer = new Uint8Array(await mp3.arrayBuffer());
@@ -223,39 +288,70 @@ export default function ChatBoard() {
         const url = URL.createObjectURL(blob);
         setAudioSrc(url);
       }
-      newMessage = {
-        type: "chatbot",
-        text: chatBotMsg,
-      };
-      appendChatHistory(newMessage);
 
       if (currentUser.freeAttempts > 0) {
         currentUser = UserService.getUserBoard(currentUser.id);
       }
     } catch (error) {
-      // Handle error here
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        if (error.response.status) {
-          alert(error.response.data.message);
-          navigate("/profile/payment");
-          window.location.reload();
-        }
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log(error.request);
-        alert(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
-        alert(error.message);
-      }
-      setChatHistory((currentArray) => currentArray.slice(0, -1));
+      console.log("error: ", error)
     }
 
-    setIsEditable(true);
+    // try {
+    //   const response = await axios.post(
+    //     BASEURL + "/api/chatbots/getResponseFromGpt",
+    //     reqBody,
+    //     {
+    //       headers: header,
+    //     }
+    //   );
+    //   // Handle successful response here
+    //   var chatBotMsg = response.data.message;
+
+    //   if (isSpeaker) {
+    //     const mp3 = await client.audio.speech.create({
+    //       model: "tts-1",
+    //       voice: "alloy",
+    //       input: chatBotMsg,
+    //     });
+
+    //     const buffer = new Uint8Array(await mp3.arrayBuffer());
+    //     const blob = new Blob([buffer], { type: "audio/mpeg" });
+    //     const url = URL.createObjectURL(blob);
+    //     setAudioSrc(url);
+    //   }
+    //   newMessage = {
+    //     type: "chatbot",
+    //     text: chatBotMsg,
+    //   };
+    //   appendChatHistory(newMessage);
+
+    //   if (currentUser.freeAttempts > 0) {
+    //     currentUser = UserService.getUserBoard(currentUser.id);
+    //   }
+    // } catch (error) {
+    //   // Handle error here
+    //   if (error.response) {
+    //     // The request was made and the server responded with a status code
+    //     // that falls out of the range of 2xx
+    //     if (error.response.status) {
+    //       alert(error.response.data.message);
+    //       navigate("/profile/payment");
+    //       window.location.reload();
+    //     }
+    //     console.log(error.response.headers);
+    //   } else if (error.request) {
+    //     // The request was made but no response was received
+    //     console.log(error.request);
+    //     alert(error.request);
+    //   } else {
+    //     // Something happened in setting up the request that triggered an Error
+    //     console.log("Error", error.message);
+    //     alert(error.message);
+    //   }
+    //   setChatHistory((currentArray) => currentArray.slice(0, -1));
+    // }
+
+    
   };
 
   const handleLogOut = useCallback(() => {
@@ -268,8 +364,7 @@ export default function ChatBoard() {
 
   useEffect(() => {
     const LoadUserData = async () => {
-      try{
-
+      try {
         const response = await axios.post(
           BASEURL + "/api/chatbots/getChatHistory",
           {
@@ -294,11 +389,11 @@ export default function ChatBoard() {
       } catch (error) {
         if (error.response && error.response.status === 401) {
           // Handle 401 error here
-          console.log('Unauthorized');
-          handleLogOut()
+          console.log("Unauthorized");
+          handleLogOut();
         } else {
           // Handle other errors here
-          console.log('An error occurred:', error);
+          console.log("An error occurred:", error);
         }
       }
     };

@@ -1,6 +1,9 @@
 const openaiConfig = require("../config/openai.config");
 const axios = require("axios")
 
+const OpenAI = require('openai');
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
+
 
 const file_ids = [
   "file-VlmhM4CyMeaS8kM2Eqn3UzgO",
@@ -140,3 +143,31 @@ exports.displayAssistant = (threadId) => {
   });
 };
 
+
+exports.createRunAssistantStreamming = (threadId, assistantID) => {
+  return new Promise((resolve, reject) => {
+    const run = openai.beta.threads.runs.createAndStream(threadId, {
+      assistant_id: assistantID
+    })
+    .on('textCreated', (text) => process.stdout.write('\nassistant > '))
+    .on('textDelta', (textDelta, snapshot) => process.stdout.write(textDelta.value))
+    .on('toolCallCreated', (toolCall) => process.stdout.write(`\nassistant > ${toolCall.type}\n\n`))
+    .on('toolCallDelta', (toolCallDelta, snapshot) => {
+      if (toolCallDelta.type === 'code_interpreter') {
+        if (toolCallDelta.code_interpreter.input) {
+          process.stdout.write(toolCallDelta.code_interpreter.input);
+        }
+        if (toolCallDelta.code_interpreter.outputs) {
+          process.stdout.write("\noutput >\n");
+          toolCallDelta.code_interpreter.outputs.forEach(output => {
+            if (output.type === "logs") {
+              process.stdout.write(`\n${output.logs}\n`);
+            }
+          });
+        }
+      }
+    })
+    .on('completed', (run) => resolve(run))
+    .on('error', (error) => reject(error));
+  });
+};

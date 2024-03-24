@@ -38,25 +38,25 @@ const WordByWordAnimation = ({ text, delay }) => {
       }
     });
   };
-  useEffect(() => {
-    setWordIndex(0);
-    setDisplayedText("");
-  }, [text]);
+  // useEffect(() => {
+  //   setWordIndex(0);
+  //   setDisplayedText("");
+  // }, [text]);
 
-  useEffect(() => {
-    if (wordIndex < words.length) {
-      const timer = setTimeout(() => {
-        setDisplayedText((currentText) => `${currentText}${words[wordIndex]} `);
-        setDisplayText((currentText) => `${currentText}${words[wordIndex]} `);
-        setWordIndex(wordIndex + 1);
-      }, delay);
+  // useEffect(() => {
+  //   if (wordIndex < words.length) {
+  //     const timer = setTimeout(() => {
+  //       setDisplayedText((currentText) => `${currentText}${words[wordIndex]} `);
+  //       setDisplayText((currentText) => `${currentText}${words[wordIndex]} `);
+  //       setWordIndex(wordIndex + 1);
+  //     }, delay);
 
-      return () => clearTimeout(timer);
-    }
-    // Removed console.logs for cleaner code
-  }, [wordIndex, delay, words, setDisplayText]);
+  //     return () => clearTimeout(timer);
+  //   }
+  //   // Removed console.logs for cleaner code
+  // }, [wordIndex, delay, words, setDisplayText]);
 
-  return <div>{processText(displayedText)}</div>;
+  return <div>{processText(text)}</div>;
 };
 
 export default WordByWordAnimation;

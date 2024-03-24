@@ -4,8 +4,8 @@ const db = require("../models");
 const User = db.user;
 const Chat = db.chat;
 
-let starttime = Date.now();
-let endtime = Date.now();
+const OpenAI = require("openai");
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
 exports.getResponseFromGpt = (req, res) => {
   const userMessage = req.body.message;
@@ -15,15 +15,12 @@ exports.getResponseFromGpt = (req, res) => {
   const userId = req.body.userId;
   const createId = req.body.createId;
 
+  let fullMessage = "";
+
   starttime = Date.now();
   chatGptUtils
     .addNewMessage(userMessage, threadId)
     .then((message) => {
-      console.log("add message.........");
-      endtime = Date.now();
-      console.log(endtime - starttime);
-      starttime = Date.now();
-
       chatHistory
         .insertChat(userId, createId, "user", userMessage)
         .catch((error) => {
@@ -34,46 +31,27 @@ exports.getResponseFromGpt = (req, res) => {
         });
     })
     .then(() => {
-      return chatGptUtils.createRunAssistant(threadId, assistantID);
-    })
-    .then((assistant_run) => {
-      console.log("create run assistant");
-      endtime = Date.now();
-      console.log(endtime - starttime);
-      starttime = Date.now();
+      res.setHeader("Content-Type", "text/event-stream");
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Connection", "keep-alive");
 
-      const checkRunStatus = () => {
-        return chatGptUtils
-          .checkRunAssistant(assistant_run, threadId)
-          .then((run) => {
-            console.log("check run assistant");
-            endtime = Date.now();
-            console.log(endtime - starttime);
-            starttime = Date.now();
-
-            if (run.status !== "completed") {
-              return new Promise((resolve) => setTimeout(resolve, 1000)).then(
-                () => checkRunStatus()
-              );
-            }
-            return run;
+      new Promise((resolve, reject) => {
+        const run = openai.beta.threads.runs
+          .createAndStream(threadId, { assistant_id: assistantID })
+          .on("textDelta", (textDelta, snapshot) => {
+            fullMessage += textDelta.value;
+            res.write(textDelta.value);
+          })
+          .on("error", (error) => {
+            res.status(500).send({ message: error.message });
+            reject(error);
+          })
+          .on("end", () => {
+            resolve(run);
           });
-      };
-      return checkRunStatus();
-    })
-    .then(() => {
-      return chatGptUtils.displayAssistant(threadId);
-    })
-    .then((messages) => {
-      console.log("display assistant")
-      endtime = Date.now();
-      console.log(endtime - starttime);
-      starttime = Date.now();
-
-      if (messages.data[0].role === "assistant") {
-        context = messages.data[0].content[0].text.value;
+      }).then((run) => {
         chatHistory
-          .insertChat(userId, createId, "assistant", context)
+          .insertChat(userId, createId, "assistant", fullMessage)
           .then(() => {
             if (freeAttempts > 0) {
               User.update(
@@ -83,37 +61,96 @@ exports.getResponseFromGpt = (req, res) => {
                 {
                   where: { id: userId },
                 }
-              )
-                .then((num) => {
-                  if (num == 1) {
-                    res.send({
-                      message: context,
-                    });
-                  }
-                })
-                .catch((error) => {
-                  res.status(500).send({
-                    message: "Error updating freeAttempts with id=" + userId,
-                  });
-                });
-            } else {
-              res.send({
-                message: messages.data[0].content[0].text.value,
-              });
+              );
             }
           })
           .catch((error) => {
             console.error("An error occurred:", error);
-            res.status(500).send({
-              message: "Error updating chat table.",
-            });
           });
-      } else {
-        res.send({
-          message: "You did not get from customGPT.",
-        });
-      }
+      });
     })
+
+    // .then(() => {
+    //   return chatGptUtils.createRunAssistant(threadId, assistantID);
+    // })
+    // .then((assistant_run) => {
+    //   console.log("create run assistant");
+    //   endtime = Date.now();
+    //   console.log(endtime - starttime);
+    //   starttime = Date.now();
+
+    //   const checkRunStatus = () => {
+    //     return chatGptUtils
+    //       .checkRunAssistant(assistant_run, threadId)
+    //       .then((run) => {
+    //         console.log("check run assistant");
+    //         endtime = Date.now();
+    //         console.log(endtime - starttime);
+    //         starttime = Date.now();
+
+    //         if (run.status !== "completed") {
+    //           return new Promise((resolve) => setTimeout(resolve, 1000)).then(
+    //             () => checkRunStatus()
+    //           );
+    //         }
+    //         return run;
+    //       });
+    //   };
+    //   return checkRunStatus();
+    // })
+    // .then(() => {
+    //   return chatGptUtils.displayAssistant(threadId);
+    // })
+    // .then((messages) => {
+    //   console.log("display assistant")
+    //   endtime = Date.now();
+    //   console.log(endtime - starttime);
+    //   starttime = Date.now();
+
+    //   if (messages.data[0].role === "assistant") {
+    //     context = messages.data[0].content[0].text.value;
+    //     chatHistory
+    //       .insertChat(userId, createId, "assistant", context)
+    //       .then(() => {
+    //         if (freeAttempts > 0) {
+    //           User.update(
+    //             {
+    //               freeAttempts: freeAttempts - 1,
+    //             },
+    //             {
+    //               where: { id: userId },
+    //             }
+    //           )
+    //             .then((num) => {
+    //               if (num == 1) {
+    //                 res.send({
+    //                   message: context,
+    //                 });
+    //               }
+    //             })
+    //             .catch((error) => {
+    //               res.status(500).send({
+    //                 message: "Error updating freeAttempts with id=" + userId,
+    //               });
+    //             });
+    //         } else {
+    //           res.send({
+    //             message: messages.data[0].content[0].text.value,
+    //           });
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.error("An error occurred:", error);
+    //         res.status(500).send({
+    //           message: "Error updating chat table.",
+    //         });
+    //       });
+    //   } else {
+    //     res.send({
+    //       message: "You did not get from customGPT.",
+    //     });
+    //   }
+    // })
     .catch((error) => {
       console.error("An error occurred:", error);
       res.status(500).send({ message: "OpenAI Error!!!" });
