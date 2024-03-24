@@ -17,10 +17,16 @@ exports.getResponseFromGpt = (req, res) => {
 
   let fullMessage = "";
 
-  starttime = Date.now();
+  let endtime = Date.now();
+  let starttime = Date.now();
+
   chatGptUtils
     .addNewMessage(userMessage, threadId)
     .then((message) => {
+      console.log("display assistant");
+      endtime = Date.now();
+      console.log(endtime - starttime);
+      starttime = Date.now();
       chatHistory
         .insertChat(userId, createId, "user", userMessage)
         .catch((error) => {
@@ -31,6 +37,10 @@ exports.getResponseFromGpt = (req, res) => {
         });
     })
     .then(() => {
+      console.log("display assistant");
+      endtime = Date.now();
+      console.log(endtime - starttime);
+      starttime = Date.now();
       res.setHeader("Content-Type", "text/event-stream");
       res.setHeader("Cache-Control", "no-cache");
       res.setHeader("Connection", "keep-alive");
