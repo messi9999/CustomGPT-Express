@@ -50,6 +50,7 @@ exports.getResponseFromGpt = (req, res) => {
           .createAndStream(threadId, { assistant_id: assistantID })
           .on("textDelta", (textDelta, snapshot) => {
             fullMessage += textDelta.value;
+            console.log(textDelta.value)
             res.write(textDelta.value);
           })
           .on("error", (error) => {
