@@ -1,12 +1,11 @@
 const chatGptUtils = require("../utils/chatgpt.utils");
 const chatHistory = require("../utils/chat.history");
 const db = require("../models");
-const config = require("../config/auth.config");
 const User = db.user;
-const Role = db.role;
 const Chat = db.chat;
 
-const Op = db.Sequelize.Op;
+let starttime = Date.now();
+let endtime = Date.now();
 
 exports.getResponseFromGpt = (req, res) => {
   const userMessage = req.body.message;
@@ -16,9 +15,15 @@ exports.getResponseFromGpt = (req, res) => {
   const userId = req.body.userId;
   const createId = req.body.createId;
 
+  starttime = Date.now();
   chatGptUtils
     .addNewMessage(userMessage, threadId)
     .then((message) => {
+      console.log("add message.........");
+      endtime = Date.now();
+      console.log(endtime - starttime);
+      starttime = Date.now();
+
       chatHistory
         .insertChat(userId, createId, "user", userMessage)
         .catch((error) => {
@@ -32,12 +37,22 @@ exports.getResponseFromGpt = (req, res) => {
       return chatGptUtils.createRunAssistant(threadId, assistantID);
     })
     .then((assistant_run) => {
+      console.log("create run assistant");
+      endtime = Date.now();
+      console.log(endtime - starttime);
+      starttime = Date.now();
+
       const checkRunStatus = () => {
         return chatGptUtils
           .checkRunAssistant(assistant_run, threadId)
           .then((run) => {
+            console.log("check run assistant");
+            endtime = Date.now();
+            console.log(endtime - starttime);
+            starttime = Date.now();
+
             if (run.status !== "completed") {
-              return new Promise((resolve) => setTimeout(resolve, 1000)).then(
+              return new Promise((resolve) => setTimeout(resolve, 100)).then(
                 () => checkRunStatus()
               );
             }
@@ -50,6 +65,11 @@ exports.getResponseFromGpt = (req, res) => {
       return chatGptUtils.displayAssistant(threadId);
     })
     .then((messages) => {
+      console.log("display assistant")
+      endtime = Date.now();
+      console.log(endtime - starttime);
+      starttime = Date.now();
+
       if (messages.data[0].role === "assistant") {
         context = messages.data[0].content[0].text.value;
         chatHistory

@@ -1,7 +1,5 @@
 const openaiConfig = require("../config/openai.config");
-// const OpenAI = require("openai");
 const axios = require("axios")
-const { SocksProxyAgent } = require('socks-proxy-agent');
 
 
 const file_ids = [
@@ -141,3 +139,4 @@ exports.displayAssistant = (threadId) => {
     throw error;
   });
 };
+
