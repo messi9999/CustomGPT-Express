@@ -16,8 +16,8 @@ export default function ChatMessage(props) {
         <div className="">
           <div className="text-[20px] p-2 py-4 m-2 font-serif">
             {props.id === props.length - 1 ? (
-              // <WordByWordAnimation text={props.message.text} delay={20} />
-              <div>{props.message.text}</div>
+              <WordByWordAnimation text={props.message.text} delay={20} />
+              // <div>{props.message.text}</div>
             ) : (
               <div>{props.message.text}</div>
             )}
