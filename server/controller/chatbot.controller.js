@@ -52,7 +52,7 @@ exports.getResponseFromGpt = (req, res) => {
             starttime = Date.now();
 
             if (run.status !== "completed") {
-              return new Promise((resolve) => setTimeout(resolve, 100)).then(
+              return new Promise((resolve) => setTimeout(resolve, 1000)).then(
                 () => checkRunStatus()
               );
             }
