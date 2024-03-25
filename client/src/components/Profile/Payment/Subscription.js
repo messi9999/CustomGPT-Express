@@ -41,7 +41,7 @@ export default function Subscription() {
           onClick={() => checkout(plan, currentUser.id)}
           className="bg-sky-700 text-white w-[100px] py-1 rounded-lg"
         >
-          Subscribe
+          Start trial
         </button>
       </div>
       <div className="p-3 mt-3">
