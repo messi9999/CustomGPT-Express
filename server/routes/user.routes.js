@@ -26,5 +26,11 @@ module.exports = function (app) {
     controller.getAllUser
   )
 
+  router.put(
+    "/useravatar",
+    [authJwt.verifyToken],
+    controller.updateUser
+  )
+
   app.use("/api/test", router);
 };

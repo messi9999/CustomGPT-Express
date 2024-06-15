@@ -32,6 +32,9 @@ import AdminDashboard from "components/Profile/Admin/AdminDashboard";
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import Terms from "pages/Terms";
+import Community from "pages/Community";
+import CommunityProfile from "components/Community/CommunityProfile";
+import CommunityCom from "components/Community/CommunityCom";
 
 
 const CREATES = [
@@ -248,42 +251,51 @@ function App() {
   return (
     <div>
       <PrimeReactProvider>
-      <CreateContext.Provider value={{ CREATES, idxOfCreate, setIdxOfCreate }}>
-        <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
-          <Router>
-            <Routes>
-              <Route path="/" element={<WelcomePage />} />
-              <Route
-                element={
-                  <ProtectedRoute
-                    isAuthenticated={{ isAuthenticated, isPayment }}
-                  />
-                }
-              >
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/create" element={<Create />} />
-                <Route path="/feedback" element={<Feedback />} />
-                <Route path="/profile" element={<Profile />}>
-                  <Route path="account" element={<AccountBoard />} />
-                  <Route path="payment" element={<PaymentBoard />} />
-                  <Route path="admindashboard" element={<AdminDashboard />} />
+        <CreateContext.Provider value={{ CREATES, idxOfCreate, setIdxOfCreate }}>
+          <DisplayTextContext.Provider value={{ displayText, setDisplayText }}>
+            <Router>
+              <Routes>
+                <Route path="/" element={<WelcomePage />} />
+                <Route
+                  element={
+                    <ProtectedRoute
+                      isAuthenticated={{ isAuthenticated, isPayment }}
+                    />
+                  }
+                >
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/create" element={<Create />} />
+                  <Route path="/feedback" element={<Feedback />} />
+                  <Route path="/profile" element={<Profile />}>
+                    <Route path="account" element={<AccountBoard />} />
+                    <Route path="payment" element={<PaymentBoard />} />
+                    <Route path="admindashboard" element={<AdminDashboard />} />
+                  </Route>
+
+                  <Route path="/community" element={<Community />}>
+                    <Route path="profile" element={<CommunityProfile />} />
+                    <Route path="blogs" element={<CommunityCom />} />
+                  </Route>
                 </Route>
-              </Route>
-              <Route path="/profile/payment/success" element={<Success />} />
-              <Route path="/profile/payment/cancel" element={<Cancel />} />
-              {/* <Route
+                <Route path="/profile/payment/success" element={<Success />} />
+                <Route path="/profile/payment/cancel" element={<Cancel />} />
+                {/* <Route
                   element={
                     <ProtectLogOutRoute isAuthenticated={isAuthenticated} />
                   }
                 > */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/terms" element={<Terms />} />
-              {/* </Route> */}
-            </Routes>
-          </Router>
-        </DisplayTextContext.Provider>
-      </CreateContext.Provider>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/terms" element={<Terms />} />
+                {/* </Route> */}
+                <Route path="/community" element={<Community />}>
+                  <Route path="profile" element={<CommunityProfile />} />
+                  <Route path="blogs" element={<CommunityCom />} />
+                </Route>
+              </Routes>
+            </Router>
+          </DisplayTextContext.Provider>
+        </CreateContext.Provider>
       </PrimeReactProvider>
     </div>
   );

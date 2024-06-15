@@ -19,6 +19,11 @@ const routes = [
     icon: ProfileIcon,
   },
   {
+    to: "/community/blogs",
+    title: "Community",
+    icon: ProfileIcon,
+  },
+  {
     to: "Log out",
     title: "Log out",
     icon: LogoutIcon,

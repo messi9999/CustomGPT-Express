@@ -90,6 +90,13 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   User.findOne({
+    include: [
+      {
+        model:db.avatar,
+        as: 'avatar',
+        attributes: ['id', 'userId']
+      }
+    ],
     where: {
       email: req.body.email,
     },
@@ -98,6 +105,7 @@ exports.signin = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
+      console.log(user)
 
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
@@ -126,7 +134,8 @@ exports.signin = (req, res) => {
           subscription: user.subscription,
           roles: authorities,
           accessToken: token,
-          freeAttempts: user.freeAttempts
+          freeAttempts: user.freeAttempts,
+          avatar: user.avatar
         });
       });
     })

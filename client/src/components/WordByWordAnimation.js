@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
-import { DisplayTextContext } from "common/Context";
+import React from "react";
+// import { DisplayTextContext } from "common/Context";
 
 const WordByWordAnimation = ({ text, delay }) => {
-  const [displayedText, setDisplayedText] = useState("");
-  const [wordIndex, setWordIndex] = useState(0); // Corrected this line
-  let words = text.split(" ");
+  // const [displayedText, setDisplayedText] = useState("");
+  // const [wordIndex, setWordIndex] = useState(0); // Corrected this line
+  // let words = text.split(" ");
 
-  const { setDisplayText } = useContext(DisplayTextContext);
+  // const { setDisplayText } = useContext(DisplayTextContext);
 
   const processText = (inputText) => {
     // Function to convert URLs into anchor tags
