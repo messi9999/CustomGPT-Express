@@ -4,11 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
-    "@dhaiwat10/react-link-preview": "^1.15.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@files-ui/react": "^1.2.4",
-    "@microlink/react": "^5.5.18",
     "@mui/material": "^5.15.20",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",

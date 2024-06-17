@@ -11,8 +11,6 @@ import AuthService from "services/auth.service";
 import axios from "axios";
 import Comment from "./Comment";
 import ThreeDotDropDown from "./ThreeDotDropDown";
-import { LinkPreview } from "@dhaiwat10/react-link-preview";
-
 
 
 export default function Blog({ post, deletePost }) {
@@ -23,7 +21,7 @@ export default function Blog({ post, deletePost }) {
   const [content, setContent] = useState('');
   const [originContent, setOriginContent] = useState(post.content)
   const [currentContent, setCurrentContent] = useState('')
-  const [urls, setUrls] = useState([]);
+  // const [urls, setUrls] = useState([]);
   const [editable, setEditable] = useState(false)
 
 
@@ -36,7 +34,7 @@ export default function Blog({ post, deletePost }) {
   useEffect(() => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-    setUrls(originContent.match(urlRegex));
+    // setUrls(originContent.match(urlRegex));
 
     setContent(originContent.replace(urlRegex, url => `<a href="${url}" target="_blank" className="text-[blue] underline hover:text-[#e0897a]">${url}</a>`));
   }, [originContent])
@@ -119,9 +117,7 @@ export default function Blog({ post, deletePost }) {
         {
           headers: header,
         }).then((res) => {
-          console.log(res)
           setIsComment(false)
-          // window.location.reload();
           setNumOfLikes(prevState => prevState + 1)
           setIsLiked(true)
         })
@@ -131,9 +127,7 @@ export default function Blog({ post, deletePost }) {
         {
           headers: header,
         }).then((res) => {
-          console.log(res)
           setIsComment(false)
-          // window.location.reload();
           setNumOfLikes(prevState => prevState - 1)
           setIsLiked(false)
         })
@@ -225,26 +219,13 @@ export default function Blog({ post, deletePost }) {
             <div className="cursor-pointer bg-orange-600 text-white px-2 py-1 rounded-lg" onClick={() => setEditable(false)}>Cancel</div>
           </div>
         </div>}
-        {/* <textarea className="text-sm sm:text-sm text-start w-full mb-1 px-3">{parser(content)}</textarea> */}
-        {/* <textarea
-          value={blogContent}
-          style={{height: '50px', overflow: 'hidden'}}
-          className='w-full focus:outline-none ps-2'
-          onChange={(e) => {
-            setBlogContent(e.target.value);
-            e.target.style.height = 'inherit';
-            e.target.style.height = `${e.target.scrollHeight}px`;
-          }}
-          placeholder='Write the content of post here'
-        /> */}
-        {urls && <div>
+        {/* {urls && <div>
           {
             urls.map((url, index) => (
               <div className='p-4 w-full' key={index}><LinkPreview url={url} /></div>
             ))
-            // urls.map(url => <LinkPreview url={url} />)
           }
-        </div>}
+        </div>} */}
         {
           post.image && (
             <>
