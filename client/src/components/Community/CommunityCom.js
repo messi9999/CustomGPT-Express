@@ -8,7 +8,7 @@ import CreateBlog from 'components/Community/CreateBlog';
 export default function CommunityCom() {
   const [posts, setPosts] = useState([])
   const [showNewPost, setShowNewPost] = useState(false)
-  const [numberOfBlog, setNumberOfBlog] = useState(6);
+  const [numberOfBlog, setNumberOfBlog] = useState(0);
 
   const [blogShowNumLimit, setBlogShowNumLimit] = useState(5);
 
@@ -28,10 +28,19 @@ export default function CommunityCom() {
   }
 
   useEffect(() => {
+    console.log(numberOfBlog)
+    console.log(blogShowNumLimit)
     axios.get(`${BASEURL}/api/community/post/all`, {
       headers: header,
+      params: {
+        limit: 5,
+        offset: 0
+      }
+      
     }).then((res) => {
       setPosts(res.data.posts)
+      setNumberOfBlog(res.data.posts.length)
+      setBlogShowNumLimit(prev => prev + 5)
     }).catch((err) => {
       alert(err)
     })
@@ -40,6 +49,21 @@ export default function CommunityCom() {
 
   const handleOnShowMore = () => {
     setBlogShowNumLimit(prev => prev + 5)
+    axios.get(`${BASEURL}/api/community/post/all`, {
+      headers: header,
+      params: {
+        limit: 5,
+        offset: numberOfBlog
+      }
+      
+    }).then((res) => {
+      console.log(res.data.posts)
+      const updatedArr = res.data.posts
+      setPosts(prev => [...prev, ...updatedArr])
+      setNumberOfBlog(prev => prev + res.data.posts.length)
+    }).catch((err) => {
+      alert(err)
+    })
   }
 
   return (
@@ -56,7 +80,7 @@ export default function CommunityCom() {
               <Blog post={post} deletePost={() => deletePost(index)} />
             </div>
           ))}
-          {numberOfBlog > blogShowNumLimit && <div className='rounded-xl bg-white border border-solid px-3 py-1 text-center cursor-pointer hover:bg-[#999999]' onClick={handleOnShowMore}>
+          {numberOfBlog === blogShowNumLimit - 5 && <div className='rounded-xl bg-white border border-solid px-3 py-1 text-center cursor-pointer hover:bg-[#999999]' onClick={handleOnShowMore}>
             Show more blogs
           </div>}
         </div>

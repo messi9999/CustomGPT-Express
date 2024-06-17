@@ -15,6 +15,10 @@ const Avatar = db.avatar
 
 
 exports.getAllPosts = (req, res) => {
+    const limit = req.query.limit
+    const offset = req.query.offset
+    console.log("limit: ", limit)
+    console.log("offset: ", offset)
     Post.findAll({
         include: [
             {
@@ -47,7 +51,9 @@ exports.getAllPosts = (req, res) => {
                 ]
             }
         ],
-        limit: 20
+        limit: limit,
+        offset: offset,
+        order: [['id', 'DESC']]
     }).then((posts) => {
         return res.status(200).send({ posts: posts })
     }).catch((err) => {
@@ -223,8 +229,7 @@ exports.deletePostLike = (req, res) => {
 
 
 exports.getCommentsByPost = (req, res) => {
-    const postId = req.body.postId
-    console.log(postId)
+    const postId = req.params.postId
 
     Comment.findAll({
         where: {
@@ -247,9 +252,9 @@ exports.getCommentsByPost = (req, res) => {
             as: 'commentLikes',
             attributes: ['id', 'commentId', 'userId']
         }
-    ]
+    ],
+    order: [['id', 'ASC']]
     }).then((comments) => {
-        console.log(comments)
         return res.status(200).send({ comments: comments })
         // post.getComments().then((comments) => {
         //     return res.status(200).send({ comments: comments })
@@ -261,6 +266,7 @@ exports.getCommentsByPost = (req, res) => {
         return res.status(500).send({ message: err.message });
     })
 }
+
 
 exports.createComment = (req, res) => {
     let token = req.headers["x-access-token"];
@@ -277,6 +283,70 @@ exports.createComment = (req, res) => {
         return res.status(500).send({ message: err.message });
     })
 }
+
+exports.updateComment = (req, res) => {
+    let token = req.headers["x-access-token"];
+    const userId = decodeToken.getUserIdFromToken(token)
+    const postId = req.body.postId
+
+    Comment.create({
+        postId: postId,
+        userId: userId,
+        text: req.body.text
+    }).then((comment) => {
+        return res.status(200).send({ comment: comment })
+    }).catch((err) => {
+        return res.status(500).send({ message: err.message });
+    })
+}
+
+exports.deleteComment = (req, res) => {
+    let token = req.headers["x-access-token"];
+    const userId = decodeToken.getUserIdFromToken(token)
+    const postId = req.body.postId
+
+    Comment.create({
+        postId: postId,
+        userId: userId,
+        text: req.body.text
+    }).then((comment) => {
+        return res.status(200).send({ comment: comment })
+    }).catch((err) => {
+        return res.status(500).send({ message: err.message });
+    })
+}
+
+
+exports.createCommentLike = (req, res) => {
+    let token = req.headers["x-access-token"];
+    const userId = decodeToken.getUserIdFromToken(token)
+
+    CommentLike.create(({
+        userId: userId,
+        commentId: req.body.commentId,
+    })).then((commentLike) => {
+        return res.status(200).send({ commentLike: commentLike })
+    }).catch((err) => {
+        return res.status(500).send({ message: err.message });
+    })
+}
+
+exports.deleteCommentLike = (req, res) => {
+    let token = req.headers["x-access-token"];
+    const userId = decodeToken.getUserIdFromToken(token)
+
+    CommentLike.destroy({
+        where: {
+            userId: userId,
+            commentId: req.params.commentId,
+        }
+    }).then((deletedRecordsCount) => {
+        return res.status(200).send({ deletedRecordsCount: deletedRecordsCount })
+    }).catch((err) => {
+        return res.status(500).send({ message: err.message });
+    })
+}
+
 
 
 

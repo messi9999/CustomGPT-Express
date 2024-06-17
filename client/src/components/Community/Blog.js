@@ -24,12 +24,15 @@ export default function Blog({ post, deletePost }) {
   // const [urls, setUrls] = useState([]);
   const [editable, setEditable] = useState(false)
 
+  let currentUser = AuthService.getCurrentUser();
+  const [isLiked, setIsLiked] = useState(post.postLikes.some(obj => obj.userId === currentUser.id))
 
   let filename = ""
   if (post.file) {
     const splited = post.file.split("/")
     filename = splited[splited.length - 1]
   }
+
 
   useEffect(() => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -39,8 +42,7 @@ export default function Blog({ post, deletePost }) {
     setContent(originContent.replace(urlRegex, url => `<a href="${url}" target="_blank" className="text-[blue] underline hover:text-[#e0897a]">${url}</a>`));
   }, [originContent])
 
-  let currentUser = AuthService.getCurrentUser();
-  const [isLiked, setIsLiked] = useState(post.postLikes.some(obj => obj.userId === currentUser.id))
+ 
 
   const header = useMemo(
     () => ({
@@ -61,9 +63,7 @@ export default function Blog({ post, deletePost }) {
     if (isComment) {
       setIsComment(false)
     } else {
-      axios.post(`${BASEURL}/api/community/comment/byPost`, {
-        postId: post.id,
-      },
+      axios.get(`${BASEURL}/api/community/comment/byPost/${post.id}`,
         {
           headers: header,
         }).then((res) => {
@@ -177,27 +177,35 @@ export default function Blog({ post, deletePost }) {
       {/* <div className="flex justify-end mx-4 border-b mb-4 py-1">
             </div> */}
       <div className="py-2 mx-3 flex justify-between border-b">
-        {
-          post.user.avatar ? (
-            <>
-              <img
-                src={`${BASEURL}/${post.user.avatar.uri}`}
-                width={40}
-                height={40}
-                className="rounded-full"
-                alt=""
-              />
-            </>
+        <div className="flex flex-row items-center gap-3 text-sm">
+          {
+            post.user.avatar ? (
+              <>
+                <img
+                  src={`${BASEURL}/${post.user.avatar.uri}`}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                  alt=""
+                />
+              </>
+            ) : (
+              <>
+                <AvatarIcon
+                  className="hover:cursor-pointer"
+                  width="40"
+                  height="40"
+                />
+              </>
+            )
+          }
+          <label>{post.user.avatar ? (
+            <label>{post.user.avatar.firstname} {post.user.avatar.lastname}</label>
           ) : (
-            <>
-              <AvatarIcon
-                className="hover:cursor-pointer"
-                width="40"
-                height="40"
-              />
-            </>
-          )
-        }
+            <label>{post.user.username}</label>
+          )}</label>
+        </div>
+
         <div className="rounded-full hover:bg-gray-200 w-fit h-fit">
           <ThreeDotDropDown
             onEdit={onEdit}
@@ -243,7 +251,7 @@ export default function Blog({ post, deletePost }) {
         </div>
         <div>
           <label className="text-xs">
-            {comments.length}  comments
+            {post.comments.length}  comments
           </label>
         </div>
       </div>
