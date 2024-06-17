@@ -63,23 +63,23 @@ const Role = db.role;
 
 
 /////////////// 3. Community sync
-const Post = db.post
-const Avatar = db.avatar
-const Comment = db.comment
-const PostLike = db.postLike
-const CommentLike = db.commentLike
+// const Post = db.post
+// const Avatar = db.avatar
+// const Comment = db.comment
+// const PostLike = db.postLike
+// const CommentLike = db.commentLike
 
-try {
-  db.post.sync()
-  .then(() => db.comment.sync())
-  .then(() => db.avatar.sync())
-  .then(() => db.postLike.sync())
-  .then(() => db.commentLike.sync())
+// try {
+//   db.post.sync()
+//   .then(() => db.comment.sync())
+//   .then(() => db.avatar.sync())
+//   .then(() => db.postLike.sync())
+//   .then(() => db.commentLike.sync())
   
-} catch (error) {
-  console.error('Error:', error)
-}
-db.sequelize.sync();
+// } catch (error) {
+//   console.error('Error:', error)
+// }
+// db.sequelize.sync();
 
 
 
@@ -87,29 +87,31 @@ db.sequelize.sync();
 // const chatGptUtils = require("./server/utils/chatgpt.utils")
 // chatGptUtils.updatedAssistant()
 
-function ensureDirSync (dirpath) {
-  try {
-      fs.mkdirSync(dirpath, { recursive: true });
-  } catch (err) {
-      if (err.code !== 'EEXIST') throw err
-  }
-}
 
-// Usage
-ensureDirSync(path.join(__dirname, '/server/storage'));
-ensureDirSync(path.join(__dirname, '/server/storage/community'));
-ensureDirSync(path.join(__dirname, '/server/storage/community/files'));
-ensureDirSync(path.join(__dirname, '/server/storage/community/images'));
-ensureDirSync(path.join(__dirname, '/server/storage/user'));
-ensureDirSync(path.join(__dirname, '/server/storage/user/avatar'));
+/////////////////////// Folder maker
+// function ensureDirSync (dirpath) {
+//   try {
+//       fs.mkdirSync(dirpath, { recursive: true });
+//   } catch (err) {
+//       if (err.code !== 'EEXIST') throw err
+//   }
+// }
+
+// // Usage
+// ensureDirSync(path.join(__dirname, '/server/storage'));
+// ensureDirSync(path.join(__dirname, '/server/storage/community'));
+// ensureDirSync(path.join(__dirname, '/server/storage/community/files'));
+// ensureDirSync(path.join(__dirname, '/server/storage/community/images'));
+// ensureDirSync(path.join(__dirname, '/server/storage/user'));
+// ensureDirSync(path.join(__dirname, '/server/storage/user/avatar'));
 
 
-require("./server/routes/chatbot.routes")(app);
-require("./server/routes/auth.routes")(app);
-require("./server/routes/user.routes")(app);
-require("./server/routes/discover.routes")(app);
-require("./server/routes/payment.routes")(app);
-require("./server/routes/community.routes")(app);
+// require("./server/routes/chatbot.routes")(app);
+// require("./server/routes/auth.routes")(app);
+// require("./server/routes/user.routes")(app);
+// require("./server/routes/discover.routes")(app);
+// require("./server/routes/payment.routes")(app);
+// require("./server/routes/community.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 
