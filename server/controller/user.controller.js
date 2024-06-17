@@ -1,6 +1,7 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
+const Avatar = db.avatar
 var jwt = require("jsonwebtoken");
 const decodeToken = require("../utils/decodeToken")
 const path = require('path');
@@ -48,8 +49,8 @@ exports.userBoard = (req, res) => {
 
 exports.adminBoard = (req, res) => {
   User.count().then((count) => {
-    res.status(200).send({userCount: count});
-  }).catch((error) => {res.status(500).send(error)})
+    res.status(200).send({ userCount: count });
+  }).catch((error) => { res.status(500).send(error) })
 };
 
 exports.getAllUser = (req, res) => {
@@ -62,36 +63,86 @@ exports.getAllUser = (req, res) => {
   })
 }
 
-exports.updateUser = (req, res) => {
+exports.createUserAvatar = (req, res) => {
   let token = req.headers["x-access-token"];
   const userId = decodeToken.getUserIdFromToken(token)
   let filePath = ""
-  let avatardFile = null
+  let avatarFile = null
 
   if (req.files) {
     if (req.files.avatar) {
-        const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
-        avatardFile = req.files.file;
-        filePath = "server/storage/user/avatar/" + fileName
-        avatardFile.mv(filePath)
+      const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
+      avatarFile = req.files.avatar;
+      filePath = "server/storage/user/avatar/" + fileName
+      avatarFile.mv(filePath)
     }
-}
+  }
 
-  User.update({
-    where: {
-      id: userId
-    },
-  }, {
+  Avatar.create({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
-    uri: avatardFile ? filePath : null
-  }).then((user) => {
-    console.log(user)
-    res.status(200).send(user)
+    uri: avatarFile ? filePath : null,
+    userId: userId
+  },
+  ).then((avatar) => {
+    console.log("user: ", avatar)
+    res.status(200).send({
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      uri: avatarFile ? filePath : null,
+      userId: userId
+    })
   }).catch(error => {
+    console.log(error)
     res.status(500).send({
       message: error.message || "Some error occurred while retrieving users."
     })
   })
+}
+
+exports.updateUserAvatar = (req, res) => {
+  let token = req.headers["x-access-token"];
+  const userId = decodeToken.getUserIdFromToken(token)
+  let filePath = ""
+  let avatarFile = null
+  if (req.files) {
+    if (req.files.avatar) {
+      const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
+      avatarFile = req.files.avatar;
+      filePath = "server/storage/user/avatar/" + fileName
+      avatarFile.mv(filePath)
+    } 
+  }
+
+  Avatar.update({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    uri: avatarFile ? filePath : req.body.uri,
+    userId: userId
+  },
+    {
+      where: {
+        id: userId
+      }
+    },).then((avatar) => {
+      // try {
+      //   fs.unlinkSync(avatarFile);
+      //   console.log('File deleted successfully');
+      // } catch (err) {
+      //   console.error('There was an error deleting the file:', err);
+      // }
+      res.status(200).send({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        uri: avatarFile ? filePath : null,
+        userId: userId
+      })
+    }).catch(error => {
+      console.log(error)
+      res.status(500).send({
+        message: error.message || "Some error occurred while retrieving users."
+      })
+    })
 }

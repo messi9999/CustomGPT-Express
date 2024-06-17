@@ -6,18 +6,11 @@ import { BASEURL } from "../../config/config";
 import axios from 'axios'
 import AuthService from 'services/auth.service';
 import CreateBlog from 'components/Community/CreateBlog';
-import { useNavigate } from 'react-router-dom';
-import { Outlet, useLocation } from "react-router-dom";
-
-import { ReactComponent as AvatarIcon } from "assets/icons/avatar.svg";
-import Sidebar from 'components/Community/Sidebar';
-
 
 export default function CommunityCom() {
   const [posts, setPosts] = useState([])
   const [showNewPost, setShowNewPost] = useState(false)
   const [numberOfBlog, setNumberOfBlog] = useState(6);
-  const navigate = useNavigate();
 
   let currentUser = AuthService.getCurrentUser();
 
@@ -28,20 +21,27 @@ export default function CommunityCom() {
     [currentUser.accessToken]
   );
 
+  const deletePost = (index) => {
+    let data = posts;
+    data.splice(index, 1);
+    setPosts([...data]);
+  }
+
 
   useEffect(() => {
     axios.get(`${BASEURL}/api/community/post/all`, {
       headers: header,
     }).then((res) => {
       setPosts(res.data.posts)
+      console.log(res.data.posts)
     }).catch((err) => {
       alert(err)
     })
-  }, [])
+  }, [header])
 
-  const toggleShowNewPost = () => {
-    setShowNewPost(prevState => !prevState)
-  }
+  // const toggleShowNewPost = () => {
+  //   setShowNewPost(prevState => !prevState)
+  // }
 
   return (
     <>
@@ -55,10 +55,10 @@ export default function CommunityCom() {
           </div>
           {posts.map((post, index) => (
             <div key={index}>
-              <Blog post={post} />
+              <Blog post={post} deletePost={() => deletePost(index)} />
             </div>
           ))}
-          {numberOfBlog > 5 && <div className='rounded-xl bg-white border border-solid px-3 py-1 text-center cursor-pointer hover:bg-[#999999]'>
+          {numberOfBlog > 5 && <div className='rounded-xl bg-white border border-solid px-3 py-1 text-center cursor-pointer hover:bg-[#999999]' onClick={() => setNumberOfBlog(prevalue => prevalue + 5)}>
             Show more blogs
           </div>}
         </div>

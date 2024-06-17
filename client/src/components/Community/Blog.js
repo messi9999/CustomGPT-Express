@@ -4,27 +4,22 @@ import { BASEURL } from "../../config/config";
 import { ReactComponent as LilkeIcon } from "assets/icons/like.svg";
 import { ReactComponent as CommentIcon } from "assets/icons/comment.svg";
 import { ReactComponent as FileIcon } from "assets/icons/file.svg";
-// import { ReactComponent as ThreeDotIcon } from "assets/icons/threedot.svg";
-// import { ReactComponent as ThreeDotColIcon } from "assets/icons/threedot-col.svg";
 import { ReactComponent as AvatarIcon } from "assets/icons/avatar.svg";
 import { ReactComponent as LoveLikeIcon } from "assets/icons/love-like.svg";
 import { ReactComponent as PostSendIcon } from "assets/icons/postsend.svg";
 import AuthService from "services/auth.service";
 import axios from "axios";
 import Comment from "./Comment";
-import Profile from "pages/Profile";
 import ThreeDotDropDown from "./ThreeDotDropDown";
 import { LinkPreview } from "@dhaiwat10/react-link-preview";
 
-const svgStyle = {
-  fill: "red"
-};
 
-export default function Blog({ post }) {
+
+export default function Blog({ post, deletePost }) {
   const [isComment, setIsComment] = useState(false)
   const [comment, setComment] = useState("")
   const [numOfLikes, setNumOfLikes] = useState(post.postLikes.length)
-  const [comments, setComments] = useState(post.comments)
+  const [comments, setComments] = useState([])
   const [content, setContent] = useState('');
   const [originContent, setOriginContent] = useState(post.content)
   const [currentContent, setCurrentContent] = useState('')
@@ -32,7 +27,6 @@ export default function Blog({ post }) {
   const [editable, setEditable] = useState(false)
 
 
-  let temp_content;
   let filename = ""
   if (post.file) {
     const splited = post.file.split("/")
@@ -66,7 +60,24 @@ export default function Blog({ post }) {
   };
 
   const handleOnComment = () => {
-    setIsComment(!isComment)
+    if (isComment) {
+      setIsComment(false)
+    } else {
+      axios.post(`${BASEURL}/api/community/comment/byPost`, {
+        postId: post.id,
+      },
+        {
+          headers: header,
+        }).then((res) => {
+          setIsComment(true)
+          console.log(res.data)
+          setComments(res.data.comments)
+          setComment("")
+
+        }).catch((err) => {
+          console.log(err)
+        })
+    }
   }
 
   const handleOnCommentChange = (e) => {
@@ -86,8 +97,6 @@ export default function Blog({ post }) {
       }).then((res) => {
         console.log(res.data)
         setIsComment(false)
-        // window.location.reload();
-        // setNumOfLikes(numOfLikes + 1)
         setComments(prevArray => [...prevArray, {
           id: 0,
           postId: post.id,
@@ -100,6 +109,7 @@ export default function Blog({ post }) {
         console.log(err)
       })
   }
+
   const handleOnLike = () => {
     if (!isLiked) {
 
@@ -132,15 +142,40 @@ export default function Blog({ post }) {
   }
 
   const onEdit = () => {
-    // if(post.userId === currentUser.id) {
-    //   console.log("first")
-    // }
-    setEditable(true)
-    setCurrentContent(originContent)
+    if (post.userId === currentUser.id) {
+      setEditable(true)
+      setCurrentContent(originContent)
+    }
+  }
+
+  const handleOnEditSave = () => {
+    axios.put(`${BASEURL}/api/community/post/create`, {
+      content: currentContent,
+      postId: post.id
+    },
+      {
+        headers: header,
+      }).then((res) => {
+        console.log(res.data)
+      }).catch((err) => {
+        console.log(err)
+      })
   }
 
   const onDelete = () => {
-
+    if (post.userId === currentUser.id) {
+      axios.delete(`${BASEURL}/api/community/post/create/${post.id}`,
+        {
+          headers: header,
+        }).then((res) => {
+          deletePost();
+          alert("Successfully deleted!");
+        }).catch((err) => {
+          console.log(err);
+        })
+    } else {
+      alert("This is not your blog. Can't delete it.")
+    }
   }
 
   return (
@@ -148,7 +183,27 @@ export default function Blog({ post }) {
       {/* <div className="flex justify-end mx-4 border-b mb-4 py-1">
             </div> */}
       <div className="py-2 mx-3 flex justify-between border-b">
-        <AvatarIcon width="40" height="40" />
+        {
+          post.user.avatar ? (
+            <>
+              <img
+                src={`${BASEURL}/${post.user.avatar.uri}`}
+                width={40}
+                height={40}
+                className="rounded-full"
+                alt=""
+              />
+            </>
+          ) : (
+            <>
+              <AvatarIcon
+                className="hover:cursor-pointer"
+                width="40"
+                height="40"
+              />
+            </>
+          )
+        }
         <div className="rounded-full hover:bg-gray-200 w-fit h-fit">
           <ThreeDotDropDown
             onEdit={onEdit}
@@ -159,12 +214,13 @@ export default function Blog({ post }) {
       <div className=" flex flex-col items-center mt-3">
         <h1 className='text-center w-full text-lg sm:text-lg font-oswald max-w-[600px] mb-1 px-2'>{post.title}</h1>
         {!editable && <div className='text-sm sm:text-sm text-start w-full mb-1 px-3'>{parser(content)}</div>}
-        {editable && <div className="flex flex-col w-full gap-4 px-2 py-2">
-          <textarea className="form-control w-full h-[300px] border border-solid" onChange={(e) => setCurrentContent(e.target.value)}>{originContent}</textarea>
+        {editable && <div className="flex flex-col w-full gap-4 px-2 py-2 text-sm sm:text-sm text-start">
+          <textarea className="form-control w-full h-[300px] border border-solid" onChange={(e) => setCurrentContent(e.target.value)} defaultValue={originContent} />
           <div className="flex gap-4 justify-center">
             <div className="cursor-pointer bg-green-600 text-white px-2 py-1 rounded-lg" onClick={() => {
               setEditable(false);
               setOriginContent(currentContent);
+              handleOnEditSave()
             }}>Save</div>
             <div className="cursor-pointer bg-orange-600 text-white px-2 py-1 rounded-lg" onClick={() => setEditable(false)}>Cancel</div>
           </div>
@@ -192,7 +248,7 @@ export default function Blog({ post }) {
         {
           post.image && (
             <>
-              <img src={imageUrl} alt="Blog Image Post" />
+              <img src={imageUrl} alt="" />
             </>
           )
         }
@@ -244,7 +300,27 @@ export default function Blog({ post }) {
               ))
             }
             <div className='flex flex-row gap-3 mt-6 mb-4'>
-              <div><AvatarIcon width="30" height="30" /></div>
+              <div>{
+                currentUser.avatar ? (
+                  <>
+                    <img
+                      src={`${BASEURL}/${currentUser.avatar.uri}`}
+                      width={30}
+                      height={30}
+                      className="rounded-full"
+                      alt=""
+                    />
+                  </>
+                ) : (
+                  <>
+                    <AvatarIcon
+                      className="hover:cursor-pointer"
+                      width="30"
+                      height="30"
+                    />
+                  </>
+                )
+              }</div>
               <textarea value={comment} onInput={handleOnCommentChange} style={{ height: '36px', overflow: 'hidden', resize: 'none' }} className="border text-sm w-full px-4 pt-2 rounded-[17px]" placeholder="Add a comment..." />
             </div>
             <div className="flex justify-end">

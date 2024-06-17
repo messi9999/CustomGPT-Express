@@ -26,10 +26,15 @@ module.exports = function (app) {
     controller.getAllUser
   )
 
+  router.post(
+    "/useravatar",
+    [authJwt.verifyToken],
+    controller.createUserAvatar
+  )
   router.put(
     "/useravatar",
     [authJwt.verifyToken],
-    controller.updateUser
+    controller.updateUserAvatar
   )
 
   app.use("/api/test", router);

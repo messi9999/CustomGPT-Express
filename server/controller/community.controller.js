@@ -33,6 +33,18 @@ exports.getAllPosts = (req, res) => {
                         attributes: ['id', 'commentId', 'userId']
                     }
                 ]
+            },
+            {
+                model: db.user,
+                as: 'user',
+                attributes: ['id', 'username'],
+                include: [
+                    {
+                        model: db.avatar,
+                        as: 'avatar',
+                        attributes: ['id', 'uri', 'firstname', 'lastname']
+                    }
+                ]
             }
         ],
         limit: 20
@@ -117,29 +129,27 @@ exports.updatePost = (req, res) => {
     let uploadedFile = null
     let uploadedImage = null
 
-    if (req.files) {
-        if (req.files.file) {
-            const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-            const fileName = fileUniqueSuffix + '-' + req.files.file.name.replace(/\s+/g, '')
-            uploadedFile = req.files.file;
-            filePath = "server/storage/community/files/" + fileName
-            uploadedFile.mv(filePath)
-        }
-        if (req.files.image) {
-            const imageUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-            const imageName = imageUniqueSuffix + '-' + req.files.image.name.replace(/\s+/g, '')
-            uploadedImage = req.files.image;
-            imagePath = "server/storage/community/images/" + imageName
-            uploadedImage.mv(imagePath)
-        }
-    }
-
+    // if (req.files) {
+    //     if (req.files.file) {
+    //         const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    //         const fileName = fileUniqueSuffix + '-' + req.files.file.name.replace(/\s+/g, '')
+    //         uploadedFile = req.files.file;
+    //         filePath = "server/storage/community/files/" + fileName
+    //         uploadedFile.mv(filePath)
+    //     }
+    //     if (req.files.image) {
+    //         const imageUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    //         const imageName = imageUniqueSuffix + '-' + req.files.image.name.replace(/\s+/g, '')
+    //         uploadedImage = req.files.image;
+    //         imagePath = "server/storage/community/images/" + imageName
+    //         uploadedImage.mv(imagePath)
+    //     }
+    // }
     Post.update({
-        userId: userId,
-        title: req.body.title,
+        // title: req.body.title,
         content: req.body.content,
-        image: uploadedImage ? imagePath : null,
-        file: uploadedFile ? filePath : null,
+        // image: uploadedImage ? imagePath : null,
+        // file: uploadedFile ? filePath : null,
     }, {
         where: {
             id: req.body.postId
@@ -147,35 +157,37 @@ exports.updatePost = (req, res) => {
         
     }).then((post) => {
 
-        try {
-            fs.unlinkSync(imagePath);
-            console.log('File deleted successfully');
-        } catch (err) {
-            console.error('There was an error deleting the file:', err);
-        }
-        try {
-            fs.unlinkSync(filePath);
-            console.log('File deleted successfully');
-        } catch (err) {
-            console.error('There was an error deleting the file:', err);
-        }
+        // try {
+        //     fs.unlinkSync(imagePath);
+        //     console.log('File deleted successfully');
+        // } catch (err) {
+        //     console.error('There was an error deleting the file:', err);
+        // }
+        // try {
+        //     fs.unlinkSync(filePath);
+        //     console.log('File deleted successfully');
+        // } catch (err) {
+        //     console.error('There was an error deleting the file:', err);
+        // }
 
         return res.status(200).send({ post: post })
     }).catch((err) => {
+        console.log(err)
         return res.status(500).send({ message: err.message });
     })
+}
 
-    // Post.create({
-    //     userId: userId,
-    //     title: req.body.title,
-    //     content: req.body.content,
-    //     image: uploadedImage ? imagePath : null,
-    //     file: uploadedFile ? filePath : null,
-    // }).then((post) => {
-    //     return res.status(200).send({ post: post })
-    // }).catch((err) => {
-    //     return res.status(500).send({ message: err.message });
-    // })
+exports.deletePost = (req, res) => {
+    Post.destroy({
+        where: {
+            id: req.params.postId,
+        }
+    }).then(() => {
+        return res.status(200).send({ result: true })
+    }).catch((err) => {
+        console.log(err)
+        return res.status(500).send({ message: err.message });
+    })
 }
 
 
@@ -212,17 +224,40 @@ exports.deletePostLike = (req, res) => {
 
 exports.getCommentsByPost = (req, res) => {
     const postId = req.body.postId
-    Post.findOne({
+    console.log(postId)
+
+    Comment.findAll({
         where: {
-            id: postId,
+            postId: postId,
         },
-    }).then((post) => {
-        post.getComments().then((comments) => {
-            return res.status(200).send({ comments: comments })
-        }).catch((err) => {
-            return res.status(500).send({ message: err.message });
-        })
+        include: [{
+            model: db.user,
+            as: 'user',
+            attributes: ['id', 'username'],
+            include: [
+                {
+                    model: db.avatar,
+                    as: 'avatar',
+                    attributes: ['id', 'uri', 'firstname', 'lastname']
+                }
+            ]
+        },
+        {
+            model: db.commentLike,
+            as: 'commentLikes',
+            attributes: ['id', 'commentId', 'userId']
+        }
+    ]
+    }).then((comments) => {
+        console.log(comments)
+        return res.status(200).send({ comments: comments })
+        // post.getComments().then((comments) => {
+        //     return res.status(200).send({ comments: comments })
+        // }).catch((err) => {
+        //     return res.status(500).send({ message: err.message });
+        // })
     }).catch((err) => {
+        console.log(err)
         return res.status(500).send({ message: err.message });
     })
 }

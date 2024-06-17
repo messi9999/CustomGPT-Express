@@ -45,6 +45,9 @@ db.avatar = require("../models/community.avatar.model.js")(sequelize, Sequelize)
 db.user.hasMany(db.post, { foreignKey: "userId", as: "posts" });
 db.post.belongsTo(db.user, { foreignKey: "userId", as: "user" });
 
+db.user.hasMany(db.comment, { foreignKey: "userId", as: "comments" });
+db.comment.belongsTo(db.user, { foreignKey: "userId", as: "user" });
+
 
 db.post.hasMany(db.comment, { as: "comments" });
 db.comment.belongsTo(db.post, {

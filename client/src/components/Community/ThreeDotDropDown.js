@@ -40,12 +40,18 @@ const ThreeDotDropDown = (props) => {
       >
         <div className='flex flex-col gap-2 py-2'>
           <div
-            onClick={props.onEdit}
+            onClick={() => {
+              props.onEdit();
+              handleClose();
+            }}
             className='cursor-pointer text-[green] px-3 hover:text-[blue]'
           >Edit</div>
           <Divider />
           <div
-            onClick={props.onDelete}
+            onClick={() => {
+              props.onDelete();
+              handleClose();
+            }}
             className='cursor-pointer text-[green] px-3 hover:text-[blue]'
           >Delete</div>
         </div>

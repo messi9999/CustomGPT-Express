@@ -6,7 +6,7 @@ module.exports = function (app) {
     router.use(function (req, res, next) {
         res.header(
             "Access-Control_Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept"
+            "x-access-token, Origin, Content-Type, Accept",
         );
         next();
     });
@@ -14,8 +14,10 @@ module.exports = function (app) {
     router.get("/post/all", [authJwt.verifyToken], controller.getAllPosts);
     router.get("/post/byUser", [authJwt.verifyToken], controller.getPostsByUser);
     router.post("/post/create", [authJwt.verifyToken], controller.createPost);
+    router.put("/post/create", [authJwt.verifyToken], controller.updatePost);
+    router.delete("/post/create/:postId", [authJwt.verifyToken], controller.deletePost);
+
     router.post("/post/like/create", [authJwt.verifyToken], controller.createPostLike);
-    router.put("/post/like/create", [authJwt.verifyToken], controller.updatePost);
     router.delete("/post/like/create/:postId", [authJwt.verifyToken], controller.deletePostLike);
 
     router.post("/comment/byPost", [authJwt.verifyToken], controller.getCommentsByPost);

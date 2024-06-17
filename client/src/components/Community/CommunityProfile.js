@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import AvatarEditor from 'react-avatar-editor'
 import { Avatar } from '@files-ui/react';
-import { useNavigate } from 'react-router-dom';
 import AuthService from 'services/auth.service';
 import axios from 'axios';
 import { BASEURL } from "../../config/config";
@@ -16,12 +15,20 @@ export default function CommunityProfile() {
   const [lastName, setLastName] = useState('');
   const [imageSource, setImageSource] = useState(undefined);
   const [imageResult, setImageResult] = useState(fallBackImage);
+  const [editedImage, setEditedImage] = useState(null)
   const [isEditing, setIsEditing] = useState(false);
   const editorRef = useRef(null);
 
-  const navigate = useNavigate();
 
   let currentUser = AuthService.getCurrentUser();
+
+  useEffect(() => {
+    if(currentUser.avatar) {
+      setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
+      setFirstName(currentUser.avatar.firstname)
+      setLastName(currentUser.avatar.lastname)
+    }
+  }, [currentUser])
 
   
   const header = useMemo(
@@ -30,11 +37,6 @@ export default function CommunityProfile() {
     }),
     [currentUser.accessToken]
   );
-
-
-  // useEffect(() => {
-
-  // }, [])
 
   const onAvatarChange = (image) => {
     setImageSource(image);
@@ -46,28 +48,53 @@ export default function CommunityProfile() {
 
       const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
       fetch(canvas)
-        .then(res => res.blob())
-        .then(blob => {
-          setImageResult(window.URL.createObjectURL(blob))
-          setIsEditing(false);
-        });
+            .then(res => res.blob())
+            .then(blob => {
+                const file = new File([blob], "avatar.png", { type: "image/png" });
+                setImageResult(window.URL.createObjectURL(file));
+                setIsEditing(false);
+                setEditedImage(file)
+            });
     }
   }
 
   const handleOnSaveProfile = () => {
     const formData = new FormData();
-    formData.append('avatar', imageSource);
+    formData.append('avatar', editedImage);
     formData.append('firstname', firstName);
     formData.append('lastname', lastName);
 
-    axios.put(`${BASEURL}/api/test/useravatar`, formData,
-      {
-        headers: header,
-      }).then((res) => {
-        console.log(res.data)
-      }).catch((err) => {
-        console.log(err)
-      })
+    if (!imageSource) {
+      formData.append('uri', currentUser.avatar.uri)
+    }
+
+    if(currentUser.avatar) {
+      axios.put(`${BASEURL}/api/test/useravatar`, formData,
+        {
+          headers: header,
+        }).then((res) => {
+          currentUser.avatar = res.data
+          localStorage.setItem("user", JSON.stringify(currentUser))
+          alert("Successfully updated!!!")
+
+        }).catch((err) => {
+          console.log(err)
+        })
+    }
+
+    else {
+      axios.post(`${BASEURL}/api/test/useravatar`, formData,
+        {
+          headers: header,
+        }).then((res) => {
+          currentUser.avatar = res.data
+          localStorage.setItem("user", JSON.stringify(currentUser))
+          alert("Successfully updated!!!")
+        }).catch((err) => {
+          console.log(err)
+        })
+    }
+
   }
 
   return (
@@ -102,6 +129,7 @@ export default function CommunityProfile() {
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none'
                   onChange={(e) => { setFirstName(e.target.value) }}
+                  defaultValue={currentUser.avatar && currentUser.avatar.firstname}
                 />
               </div>
               <div className='flex items-center'>
@@ -109,6 +137,7 @@ export default function CommunityProfile() {
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none'
                   onChange={(e) => { setLastName(e.target.value) }}
+                  defaultValue={currentUser.avatar && currentUser.avatar.lastname}
                 />
               </div>
               <button 

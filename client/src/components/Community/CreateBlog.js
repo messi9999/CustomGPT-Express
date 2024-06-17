@@ -16,8 +16,6 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
   const [imgerror, setImgError] = useState("");
   const [fileerror, setFileError] = useState("");
 
-  const [fileName, setFileName] = useState("")
-
   let currentUser = AuthService.getCurrentUser();
   const header = useMemo(
     () => ({

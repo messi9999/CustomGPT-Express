@@ -94,7 +94,7 @@ exports.signin = (req, res) => {
       {
         model:db.avatar,
         as: 'avatar',
-        attributes: ['id', 'userId']
+        attributes: ['id', 'userId', 'firstname', 'lastname', 'uri']
       }
     ],
     where: {
