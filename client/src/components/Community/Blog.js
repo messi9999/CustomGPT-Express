@@ -107,7 +107,6 @@ export default function Blog({ post, deletePost }) {
         console.log(res.data)
         setIsComment(false)
         setComments(prevArray => [...prevArray, {
-          id: comments[comments.length-1].id + 1,
           postId: post.id,
           text: comment,
           userId: currentUser.id,
