@@ -24,7 +24,9 @@ export default function CommunityCom() {
 
   const deletePost = (index) => {
     let data = posts;
+    console.log(data)
     data.splice(index, 1);
+    console.log(data)
     setPosts([...data]);
   }
 
@@ -35,7 +37,7 @@ export default function CommunityCom() {
         limit: 5,
         offset: 0
       }
-      
+
     }).then((res) => {
 
       setPosts(res.data.posts)
@@ -55,7 +57,7 @@ export default function CommunityCom() {
         limit: 5,
         offset: numberOfBlog
       }
-      
+
     }).then((res) => {
       console.log(res.data.posts)
       const updatedArr = res.data.posts
@@ -76,7 +78,7 @@ export default function CommunityCom() {
             </div>
           </div>
           {posts.map((post, index) => (
-            <div key={index}>
+            <div key={post.id}>
               <Blog post={post} deletePost={() => deletePost(index)} />
             </div>
           ))}

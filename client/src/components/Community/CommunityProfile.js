@@ -63,7 +63,6 @@ export default function CommunityProfile() {
 
   const handleOnSaveProfile = () => {
     if (isImgSaved) {
-
       const formData = new FormData();
       formData.append('avatar', editedImage);
       formData.append('firstname', firstName);
@@ -100,7 +99,7 @@ export default function CommunityProfile() {
           })
       }
     } else {
-      alert("Please save ")
+      alert("Please save Avatar image first!!!")
     }
 
   }
