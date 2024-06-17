@@ -28,8 +28,6 @@ export default function CommunityCom() {
   }
 
   useEffect(() => {
-    console.log(numberOfBlog)
-    console.log(blogShowNumLimit)
     axios.get(`${BASEURL}/api/community/post/all`, {
       headers: header,
       params: {
