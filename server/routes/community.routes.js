@@ -23,7 +23,7 @@ module.exports = function (app) {
     router.get("/comment/byPost/:postId", [authJwt.verifyToken], controller.getCommentsByPost);
     router.post("/comment/create", [authJwt.verifyToken], controller.createComment);
     router.put("/comment/create", [authJwt.verifyToken], controller.updateComment);
-    router.delete("/comment/create", [authJwt.verifyToken], controller.deleteComment);
+    router.delete("/comment/create/:commentId", [authJwt.verifyToken], controller.deleteComment);
 
     router.post("/comment/like/create", [authJwt.verifyToken], controller.createCommentLike);
     router.delete("/comment/like/create/:commentId", [authJwt.verifyToken], controller.deleteCommentLike);

@@ -35,7 +35,7 @@ function SidebarItem({ to, icon, children }) {
   const { pathname } = useLocation();
 
   const classes =
-    "mb-1 flex h-20 w-20 flex-col items-center justify-center rounded-xl text-neutral-900 hover:bg-neutral-300 hover:text-neutral-600 active:bg-neutral-200 active:text-neutral-900-tap cursor-pointer";
+    "mb-1 flex h-20 w-20 text-sm flex-col items-center justify-center rounded-xl text-neutral-900 hover:bg-neutral-300 hover:text-neutral-600 active:bg-neutral-200 active:text-neutral-900-tap cursor-pointer";
 
   const Icon = icon;
 

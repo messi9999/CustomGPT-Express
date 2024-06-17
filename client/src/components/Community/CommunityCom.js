@@ -5,6 +5,7 @@ import axios from 'axios'
 import AuthService from 'services/auth.service';
 import CreateBlog from 'components/Community/CreateBlog';
 
+
 export default function CommunityCom() {
   const [posts, setPosts] = useState([])
   const [showNewPost, setShowNewPost] = useState(false)
@@ -36,7 +37,7 @@ export default function CommunityCom() {
       }
       
     }).then((res) => {
-      
+
       setPosts(res.data.posts)
       setNumberOfBlog(res.data.posts.length)
       setBlogShowNumLimit(prev => prev + 5)

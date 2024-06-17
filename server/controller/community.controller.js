@@ -17,8 +17,6 @@ const Avatar = db.avatar
 exports.getAllPosts = (req, res) => {
     const limit = req.query.limit
     const offset = req.query.offset
-    console.log("limit: ", limit)
-    console.log("offset: ", offset)
     Post.findAll({
         include: [
             {
@@ -285,14 +283,12 @@ exports.createComment = (req, res) => {
 }
 
 exports.updateComment = (req, res) => {
-    let token = req.headers["x-access-token"];
-    const userId = decodeToken.getUserIdFromToken(token)
-    const postId = req.body.postId
-
-    Comment.create({
-        postId: postId,
-        userId: userId,
+    Comment.update({
         text: req.body.text
+    }, {
+        where: {
+            id: req.body.commentId
+        }
     }).then((comment) => {
         return res.status(200).send({ comment: comment })
     }).catch((err) => {
@@ -301,14 +297,10 @@ exports.updateComment = (req, res) => {
 }
 
 exports.deleteComment = (req, res) => {
-    let token = req.headers["x-access-token"];
-    const userId = decodeToken.getUserIdFromToken(token)
-    const postId = req.body.postId
-
-    Comment.create({
-        postId: postId,
-        userId: userId,
-        text: req.body.text
+     Comment.destroy({
+        where: {
+            id: req.params.commentId
+        }
     }).then((comment) => {
         return res.status(200).send({ comment: comment })
     }).catch((err) => {

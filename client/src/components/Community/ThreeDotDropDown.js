@@ -20,7 +20,7 @@ const ThreeDotDropDown = (props) => {
 
   return (
     <div>
-      <ThreeDotColIcon width="25" height="25"
+      <ThreeDotColIcon width="20" height="20"
         className="cursor-pointer"
         onClick={handleOpen}
       />
@@ -44,7 +44,7 @@ const ThreeDotDropDown = (props) => {
               props.onEdit();
               handleClose();
             }}
-            className='cursor-pointer text-[green] px-3 hover:text-[blue]'
+            className='cursor-pointer text-[#000000] px-3 hover:text-[#678efa] text-sm'
           >Edit</div>
           <Divider />
           <div
@@ -52,7 +52,7 @@ const ThreeDotDropDown = (props) => {
               props.onDelete();
               handleClose();
             }}
-            className='cursor-pointer text-[green] px-3 hover:text-[blue]'
+            className='cursor-pointer text-[#000000] px-3 hover:text-[#678efa] text-sm'
           >Delete</div>
         </div>
       </Popover>

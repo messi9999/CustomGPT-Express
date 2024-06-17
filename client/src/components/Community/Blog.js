@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import parser from 'html-react-parser';
 import { BASEURL } from "../../config/config";
 import { ReactComponent as LilkeIcon } from "assets/icons/like.svg";
@@ -17,7 +17,7 @@ export default function Blog({ post, deletePost }) {
   const [isComment, setIsComment] = useState(false)
   const [comment, setComment] = useState("")
   const [numOfLikes, setNumOfLikes] = useState(post.postLikes.length)
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState(post.comments)
   const [content, setContent] = useState('');
   const [originContent, setOriginContent] = useState(post.content)
   const [currentContent, setCurrentContent] = useState('')
@@ -33,6 +33,15 @@ export default function Blog({ post, deletePost }) {
     filename = splited[splited.length - 1]
   }
 
+  const textareaRef = useRef(null)
+
+  useEffect(() => {
+    if (editable && textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [content, editable]);
+
 
   useEffect(() => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -42,7 +51,9 @@ export default function Blog({ post, deletePost }) {
     setContent(originContent.replace(urlRegex, url => `<a href="${url}" target="_blank" className="text-[blue] underline hover:text-[#e0897a]">${url}</a>`));
   }, [originContent])
 
- 
+  useEffect(() => { }, [comments]);
+
+
 
   const header = useMemo(
     () => ({
@@ -96,10 +107,18 @@ export default function Blog({ post, deletePost }) {
         console.log(res.data)
         setIsComment(false)
         setComments(prevArray => [...prevArray, {
-          id: 0,
+          id: comments[comments.length-1].id + 1,
           postId: post.id,
           text: comment,
-          userId: currentUser.id
+          userId: currentUser.id,
+          // commentLikes: [{
+          //   commentId: comments[comments.length-1].id + 1,
+          //   id: comments[comments.length-1].commentLikes ? comments[comments.length-1].commentLikes.id + 1 : 1,
+          //   userId: currentUser.id
+          // }],
+          // user: {
+          //   avatar: currentUser.
+          // }
         }])
         setComment("")
 
@@ -154,6 +173,12 @@ export default function Blog({ post, deletePost }) {
       }).catch((err) => {
         console.log(err)
       })
+  }
+
+  const onDeleteComment = (index) => {
+    let data = comments;
+    data.splice(index, 1);
+    setComments([...data]);
   }
 
   const onDelete = () => {
@@ -217,15 +242,21 @@ export default function Blog({ post, deletePost }) {
         <h1 className='text-center w-full text-lg sm:text-lg font-oswald max-w-[600px] mb-1 px-2'>{post.title}</h1>
         {!editable && <div className='text-sm sm:text-sm text-start w-full mb-1 px-3'>{parser(content)}</div>}
         {editable && <div className="flex flex-col w-full gap-4 px-2 py-2 text-sm sm:text-sm text-start">
-          <textarea className="form-control w-full h-[300px] border border-solid" onChange={(e) => setCurrentContent(e.target.value)} defaultValue={originContent} />
-          <div className="flex gap-4 justify-center">
-            <div className="cursor-pointer bg-green-600 text-white px-2 py-1 rounded-lg" onClick={() => {
+          <textarea
+            ref={textareaRef}
+            className="w-full overflow-hidden focus:outline-none resize-none"
+            onChange={(e) => setCurrentContent(e.target.value)}
+            defaultValue={originContent}
+          />
+          <div className='flex gap-4 mt-3 justify-end'>
+            <button className='hover:text-blue-500' onClick={() => {
               setEditable(false);
               setOriginContent(currentContent);
               handleOnEditSave()
-            }}>Save</div>
-            <div className="cursor-pointer bg-orange-600 text-white px-2 py-1 rounded-lg" onClick={() => setEditable(false)}>Cancel</div>
+            }}>Save</button>
+            <button className='hover:text-red-500' onClick={() => setEditable(false)}>Cancel</button>
           </div>
+
         </div>}
         {/* {urls && <div>
           {
@@ -251,7 +282,7 @@ export default function Blog({ post, deletePost }) {
         </div>
         <div>
           <label className="text-xs">
-            {post.comments.length}  comments
+            {comments.length}  comments
           </label>
         </div>
       </div>
@@ -284,7 +315,7 @@ export default function Blog({ post, deletePost }) {
             {
               comments.map((comment, key) => (
                 <div key={key}>
-                  <Comment comment={comment} />
+                  <Comment comment={comment} deleteComment={() => onDeleteComment(key)} />
                 </div>
               ))
             }
@@ -310,14 +341,24 @@ export default function Blog({ post, deletePost }) {
                   </>
                 )
               }</div>
-              <textarea value={comment} onInput={handleOnCommentChange} style={{ height: '36px', overflow: 'hidden', resize: 'none' }} className="border text-sm w-full px-4 pt-2 rounded-[17px]" placeholder="Add a comment..." />
+              <textarea 
+                value={comment} 
+                onInput={handleOnCommentChange} 
+                style={{ height: '36px', overflow: 'hidden', resize: 'none' }} 
+                className="border text-sm w-full px-4 pt-2 rounded-[17px]" 
+                placeholder="Add a comment..." 
+              />
             </div>
             <div className="flex justify-end">
               <>
                 {
                   comment && (
                     <>
-                      <button className="p-2 text-white rounded-lg hover:bg-gray-200" onClick={handleOnPost}><PostSendIcon width="20" height="20" /></button>
+                      <button 
+                        className="p-2 text-white rounded-lg hover:bg-gray-200" 
+                        onClick={handleOnPost}>
+                          <PostSendIcon width="20" height="20" />
+                      </button>
                     </>
                   )
                 }

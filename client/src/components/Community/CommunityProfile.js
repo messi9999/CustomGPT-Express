@@ -17,6 +17,7 @@ export default function CommunityProfile() {
   const [imageResult, setImageResult] = useState(fallBackImage);
   const [editedImage, setEditedImage] = useState(null)
   const [isEditing, setIsEditing] = useState(false);
+  const [isImgSaved, setIsImgSaved] = useState(true)
   const editorRef = useRef(null);
 
 
@@ -39,6 +40,7 @@ export default function CommunityProfile() {
   );
 
   const onAvatarChange = (image) => {
+    setIsImgSaved(false)
     setImageSource(image);
     setIsEditing(true);
   }
@@ -55,44 +57,50 @@ export default function CommunityProfile() {
                 setIsEditing(false);
                 setEditedImage(file)
             });
+            setIsImgSaved(true)
     }
   }
 
   const handleOnSaveProfile = () => {
-    const formData = new FormData();
-    formData.append('avatar', editedImage);
-    formData.append('firstname', firstName);
-    formData.append('lastname', lastName);
+    if (isImgSaved) {
 
-    if (!imageSource) {
-      formData.append('uri', currentUser.avatar.uri)
-    }
-
-    if(currentUser.avatar) {
-      axios.put(`${BASEURL}/api/test/useravatar`, formData,
-        {
-          headers: header,
-        }).then((res) => {
-          currentUser.avatar = res.data
-          localStorage.setItem("user", JSON.stringify(currentUser))
-          alert("Successfully updated!!!")
-
-        }).catch((err) => {
-          console.log(err)
-        })
-    }
-
-    else {
-      axios.post(`${BASEURL}/api/test/useravatar`, formData,
-        {
-          headers: header,
-        }).then((res) => {
-          currentUser.avatar = res.data
-          localStorage.setItem("user", JSON.stringify(currentUser))
-          alert("Successfully updated!!!")
-        }).catch((err) => {
-          console.log(err)
-        })
+      const formData = new FormData();
+      formData.append('avatar', editedImage);
+      formData.append('firstname', firstName);
+      formData.append('lastname', lastName);
+  
+      if (!imageSource) {
+        formData.append('uri', currentUser.avatar.uri)
+      }
+  
+      if(currentUser.avatar) {
+        axios.put(`${BASEURL}/api/test/useravatar`, formData,
+          {
+            headers: header,
+          }).then((res) => {
+            currentUser.avatar = res.data
+            localStorage.setItem("user", JSON.stringify(currentUser))
+            alert("Successfully updated!!!")
+  
+          }).catch((err) => {
+            console.log(err)
+          })
+      }
+  
+      else {
+        axios.post(`${BASEURL}/api/test/useravatar`, formData,
+          {
+            headers: header,
+          }).then((res) => {
+            currentUser.avatar = res.data
+            localStorage.setItem("user", JSON.stringify(currentUser))
+            alert("Successfully updated!!!")
+          }).catch((err) => {
+            console.log(err)
+          })
+      }
+    } else {
+      alert("Please save ")
     }
 
   }
@@ -125,7 +133,7 @@ export default function CommunityProfile() {
               </div>
               {isEditing && <button onClick={onSaveClick}>Save</button>}
               <div className='flex items-center mt-3'>
-                <span className=''>FirstName:</span>
+                <span className=''>First&nbsp;Name:</span>
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none'
                   onChange={(e) => { setFirstName(e.target.value) }}
@@ -133,7 +141,7 @@ export default function CommunityProfile() {
                 />
               </div>
               <div className='flex items-center'>
-                <span>LastName:</span>
+                <span>Last&nbsp;Name:</span>
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none'
                   onChange={(e) => { setLastName(e.target.value) }}
