@@ -36,6 +36,7 @@ export default function CommunityCom() {
       }
       
     }).then((res) => {
+      
       setPosts(res.data.posts)
       setNumberOfBlog(res.data.posts.length)
       setBlogShowNumLimit(prev => prev + 5)

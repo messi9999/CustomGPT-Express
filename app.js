@@ -106,12 +106,12 @@ const Role = db.role;
 // ensureDirSync(path.join(__dirname, '/server/storage/user/avatar'));
 
 
-// require("./server/routes/chatbot.routes")(app);
-// require("./server/routes/auth.routes")(app);
-// require("./server/routes/user.routes")(app);
-// require("./server/routes/discover.routes")(app);
-// require("./server/routes/payment.routes")(app);
-// require("./server/routes/community.routes")(app);
+require("./server/routes/chatbot.routes")(app);
+require("./server/routes/auth.routes")(app);
+require("./server/routes/user.routes")(app);
+require("./server/routes/discover.routes")(app);
+require("./server/routes/payment.routes")(app);
+require("./server/routes/community.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 
