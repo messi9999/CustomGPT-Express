@@ -182,16 +182,82 @@ exports.updatePost = (req, res) => {
 }
 
 exports.deletePost = (req, res) => {
-    Post.destroy({
+    let imagePath = ''
+    let filePath = ''
+    Post.findOne({
         where: {
-            id: req.params.postId,
+            id: req.params.postId
         }
-    }).then(() => {
-        return res.status(200).send({ result: true })
+    }).then((post) => {
+        // console.log("post: ", post)
+        imagePath = post.image
+        filePath = post.file
+        console.log(imagePath)
+        console.log(filePath)
+        Post.destroy({
+            where: {
+                id: req.params.postId,
+            }
+        }).then(() => {
+            console.log("imagePath: ", imagePath)
+            console.log("filePath: ", filePath)
+             try {
+                fs.unlinkSync(imagePath);
+                console.log('File deleted successfully');
+            } catch (err) {
+                console.error('There was an error deleting the file:', err);
+            }
+            try {
+                fs.unlinkSync(filePath);
+                console.log('File deleted successfully');
+            } catch (err) {
+                console.error('There was an error deleting the file:', err);
+            }
+            PostLike.destroy({
+                where: {
+                    postId: req.params.postId
+                }
+            }).catch((err) => {
+                console.log(err)
+                return res.status(500).send({ message: err.message });
+            })
+            Comment.findAll({
+                where: {
+                    postId: req.params.postId
+                }
+            }).then((comments) => {
+                comments.forEach(comment => {
+                    CommentLike.destroy({
+                        where: {
+                            commentId: comment.id
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                        return res.status(500).send({ message: err.message });
+                    })
+                })
+                Comment.destroy({
+                    where: {
+                        postId: req.params.postId
+                    }
+                }).then(() => {
+                    return res.status(200).send({ result: true })
+                }).catch((err) => {
+                    console.log(err)
+                    return res.status(500).send({ message: err.message });
+                })
+            }).catch((err) => {
+                console.log(err)
+                return res.status(500).send({ message: err.message });
+            })
+        }).catch((err) => {
+            console.log(err)
+            return res.status(500).send({ message: err.message });
+        })
     }).catch((err) => {
-        console.log(err)
-        return res.status(500).send({ message: err.message });
+        console.log(err.message)
     })
+
 }
 
 
@@ -302,7 +368,15 @@ exports.deleteComment = (req, res) => {
             id: req.params.commentId
         }
     }).then((comment) => {
-        return res.status(200).send({ comment: comment })
+        CommentLike.destroy({
+            where: {
+                commentId: req.params.commentId
+            }
+        }).then((commentlikes) => {
+            return res.status(200).send({ result: true })
+        }).catch((err) => {
+            return res.status(500).send({ message: err.message });
+        })
     }).catch((err) => {
         return res.status(500).send({ message: err.message });
     })

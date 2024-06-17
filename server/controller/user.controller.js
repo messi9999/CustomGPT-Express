@@ -113,8 +113,27 @@ exports.updateUserAvatar = (req, res) => {
       avatarFile = req.files.avatar;
       filePath = "server/storage/user/avatar/" + fileName
       avatarFile.mv(filePath)
-    } 
+    }
   }
+
+  Avatar.findOne({
+    where: {
+      userId: userId
+    }
+  }).then((avatar) => {
+    console.log(avatar.uri)
+    try {
+      fs.unlinkSync(avatar.uri);
+      console.log('File deleted successfully');
+    } catch (err) {
+      console.error('There was an error deleting the file:', err);
+    }
+  }).catch(error => {
+    console.log(error)
+    res.status(500).send({
+      message: error.message || "Some error occurred while retrieving users."
+    })
+  })
 
   Avatar.update({
     firstname: req.body.firstname,
@@ -127,13 +146,7 @@ exports.updateUserAvatar = (req, res) => {
         id: userId
       }
     },).then((avatar) => {
-      // try {
-      //   fs.unlinkSync(avatarFile);
-      //   console.log('File deleted successfully');
-      // } catch (err) {
-      //   console.error('There was an error deleting the file:', err);
-      // }
-      res.status(200).send({
+       res.status(200).send({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         uri: avatarFile ? filePath : null,

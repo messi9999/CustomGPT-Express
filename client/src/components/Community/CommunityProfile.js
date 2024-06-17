@@ -26,6 +26,12 @@ export default function CommunityProfile() {
   useEffect(() => {
     if(currentUser.avatar) {
       setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
+    }
+  }, [])
+
+  useEffect(() => {
+    if(currentUser.avatar) {
+      // setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
       setFirstName(currentUser.avatar.firstname)
       setLastName(currentUser.avatar.lastname)
     }
@@ -47,7 +53,6 @@ export default function CommunityProfile() {
 
   const onSaveClick = () => {
     if (editorRef.current) {
-
       const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
       fetch(canvas)
             .then(res => res.blob())
@@ -56,6 +61,7 @@ export default function CommunityProfile() {
                 setImageResult(window.URL.createObjectURL(file));
                 setIsEditing(false);
                 setEditedImage(file)
+                // setImageSource(file)
             });
             setIsImgSaved(true)
     }
