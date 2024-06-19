@@ -21,19 +21,9 @@ export default function TitleBar() {
     // }
     return (
         <>
-            <div className="w-full flex justify-center mt-1 bg-[#faedda] h-[5vh] shadow-lg">
-                <div className="flex justify-end gap-6 sm:w-[500px] w-full px-3 py-1">
-                    {/* <button
-                        className="bg-[#3cdaa5] hover:bg-[#44be96] text-white text-xs px-2 rounded-lg"
-                        onClick={backToDashboard}>
-                        Copilot
-                    </button> */}
+            <div className="w-full flex justify-center mt-1 bg-[#faedda] h-[60px] shadow-lg">
+                <div className="flex justify-end gap-6 sm:w-[500px] w-full px-3 py-1 items-center">
                     <button className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"><CreateIcon width={30} height={30} onClick={backToDashboard} /></button>
-                    {/* <button
-                        className="bg-[#3cdaa5] hover:bg-[#44be96] text-white text-xs px-2 rounded-lg"
-                        onClick={handleOnBlogs}>
-                        Posts
-                    </button> */}
                     <NavLink
                         to="/community/blogs"
                         className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"

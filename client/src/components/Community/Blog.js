@@ -256,7 +256,7 @@ export default function Blog({ post, deletePost }) {
         {editable && <div className="flex flex-col w-full gap-4 px-2 py-2 text-sm sm:text-sm text-start">
           <textarea
             ref={textareaRef}
-            className="w-full overflow-hidden focus:outline-none resize-none"
+            className="w-full overflow-hidden focus:outline-none resize-none bg-transparent"
             onChange={(e) => setCurrentContent(e.target.value)}
             defaultValue={originContent}
           />

@@ -70,7 +70,7 @@ export default function CommunityCom() {
 
   return (
     <>
-      <div className='flex justify-center pt-6 bg-[#faedda] h-[95vh] overflow-y-scroll'>
+      <div className='flex justify-center pt-6 bg-[#faedda] h-screen mb-[-60px] overflow-y-scroll'>
         <div className='w-full sm:w-[500px] py-2'>
           <div>
             <div className="flex items-center justify-center">

@@ -19,6 +19,9 @@ module.exports = {
         "opacity-gradient":
           "linear-gradient(to top, rgba(247, 242, 233, 0), rgba(247, 242, 233, 1))",
       }),
+      spacing: {
+        '60': '60px',
+      },
     },
   },
   plugins: [
