@@ -8,7 +8,7 @@ export default function ChatMessage(props) {
     <li>
       {isUserMessage ? (
         <div className="flex justify-end">
-          <div className="text-[20px] bg-[#f7e3be] rounded-lg p-2 px-4 py-4 m-2 inline-block font-oswald">
+          <div className="text-[20px] bg-[#f7e3be] rounded-lg p-2 px-4 py-4 m-2 inline-block font-oswald shadow-md">
             {props.message.text}
           </div>
         </div>

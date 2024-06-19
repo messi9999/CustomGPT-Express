@@ -427,7 +427,6 @@ export default function ChatBoard() {
 
                   <div className="px-[16px]">
                     {!isEditable && chatHistory.length > 1 && <LoadingButton />}
-                    {/* <LoadingButton/> */}
                   </div>
                 </ul>
               </div>
@@ -442,7 +441,6 @@ export default function ChatBoard() {
                 placeholder="Type your Message"
                 spellCheck="true"
                 required
-                // autoFocus
                 value={userMessage}
                 onKeyDown={handleKeyDown}
                 onChange={(e) => handleTextAreaChange(e)}
@@ -491,7 +489,6 @@ export default function ChatBoard() {
             )}
           </div>
           <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
-            {/* <NavLink to={"/feedback"}> */}
             Feedback?{" "}
             <a
               href="https://forms.gle/3iFGAtmT8nSEG3Vq6"
@@ -505,7 +502,6 @@ export default function ChatBoard() {
                 </i>
               </u>
             </a>
-            {/* </NavLink> */}
           </div>
           <div className="text-slate-900 text-md mb-3 flex justify-center">
             @Copyright Nourished Natural Health

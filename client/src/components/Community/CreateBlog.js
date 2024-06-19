@@ -97,14 +97,14 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
 
   };
   return (
-    <div className='bg-white w-full max-w-[800px] p-2 sm:p-2 rounded-xl'>
+    <div className='bg-[#fff7ea] w-full max-w-[800px] p-2 sm:p-2 rounded-xl shadow-lg'>
       {/* {title && <h1 className='w-full sm:p-4 sm:px-4 mb-5 text-3xl sm:text-5xl font-oswald break-words'>{title}</h1>} */}
       {preview && <img className='w-full sm:p-4 sm:px-4 mb-5' src={preview} alt="Preview" />}
       {/* {content && <pre className='sm:p-4 sm:px-4 w-full whitespace-pre-wrap'>{content}</pre>} */}
       <div className='sm:px-6 sm:pe-10 mt-2 mb-1 flex flex-row items-center text-sm'>
         <label>Title: </label>
         <input
-          className='w-full border-b pb-0 h-10 ms-2 focus:outline-none'
+          className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fff7ea]'
           onChange={(e) => { setTitle(e.target.value) }}
 
         />
@@ -113,7 +113,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
         <label>Content: </label>
         <textarea
           style={{ height: '36px', overflow: 'hide', resize: 'none' }}
-          className='w-full focus:outline-none ps-2'
+          className='w-full focus:outline-none ps-2 bg-[#fff7ea]'
           onChange={(e) => {
             setContent(e.target.value);
             e.target.style.height = 'inherit';

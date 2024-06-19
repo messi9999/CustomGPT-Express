@@ -181,7 +181,7 @@ export default function Blog({ post, deletePost }) {
   }
 
   const onDelete = () => {
-    if (post.userId === currentUser.id) {
+    if (post.userId === currentUser.id || currentUser.roles[0] === 'ROLE_ADMIN') {
       axios.delete(`${BASEURL}/api/community/post/create/${post.id}`,
         {
           headers: header,
@@ -197,7 +197,7 @@ export default function Blog({ post, deletePost }) {
   }
 
   return (
-    <div className='my-3 pb-5 rounded-lg bg-white'>
+    <div className='my-3 pb-5 rounded-lg bg-[#fcf4e6] shadow-lg'>
       {/* <div className="flex justify-end mx-4 border-b mb-4 py-1">
             </div> */}
       <div className="py-2 mx-3 flex justify-between border-b">
@@ -280,7 +280,7 @@ export default function Blog({ post, deletePost }) {
           </label>
         </div>
         <div>
-          <label className="text-xs">
+          <label className="text-xs hover:cursor-pointer" onClick={handleOnComment}>
             {comments.length}  comments
           </label>
         </div>

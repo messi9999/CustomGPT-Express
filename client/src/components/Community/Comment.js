@@ -127,7 +127,7 @@ export default function Comment({ comment, deleteComment }) {
             )
           }
         </div>
-        <div className='bg-gray-100 rounded-e-lg rounded-b-lg p-3 w-full'>
+        <div className='bg-[#fffaf4] rounded-e-lg rounded-b-lg p-3 w-full'>
           <div className='flex flex-row justify-between'>
             <div className='text-sm mb-2 font-semibold'>
               <label>{comment.user.avatar ? (

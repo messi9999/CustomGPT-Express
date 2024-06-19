@@ -13,7 +13,7 @@ const CreateButton = ({ content, id }) => {
   return (
     <button
       type="button"
-      className="flex flex-col overflow-hidden rounded-xl bg-neutral-200 transition-all duration-150 hover:scale-95 hover:bg-neutral-200-hover"
+      className="flex flex-col overflow-hidden rounded-xl bg-neutral-200 transition-all duration-150 hover:scale-95 hover:bg-neutral-200-hover shadow-md"
       onClick={onEvent}
     >
       <div className="relative flex h-[124px] w-full items-center justify-center bg-neutral-300">
