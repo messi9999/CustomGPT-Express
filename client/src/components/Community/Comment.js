@@ -63,7 +63,7 @@ export default function Comment({ comment, deleteComment }) {
 
   const onEdit = () => {
     setIsEditable(true)
-    
+
   }
 
   const onDelete = () => {
@@ -136,10 +136,16 @@ export default function Comment({ comment, deleteComment }) {
                 <label>{comment.user.username}</label>
               )}</label>
             </div>
-            <ThreeDotDropDown
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
+            {
+              (comment.userId === currentUser.id || currentUser.roles[0] === 'ROLE_ADMIN') && (
+                <>
+                  <ThreeDotDropDown
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                  />
+                </>
+              )
+            }
           </div>
           <div className='text-sm sm:text-md text-gray-600'>
             {/* <p contentEditable={isEditable} onInput={handleCommentChange}>{content}</p> */}

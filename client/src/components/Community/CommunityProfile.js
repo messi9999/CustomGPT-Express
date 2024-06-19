@@ -10,34 +10,34 @@ const fallBackImage =
 
 export default function CommunityProfile() {
 
+  let currentUser = AuthService.getCurrentUser();
   // const [imageSource2, setImageSource2] = React.useState(undefined);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [imageSource, setImageSource] = useState(undefined);
-  const [imageResult, setImageResult] = useState(fallBackImage);
+  const [imageResult, setImageResult] = useState(currentUser.avatar ? `${BASEURL}/${currentUser.avatar.uri}` : fallBackImage);
   const [editedImage, setEditedImage] = useState(null)
   const [isEditing, setIsEditing] = useState(false);
   const [isImgSaved, setIsImgSaved] = useState(true)
   const editorRef = useRef(null);
 
 
-  let currentUser = AuthService.getCurrentUser();
+
+  // useEffect(() => {
+  //   if(currentUser.avatar) {
+  //     setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
+  //   }
+  // }, [])
 
   useEffect(() => {
-    if(currentUser.avatar) {
-      setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
-    }
-  }, [])
-
-  useEffect(() => {
-    if(currentUser.avatar) {
+    if (currentUser.avatar) {
       // setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
       setFirstName(currentUser.avatar.firstname)
       setLastName(currentUser.avatar.lastname)
     }
   }, [currentUser])
 
-  
+
   const header = useMemo(
     () => ({
       "x-access-token": currentUser.accessToken,
@@ -52,18 +52,22 @@ export default function CommunityProfile() {
   }
 
   const onSaveClick = () => {
+    console.log("first: ", imageResult)
     if (editorRef.current) {
       const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
       fetch(canvas)
-            .then(res => res.blob())
-            .then(blob => {
-                const file = new File([blob], "avatar.png", { type: "image/png" });
-                setImageResult(window.URL.createObjectURL(file));
-                setIsEditing(false);
-                setEditedImage(file)
-                // setImageSource(file)
-            });
-            setIsImgSaved(true)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], "avatar.png", { type: "image/png" });
+          setImageResult(window.URL.createObjectURL(file));
+          setIsEditing(false);
+          setEditedImage(file)
+          // setImageSource(file)
+          // console.log(window.URL.createObjectURL(file))
+        }).catch((error) => {
+          alert(error)
+        })
+      setIsImgSaved(true)
     }
   }
 
@@ -73,12 +77,12 @@ export default function CommunityProfile() {
       formData.append('avatar', editedImage);
       formData.append('firstname', firstName);
       formData.append('lastname', lastName);
-  
+
       if (!imageSource) {
         formData.append('uri', currentUser.avatar.uri)
       }
-  
-      if(currentUser.avatar) {
+
+      if (currentUser.avatar) {
         axios.put(`${BASEURL}/api/test/useravatar`, formData,
           {
             headers: header,
@@ -86,12 +90,12 @@ export default function CommunityProfile() {
             currentUser.avatar = res.data
             localStorage.setItem("user", JSON.stringify(currentUser))
             alert("Successfully updated!!!")
-  
+
           }).catch((err) => {
             console.log(err)
           })
       }
-  
+
       else {
         axios.post(`${BASEURL}/api/test/useravatar`, formData,
           {
@@ -153,12 +157,12 @@ export default function CommunityProfile() {
                   defaultValue={currentUser.avatar && currentUser.avatar.lastname}
                 />
               </div>
-              <button 
+              <button
                 className="bg-[#ffdfa7] py-2 px-3 rounded-full mt-3 hover:bg-[#ffce79] shadow-md"
                 onClick={handleOnSaveProfile}
-                >
-                  Save Profile
-                </button>
+              >
+                Save Profile
+              </button>
             </div>
           </div>
         </div>

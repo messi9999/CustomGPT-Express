@@ -21,7 +21,7 @@ export default function TitleBar() {
     // }
     return (
         <>
-            <div className="w-full flex justify-center mt-1 bg-[#faedda]">
+            <div className="w-full flex justify-center mt-1 bg-[#faedda] h-[5vh] shadow-lg">
                 <div className="flex justify-end gap-6 sm:w-[500px] w-full px-3 py-1">
                     {/* <button
                         className="bg-[#3cdaa5] hover:bg-[#44be96] text-white text-xs px-2 rounded-lg"
@@ -64,7 +64,7 @@ export default function TitleBar() {
                                         src={`${BASEURL}/${currentUser.avatar.uri}`}
                                         width={35}
                                         height={35}
-                                        className="rounded-full"
+                                        className="rounded-full hover:cursor-pointer"
                                         onClick={handleOnNavigate}
                                         alt=''
                                     />
@@ -73,8 +73,8 @@ export default function TitleBar() {
                                 <>
                                     <AvatarIcon
                                         className="hover:cursor-pointer"
-                                        width="30"
-                                        height="30"
+                                        width="35"
+                                        height="35"
                                         onClick={handleOnNavigate}
                                     />
                                 </>

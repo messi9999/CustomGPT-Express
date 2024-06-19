@@ -35,6 +35,8 @@ export default function Blog({ post, deletePost }) {
 
   const textareaRef = useRef(null)
 
+
+
   useEffect(() => {
     if (editable && textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -53,7 +55,10 @@ export default function Blog({ post, deletePost }) {
 
   useEffect(() => { }, [comments]);
 
-
+  console.log("first: ", post.userId === currentUser.id)
+  console.log("currentUser: ", currentUser)
+  console.log("post: ", post)
+  console.log("seconde: ", post.userId === currentUser.id || currentUser.roles[0] === 'ROLE_ADMIN')
 
   const header = useMemo(
     () => ({
@@ -157,6 +162,8 @@ export default function Blog({ post, deletePost }) {
     if (post.userId === currentUser.id) {
       setEditable(true)
       setCurrentContent(originContent)
+    } else {
+      alert("This is not your blog. Can't edit it.")
     }
   }
 
@@ -231,10 +238,16 @@ export default function Blog({ post, deletePost }) {
         </div>
 
         <div className="rounded-full hover:bg-gray-200 w-fit h-fit">
-          <ThreeDotDropDown
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
+          {
+            (post.userId === currentUser.id || currentUser.roles[0] === 'ROLE_ADMIN') && (
+              <>
+                <ThreeDotDropDown
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                />
+              </>
+            )
+          }
         </div>
       </div>
       <div className=" flex flex-col items-center mt-3">
@@ -340,12 +353,12 @@ export default function Blog({ post, deletePost }) {
                   </>
                 )
               }</div>
-              <textarea 
-                value={comment} 
-                onInput={handleOnCommentChange} 
-                style={{ height: '36px', overflow: 'hidden', resize: 'none' }} 
-                className="border text-sm w-full px-4 pt-2 rounded-[17px]" 
-                placeholder="Add a comment..." 
+              <textarea
+                value={comment}
+                onInput={handleOnCommentChange}
+                style={{ height: '36px', overflow: 'hidden', resize: 'none' }}
+                className="border text-sm w-full px-4 pt-2 rounded-[17px]"
+                placeholder="Add a comment..."
               />
             </div>
             <div className="flex justify-end">
@@ -353,10 +366,10 @@ export default function Blog({ post, deletePost }) {
                 {
                   comment && (
                     <>
-                      <button 
-                        className="p-2 text-white rounded-lg hover:bg-gray-200" 
+                      <button
+                        className="p-2 text-white rounded-lg hover:bg-gray-200"
                         onClick={handleOnPost}>
-                          <PostSendIcon width="20" height="20" />
+                        <PostSendIcon width="20" height="20" />
                       </button>
                     </>
                   )
