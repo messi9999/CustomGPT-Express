@@ -12,7 +12,7 @@ export default function Community() {
     <>
       <div className={`flex flex-row bg-[#fcf4e6] h-screen`}>
         <Sidebar />
-        <div className='w-full overflow-none h-full'>
+        <div className='w-full overflow-none h-screen'>
           <TitleBar />
           <Outlet />
         </div>
