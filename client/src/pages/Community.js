@@ -5,6 +5,8 @@ import { Outlet } from "react-router-dom";
 import TitleBar from 'components/Community/TitleBar';
 import Sidebar from 'components/Sidebar';
 
+import 'App.css'
+
 
 export default function Community() {
 
@@ -12,7 +14,7 @@ export default function Community() {
     <>
       <div className={`flex flex-row bg-[#fcf4e6] h-screen`}>
         <Sidebar />
-        <div className='w-full overflow-none h-screen'>
+        <div className='flex flex-col w-full overflow-none h-screen reverse-col'>
           <TitleBar />
           <Outlet />
         </div>

@@ -79,7 +79,12 @@ export default function CommunityProfile() {
       formData.append('lastname', lastName);
 
       if (!imageSource) {
-        formData.append('uri', currentUser.avatar.uri)
+        if (currentUser.avatar && currentUser.avatar.uri) {
+          formData.append('uri', currentUser.avatar.uri)
+        }
+        else {
+          alert("Please upload your avatar!")
+        }
       }
 
       if (currentUser.avatar) {
@@ -97,16 +102,21 @@ export default function CommunityProfile() {
       }
 
       else {
-        axios.post(`${BASEURL}/api/test/useravatar`, formData,
-          {
-            headers: header,
-          }).then((res) => {
-            currentUser.avatar = res.data
-            localStorage.setItem("user", JSON.stringify(currentUser))
-            alert("Successfully updated!!!")
-          }).catch((err) => {
-            console.log(err)
-          })
+        if (formData.uri) {
+
+          axios.post(`${BASEURL}/api/test/useravatar`, formData,
+            {
+              headers: header,
+            }).then((res) => {
+              currentUser.avatar = res.data
+              localStorage.setItem("user", JSON.stringify(currentUser))
+              alert("Successfully updated!!!")
+            }).catch((err) => {
+              console.log(err)
+            })
+        } else {
+          alert("Please upload your avatar!")
+        }
       }
     } else {
       alert("Please save Avatar image first!!!")

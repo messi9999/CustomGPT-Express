@@ -18,3 +18,19 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+
+
+  @media (max-width: 1024px) {
+    .reverse-col {
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
+  @media (max-width: 1024px) {
+    .reverse-justify {
+        justify-content: space-between;
+        width: 100%;
+    }
+}

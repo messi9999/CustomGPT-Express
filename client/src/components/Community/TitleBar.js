@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import AuthService from 'services/auth.service';
 import { BASEURL } from "../../config/config";
 
+
 export default function TitleBar() {
     let currentUser = AuthService.getCurrentUser();
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ export default function TitleBar() {
     return (
         <>
             <div className="w-full flex justify-center mt-1 bg-[#faedda] h-[10vh] sm:h-[5vh] shadow-lg">
-                <div className="flex justify-end gap-6 sm:w-[500px] w-full px-3 py-1 items-center">
+                <div className="flex justify-between sm:justify-end gap-6 sm:w-[500px] w-full px-3 py-1 items-center">
                     <button className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"><CreateIcon width={30} height={30} onClick={backToDashboard} /></button>
 
                     <NavLink
@@ -49,7 +50,7 @@ export default function TitleBar() {
                             {currentUser.username}
                         </div>
                         {
-                            currentUser.avatar ? (
+                            (currentUser.avatar) ? (
                                 <>
                                     <img
                                         src={`${BASEURL}/${currentUser.avatar.uri}`}
