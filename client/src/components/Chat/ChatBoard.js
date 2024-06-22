@@ -13,8 +13,8 @@ import ChatMessage from "./ChatMessage";
 import { ReactComponent as SendMsgIcon } from "assets/icons/sendmsg.svg";
 import { ReactComponent as OpenSpeackerIcon } from "assets/icons/speaker-open.svg";
 import { ReactComponent as CloseSpeakerIcon } from "assets/icons/speaker-close.svg";
-import { ReactComponent as BackCreateIcon } from "assets/icons/create-icon.svg";
-import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
+// import { ReactComponent as BackCreateIcon } from "assets/icons/create-icon.svg";
+// import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { CreateContext, DisplayTextContext } from "common/Context";
@@ -26,6 +26,7 @@ import { BASEURL, OPENAI_API_KEY, STREAMENDPOINT } from "config/config";
 import OpenAI from "openai";
 import AudioPlayer from "react-audio-player";
 import { sleep } from "openai/core";
+// import TitleBar from "components/Community/TitleBar";
 
 const client = new OpenAI({
   apiKey: OPENAI_API_KEY,
@@ -78,6 +79,24 @@ function LoadingButton() {
     </div>
   );
 }
+
+const BackIcon = () => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M11.1408 17.6558C10.9157 17.8808 10.6106 18.0072 10.2924 18.0072C9.97418 18.0072 9.66902 17.8808 9.44398 17.6558L4.64398 12.8558C4.41902 12.6308 4.29264 12.3256 4.29264 12.0074C4.29264 11.6892 4.41902 11.3841 4.64398 11.159L9.44398 6.35902C9.55468 6.24441 9.68709 6.15299 9.8335 6.0901C9.9799 6.02721 10.1374 5.99411 10.2967 5.99272C10.456 5.99134 10.6141 6.0217 10.7615 6.08204C10.909 6.14237 11.043 6.23148 11.1557 6.34415C11.2683 6.45682 11.3574 6.5908 11.4178 6.73828C11.4781 6.88575 11.5085 7.04377 11.5071 7.2031C11.5057 7.36244 11.4726 7.5199 11.4097 7.66631C11.3468 7.81271 11.2554 7.94512 11.1408 8.05582L8.38918 10.8074L17.4924 10.8074C17.8106 10.8074 18.1159 10.9339 18.3409 11.1589C18.566 11.3839 18.6924 11.6892 18.6924 12.0074C18.6924 12.3257 18.566 12.6309 18.3409 12.8559C18.1159 13.081 17.8106 13.2074 17.4924 13.2074L8.38918 13.2074L11.1408 15.959C11.3657 16.1841 11.4921 16.4892 11.4921 16.8074C11.4921 17.1256 11.3657 17.4308 11.1408 17.6558Z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  );
+};
 
 export default function ChatBoard() {
   const navigate = useNavigate();
@@ -295,63 +314,6 @@ export default function ChatBoard() {
     } catch (error) {
       console.log("error: ", error)
     }
-
-    // try {
-    //   const response = await axios.post(
-    //     BASEURL + "/api/chatbots/getResponseFromGpt",
-    //     reqBody,
-    //     {
-    //       headers: header,
-    //     }
-    //   );
-    //   // Handle successful response here
-    //   var chatBotMsg = response.data.message;
-
-    //   if (isSpeaker) {
-    //     const mp3 = await client.audio.speech.create({
-    //       model: "tts-1",
-    //       voice: "alloy",
-    //       input: chatBotMsg,
-    //     });
-
-    //     const buffer = new Uint8Array(await mp3.arrayBuffer());
-    //     const blob = new Blob([buffer], { type: "audio/mpeg" });
-    //     const url = URL.createObjectURL(blob);
-    //     setAudioSrc(url);
-    //   }
-    //   newMessage = {
-    //     type: "chatbot",
-    //     text: chatBotMsg,
-    //   };
-    //   appendChatHistory(newMessage);
-
-    //   if (currentUser.freeAttempts > 0) {
-    //     currentUser = UserService.getUserBoard(currentUser.id);
-    //   }
-    // } catch (error) {
-    //   // Handle error here
-    //   if (error.response) {
-    //     // The request was made and the server responded with a status code
-    //     // that falls out of the range of 2xx
-    //     if (error.response.status) {
-    //       alert(error.response.data.message);
-    //       navigate("/profile/payment");
-    //       window.location.reload();
-    //     }
-    //     console.log(error.response.headers);
-    //   } else if (error.request) {
-    //     // The request was made but no response was received
-    //     console.log(error.request);
-    //     alert(error.request);
-    //   } else {
-    //     // Something happened in setting up the request that triggered an Error
-    //     console.log("Error", error.message);
-    //     alert(error.message);
-    //   }
-    //   setChatHistory((currentArray) => currentArray.slice(0, -1));
-    // }
-
-    
   };
 
   const handleLogOut = useCallback(() => {
@@ -402,9 +364,8 @@ export default function ChatBoard() {
   return (
     <>
       <div
-        className={`relative grow overflow-x-auto lg:flex-auto lg:flex-col h-screen ${
-          pathname !== "/dashboard" ? "hidden lg:block" : ""
-        }`}
+        className={`relative grow overflow-x-auto lg:flex-auto lg:flex-col h-screen ${pathname !== "/dashboard" ? "hidden lg:block" : ""
+          }`}
       >
         <div className="relative flex flex-col overflow-hidden sm:overflow-x-visible h-full pt-8 grow min-h-[calc(100%-60px)] sm:min-h-[calc(100%-120px)]">
           <div
@@ -451,11 +412,10 @@ export default function ChatBoard() {
                 onClick={handleSendMessage}
               >
                 <SendMsgIcon
-                  className={`rounded-[36px] ${
-                    !isEditable || userMessage === ""
-                      ? "bg-slate-400"
-                      : "bg-[#16a34a]"
-                  }`}
+                  className={`rounded-[36px] ${!isEditable || userMessage === ""
+                    ? "bg-slate-400"
+                    : "bg-[#16a34a]"
+                    }`}
                 />
               </button>
             </div>
@@ -510,15 +470,21 @@ export default function ChatBoard() {
         <div className="absolute inset-x-4 top-8 flex items-start lg:flex-row-reverse z-40">
           <div className="flex grow items-center lg:hidden">
             <NavLink
+              to="/create"
+              className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"
+            >
+              <BackIcon />
+            </NavLink>
+            {/* <NavLink
               to="/Create"
               className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap"
               type="button"
             >
               <BackCreateIcon />
-            </NavLink>
+            </NavLink> */}
           </div>
           <div className="flex gap-x-2">
-            <button
+            {/* <button
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover lg:hidden"
               type="button"
               onClick={() => {
@@ -526,7 +492,7 @@ export default function ChatBoard() {
               }}
             >
               <LogoutIcon />
-            </button>
+            </button> */}
             <button
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover"
               type="button"
@@ -548,6 +514,9 @@ export default function ChatBoard() {
             </button>
           </div>
         </div>
+        {/* <div className="block sm:hidden">
+          <TitleBar />
+        </div> */}
       </div>
     </>
   );

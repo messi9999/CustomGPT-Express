@@ -1,31 +1,60 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { ReactComponent as AvatarIcon } from "assets/icons/avatar.svg";
-import { ReactComponent as CreateIcon } from "assets/icons/create-icon.svg";
+import { ReactComponent as HomeIcon } from "assets/icons/home_icon.svg";
 import { NavLink, useNavigate } from 'react-router-dom';
 import AuthService from 'services/auth.service';
 import { BASEURL } from "../../config/config";
+import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 
+import {
+    Popover,
+    Divider,
+} from "@mui/material";
 
 export default function TitleBar() {
     let currentUser = AuthService.getCurrentUser();
     const navigate = useNavigate()
     const handleOnNavigate = () => {
-        navigate("/community/profile")
+        navigate("/profile")
     }
 
     const backToDashboard = () => {
         navigate("/create");
     }
 
-    // const handleOnBlogs = () => {
-    //     navigate("/community/blogs")
-    // }
+    const handleLogOut = useCallback(() => {
+        AuthService.logout();
+        navigate("/");
+        window.location.reload();
+    }, [navigate]);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popover" : undefined;
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const onLogout = () => {
+        handleLogOut()
+    }
+
+    const onProfile = () => {
+        handleOnNavigate()
+    }
+
     return (
         <>
             <div className="w-full flex justify-center mt-1 bg-[#faedda] h-[10vh] sm:h-[5vh] shadow-lg">
                 <div className="flex justify-between sm:justify-end gap-6 sm:w-[500px] w-full px-3 py-1 items-center">
-                    <button className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"><CreateIcon width={30} height={30} onClick={backToDashboard} /></button>
-
+                    <button className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden">
+                        <HomeIcon width={30} height={30} onClick={backToDashboard} />
+                    </button>
                     <NavLink
                         to="/community/blogs"
                         className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"
@@ -44,34 +73,85 @@ export default function TitleBar() {
                                 fill="#212121" />
                         </svg>
                     </NavLink>
-                    <div className='flex flex-row gap-3 items-center'>
-
-                        <div className='text-sm font-rhythmicHits'>
-                            {currentUser.username}
+                    {/* <button
+                        className="relative flex items-center rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover lg:hidden"
+                        type="button"
+                        onClick={() => {
+                            handleLogOut();
+                        }}
+                        >
+                        <LogoutIcon />
+                    </button> */}
+                    <div>
+                        <div className='flex flex-row gap-3 items-center'>
+                            <div className='text-sm font-rhythmicHits'>
+                                {currentUser.username}
+                            </div>
+                            {
+                                (currentUser.avatar) ? (
+                                    <>
+                                        <div
+                                            className='py-3'
+                                            onClick={handleOpen}
+                                        >
+                                            <img
+                                                src={`${BASEURL}/${currentUser.avatar.uri}`}
+                                                width={35}
+                                                height={35}
+                                                className="rounded-full hover:cursor-pointer"
+                                                alt=''
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div
+                                            className='py-3'
+                                            onClick={handleOpen}
+                                        >
+                                            <AvatarIcon
+                                                className="hover:cursor-pointer py-3"
+                                                width="35"
+                                                height="35"
+                                            />
+                                        </div>
+                                    </>
+                                )
+                            }
                         </div>
-                        {
-                            (currentUser.avatar) ? (
-                                <>
-                                    <img
-                                        src={`${BASEURL}/${currentUser.avatar.uri}`}
-                                        width={35}
-                                        height={35}
-                                        className="rounded-full hover:cursor-pointer"
-                                        onClick={handleOnNavigate}
-                                        alt=''
-                                    />
-                                </>
-                            ) : (
-                                <>
-                                    <AvatarIcon
-                                        className="hover:cursor-pointer"
-                                        width="35"
-                                        height="35"
-                                        onClick={handleOnNavigate}
-                                    />
-                                </>
-                            )
-                        }
+                        <Popover
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            transformOrigin={{
+                                vertical: "bottom",
+                                horizontal: "right",
+                            }}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            anchorPosition={{ top: 400, left: 400 }}
+                        >
+                            <div className='flex flex-col gap-2 py-2'>
+                                <div
+                                    onClick={() => {
+                                        onLogout();
+                                        handleClose();
+                                    }}
+                                    className='cursor-pointer text-[#000000] px-3 hover:text-[#678efa] text-sm'
+                                ><LogoutIcon /></div>
+                                <Divider />
+                                <div
+                                    onClick={() => {
+                                        onProfile();
+                                        handleClose();
+                                    }}
+                                    className='cursor-pointer text-[#000000] px-3 hover:text-[#678efa] text-sm'
+                                >Profile</div>
+                            </div>
+                        </Popover>
                     </div>
                 </div>
             </div>

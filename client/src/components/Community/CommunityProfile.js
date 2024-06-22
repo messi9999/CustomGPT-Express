@@ -126,10 +126,9 @@ export default function CommunityProfile() {
 
   return (
     <>
-      <div className='flex justify-center pt-6 bg-[#faedda]'>
-        {/* <CreateBlog /> */}
-        <div className='w-full sm:w-[500px] h-screen py-2'>
-          <div className='my-3 pb-5 rounded-lg bg-[#fcf4e6] shadow-md'>
+      <div className='flex justify-center pt-6 bg-[#faedda] w-full'>
+        <div className='w-4/5 md:w-[500px] py-2'>
+          <div className='my-3 pb-5 rounded-lg bg-[#fcf4e6] shadow-md w-full'>
             <div className='flex flex-col justify-center items-center pt-5 gap-3'>
               <div className='rounded-full overflow-hidden relative'>
                 {
@@ -151,7 +150,7 @@ export default function CommunityProfile() {
                 }
               </div>
               {isEditing && <button onClick={onSaveClick} className='bg-[#ffdfa7] py-0 px-3 rounded-full mt-3 hover:bg-[#ffce79] shadow-sm'>Save</button>}
-              <div className='flex items-center mt-3'>
+              <div className='flex items-center mt-3 px-2'>
                 <span className=''>First&nbsp;Name:</span>
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fcf4e6] ps-2'
@@ -159,7 +158,7 @@ export default function CommunityProfile() {
                   defaultValue={currentUser.avatar && currentUser.avatar.firstname}
                 />
               </div>
-              <div className='flex items-center'>
+              <div className='flex items-center px-2'>
                 <span>Last&nbsp;Name:</span>
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fcf4e6] ps-2'
