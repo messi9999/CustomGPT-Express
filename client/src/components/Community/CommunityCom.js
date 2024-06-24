@@ -11,9 +11,14 @@ export default function CommunityCom() {
   const [showNewPost, setShowNewPost] = useState(false)
   const [numberOfBlog, setNumberOfBlog] = useState(0);
 
+  const [showMore, setShowMore] = useState("Show more blogs")
+
   const [blogShowNumLimit, setBlogShowNumLimit] = useState(5);
 
   let currentUser = AuthService.getCurrentUser();
+
+  const isPayment = "planType" in currentUser.subscription;
+
 
   const header = useMemo(
     () => ({
@@ -24,9 +29,7 @@ export default function CommunityCom() {
 
   const deletePost = (index) => {
     let data = posts;
-    console.log(data)
     data.splice(index, 1);
-    console.log(data)
     setPosts([...data]);
   }
 
@@ -50,22 +53,28 @@ export default function CommunityCom() {
 
 
   const handleOnShowMore = () => {
-    setBlogShowNumLimit(prev => prev + 5)
-    axios.get(`${BASEURL}/api/community/post/all`, {
-      headers: header,
-      params: {
-        limit: 5,
-        offset: numberOfBlog
-      }
+    if (isPayment) {
 
-    }).then((res) => {
-      console.log(res.data.posts)
-      const updatedArr = res.data.posts
-      setPosts(prev => [...prev, ...updatedArr])
-      setNumberOfBlog(prev => prev + res.data.posts.length)
-    }).catch((err) => {
-      alert(err)
-    })
+      setBlogShowNumLimit(prev => prev + 5)
+      axios.get(`${BASEURL}/api/community/post/all`, {
+        headers: header,
+        params: {
+          limit: 5,
+          offset: numberOfBlog
+        }
+
+      }).then((res) => {
+        const updatedArr = res.data.posts
+        setPosts(prev => [...prev, ...updatedArr])
+        setNumberOfBlog(prev => prev + res.data.posts.length)
+      }).catch((err) => {
+        alert(err)
+      })
+    } else {
+      if (blogShowNumLimit > 10) {
+        setShowMore("Subscribe premium!!!")
+      }
+    }
   }
 
   return (
@@ -73,9 +82,15 @@ export default function CommunityCom() {
       <div className='flex justify-center bg-[#faedda] h-[90vh] sm:h-[95vh] overflow-y-scroll'>
         <div className='w-full sm:w-[500px] py-2'>
           <div>
-            <div className="flex items-center justify-center">
-              <CreateBlog setShowNewPost={setShowNewPost} showNewPost={showNewPost} />
-            </div>
+            {
+              isPayment && (
+                <>
+                  <div className="flex items-center justify-center">
+                    <CreateBlog setShowNewPost={setShowNewPost} showNewPost={showNewPost} />
+                  </div>
+                </>
+              )
+            }
           </div>
           {posts.map((post, index) => (
             <div key={post.id}>
@@ -83,7 +98,7 @@ export default function CommunityCom() {
             </div>
           ))}
           {numberOfBlog === blogShowNumLimit - 5 && <div className='rounded-xl bg-white border border-solid px-3 py-1 text-center cursor-pointer hover:bg-[#999999]' onClick={handleOnShowMore}>
-            Show more blogs
+            {showMore}
           </div>}
         </div>
       </div>

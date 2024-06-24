@@ -54,12 +54,6 @@ export default function Blog({ post, deletePost }) {
   }, [originContent])
 
   useEffect(() => { }, [comments]);
-
-  console.log("first: ", post.userId === currentUser.id)
-  console.log("currentUser: ", currentUser)
-  console.log("post: ", post)
-  console.log("seconde: ", post.userId === currentUser.id || currentUser.roles[0] === 'ROLE_ADMIN')
-
   const header = useMemo(
     () => ({
       "x-access-token": currentUser.accessToken,
