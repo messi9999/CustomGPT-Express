@@ -64,7 +64,7 @@ export default function CommunityCom() {
     if (showMore === "Subscribe premium!!!") {
       navigate("/profile/payment")
     }
-    if (isPayment || blogShowNumLimit <= 15) {
+    if (isPayment || blogShowNumLimit <= 5) {
       setBlogShowNumLimit(prev => prev + 5)
       axios.get(`${BASEURL}/api/community/post/all`, {
         headers: header,
