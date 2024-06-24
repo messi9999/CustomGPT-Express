@@ -60,8 +60,8 @@ export default function CommunityCom() {
 
 
   const handleOnShowMore = () => {
+    console.log("ispayment: ", isPayment)
     if (isPayment) {
-
       setBlogShowNumLimit(prev => prev + 5)
       axios.get(`${BASEURL}/api/community/post/all`, {
         headers: header,
