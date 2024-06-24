@@ -4,6 +4,7 @@ import { BASEURL } from "../../config/config";
 import axios from 'axios'
 import AuthService from 'services/auth.service';
 import CreateBlog from 'components/Community/CreateBlog';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function CommunityCom() {
@@ -32,6 +33,7 @@ export default function CommunityCom() {
     data.splice(index, 1);
     setPosts([...data]);
   }
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`${BASEURL}/api/community/post/all`, {
@@ -48,8 +50,13 @@ export default function CommunityCom() {
       setBlogShowNumLimit(prev => prev + 5)
     }).catch((err) => {
       alert(err)
+      if (err.status === 401) {
+        AuthService.logout();
+        navigate('/')
+      }
     })
-  }, [header])
+  }, [header, navigate])
+
 
 
   const handleOnShowMore = () => {
