@@ -92,7 +92,7 @@ export default function CommunityCom() {
       <div className='flex justify-center bg-[#faedda] h-[90vh] sm:h-[95vh] overflow-y-scroll'>
         <div className='w-full sm:w-[500px] py-2'>
           <div>
-            {/* {
+            {
               isPayment && (
                 <>
                   <div className="flex items-center justify-center">
@@ -100,12 +100,12 @@ export default function CommunityCom() {
                   </div>
                 </>
               )
-            } */}
-            <>
+            }
+            {/* <>
                   <div className="flex items-center justify-center">
                     <CreateBlog setShowNewPost={setShowNewPost} showNewPost={showNewPost} />
                   </div>
-                </>
+                </> */}
           </div>
           {posts.map((post, index) => (
             <div key={post.id}>
