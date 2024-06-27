@@ -13,6 +13,10 @@ const PostLike = db.postLike
 const CommentLike = db.commentLike
 const Avatar = db.avatar
 
+const getCurrentTimeISO = () => {
+    const now = new Date();
+    return now.toISOString();
+}
 
 exports.getAllPosts = (req, res) => {
     const limit = req.query.limit
@@ -23,7 +27,7 @@ exports.getAllPosts = (req, res) => {
                 model: db.postLike,
                 as: 'postLikes',
                 attributes: ['id', 'postId', 'userId']
-            }, 
+            },
             {
                 model: db.comment,
                 as: 'comments',
@@ -53,7 +57,7 @@ exports.getAllPosts = (req, res) => {
         offset: offset,
         order: [['id', 'DESC']]
     }).then((posts) => {
-        return res.status(200).send({ posts: posts })
+        return res.status(200).send({ posts: posts, servertime: getCurrentTimeISO() })
     }).catch((err) => {
         return res.status(500).send({ message: err.message });
     })
@@ -69,7 +73,7 @@ exports.getPostsByUser = (req, res) => {
                 model: db.postLike,
                 as: 'postLikes',
                 attributes: ['id', 'postId', 'userId']
-            }, 
+            },
             {
                 model: db.comment,
                 as: 'comments',
@@ -157,8 +161,8 @@ exports.updatePost = (req, res) => {
     }, {
         where: {
             id: req.body.postId
-        }, 
-        
+        },
+
     }).then((post) => {
 
         // try {
@@ -201,7 +205,7 @@ exports.deletePost = (req, res) => {
         }).then(() => {
             console.log("imagePath: ", imagePath)
             console.log("filePath: ", filePath)
-             try {
+            try {
                 fs.unlinkSync(imagePath);
                 console.log('File deleted successfully');
             } catch (err) {
@@ -316,8 +320,8 @@ exports.getCommentsByPost = (req, res) => {
             as: 'commentLikes',
             attributes: ['id', 'commentId', 'userId']
         }
-    ],
-    order: [['id', 'ASC']]
+        ],
+        order: [['id', 'ASC']]
     }).then((comments) => {
         return res.status(200).send({ comments: comments })
         // post.getComments().then((comments) => {
@@ -363,7 +367,7 @@ exports.updateComment = (req, res) => {
 }
 
 exports.deleteComment = (req, res) => {
-     Comment.destroy({
+    Comment.destroy({
         where: {
             id: req.params.commentId
         }
@@ -424,7 +428,7 @@ exports.donwload = (req, res) => {
         if (err) {
             console.error('Error downloading file:', err);
             res.status(500).send('Error downloading file.');
-          }
+        }
     })
 }
 

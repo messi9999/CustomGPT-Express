@@ -12,9 +12,11 @@ export default function CommunityCom() {
   const [showNewPost, setShowNewPost] = useState(false)
   const [numberOfBlog, setNumberOfBlog] = useState(0);
 
-  const [showMore, setShowMore] = useState("Show more blogs")
+  const [showMore, setShowMore] = useState("Show more")
 
   const [blogShowNumLimit, setBlogShowNumLimit] = useState(5);
+
+  const [servertime, setServertime] = useState()
 
   let currentUser = AuthService.getCurrentUser();
 
@@ -46,6 +48,7 @@ export default function CommunityCom() {
     }).then((res) => {
 
       setPosts(res.data.posts)
+      setServertime(res.data.servertime)
       setNumberOfBlog(res.data.posts.length)
       setBlogShowNumLimit(prev => prev + 5)
     }).catch((err) => {
@@ -60,7 +63,6 @@ export default function CommunityCom() {
 
 
   const handleOnShowMore = () => {
-    console.log("ispayment: ", isPayment)
     if (showMore === "Subscribe premium!!!") {
       navigate("/profile/payment")
     }
@@ -90,7 +92,7 @@ export default function CommunityCom() {
       <div className='flex justify-center bg-[#faedda] h-[90vh] sm:h-[95vh] overflow-y-scroll'>
         <div className='w-full sm:w-[500px] py-2'>
           <div>
-            {
+            {/* {
               isPayment && (
                 <>
                   <div className="flex items-center justify-center">
@@ -98,11 +100,16 @@ export default function CommunityCom() {
                   </div>
                 </>
               )
-            }
+            } */}
+            <>
+                  <div className="flex items-center justify-center">
+                    <CreateBlog setShowNewPost={setShowNewPost} showNewPost={showNewPost} />
+                  </div>
+                </>
           </div>
           {posts.map((post, index) => (
             <div key={post.id}>
-              <Blog post={post} deletePost={() => deletePost(index)} />
+              <Blog post={post} servertime={servertime} deletePost={() => deletePost(index)} />
             </div>
           ))}
           {numberOfBlog === blogShowNumLimit - 5 && <div className='rounded-xl bg-white border border-solid px-3 py-1 text-center cursor-pointer hover:bg-[#999999]' onClick={handleOnShowMore}>

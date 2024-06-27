@@ -13,7 +13,43 @@ import Comment from "./Comment";
 import ThreeDotDropDown from "./ThreeDotDropDown";
 
 
-export default function Blog({ post, deletePost }) {
+const formatTextToParagraphs = (text) => {
+  return text.split('\n').map((line, index) => (
+    <div key={index}>
+      <p className="indent-2">{parser(line)}</p>
+      <br />
+    </div>
+  ));
+}
+
+const getTimeDifference = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const diffMs = end - start; // Difference in milliseconds
+
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffMs / (1000 * 60));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const diffMonths = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 30.44)); // Approximate month length
+
+  if (diffSeconds < 60) {
+    return `${diffSeconds} seconds`;
+  } else if (diffMinutes < 60) {
+    return `${diffMinutes} minutes`;
+  } else if (diffHours < 24) {
+    return `${diffHours} hours`;
+  } else if (diffDays < 30) {
+    return `${diffDays} days`;
+  } else if (diffMonths < 12) {
+    return `${diffMonths} months`;
+  } else {
+    const diffYears = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 365.25)); // Approximate year length
+    return `${diffYears} years`;
+  }
+}
+
+export default function Blog({ post, servertime, deletePost }) {
   const [isComment, setIsComment] = useState(false)
   const [comment, setComment] = useState("")
   const [numOfLikes, setNumOfLikes] = useState(post.postLikes.length)
@@ -34,7 +70,6 @@ export default function Blog({ post, deletePost }) {
   }
 
   const textareaRef = useRef(null)
-
 
 
   useEffect(() => {
@@ -224,11 +259,14 @@ export default function Blog({ post, deletePost }) {
               </>
             )
           }
-          <label>{post.user.avatar ? (
-            <label>{post.user.avatar.firstname} {post.user.avatar.lastname}</label>
-          ) : (
-            <label>{post.user.username}</label>
-          )}</label>
+          <div className="flex flex-col">
+            <label className="font-bold">{post.user.avatar ? (
+              <label>{post.user.avatar.firstname} {post.user.avatar.lastname}</label>
+            ) : (
+              <label>{post.user.username}</label>
+            )}</label>
+            <label className="text-xs text-gray-500">Posted {getTimeDifference(post.updatedAt, servertime)} ago</label>
+          </div>
         </div>
 
         <div className="rounded-full hover:bg-gray-200 w-fit h-fit">
@@ -245,8 +283,10 @@ export default function Blog({ post, deletePost }) {
         </div>
       </div>
       <div className=" flex flex-col items-center mt-3">
-        <h1 className='text-center w-full text-lg sm:text-lg font-oswald max-w-[600px] mb-1 px-2'>{post.title}</h1>
-        {!editable && <div className='text-sm sm:text-sm text-start w-full mb-1 px-3'>{parser(content)}</div>}
+        <div className="w-full ps-3 mb-3">
+          <h1 className='w-full text-lg sm:text-lg font-oswald max-w-[600px] mb-1 px-2'>{post.title}</h1>
+        </div>
+        {!editable && <div className='text-sm sm:text-sm text-start w-full mb-1 px-3'>{formatTextToParagraphs(content)}</div>}
         {editable && <div className="flex flex-col w-full gap-4 px-2 py-2 text-sm sm:text-sm text-start">
           <textarea
             ref={textareaRef}
@@ -274,7 +314,7 @@ export default function Blog({ post, deletePost }) {
         {
           post.image && (
             <>
-              <img src={imageUrl} alt="" />
+              <img src={imageUrl} alt="" className="rounded-b-lg" />
             </>
           )
         }
@@ -293,7 +333,7 @@ export default function Blog({ post, deletePost }) {
         </div>
       </div>
       <div className="flex flex-row items-start gap-6 px-6 py-2">
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center gap-2">
           {
             isLiked ? (
               <>
@@ -305,10 +345,12 @@ export default function Blog({ post, deletePost }) {
               </>
             )
           }
+          <label className="text-xs text-gray-500">Like</label>
 
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center gap-2">
           <CommentIcon width="20" height="20" className='hover: cursor-pointer' onClick={handleOnComment} />
+          <label className="text-xs text-gray-500">Comment</label>
         </div>
         <div className="flex flex-row gap-1 items-center">
           <FileIcon width="20" height="20" className='hover: cursor-pointer' onClick={downloadFile} />

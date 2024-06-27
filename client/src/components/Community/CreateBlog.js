@@ -3,8 +3,8 @@ import { BASEURL } from "../../config/config";
 import AuthService from "services/auth.service";
 import axios from "axios";
 
-import { ReactComponent as MediaIcon } from "assets/icons/media.svg";
-import { ReactComponent as FileIcon } from "assets/icons/file.svg";
+import { ReactComponent as MediaIcon } from "assets/icons/img-icon.svg";
+import { ReactComponent as FileIcon } from "assets/icons/fi_154841.svg";
 
 export default function CreateBlog({ showNewPost, setShowNewPost }) {
   const [image, setImage] = useState(null);
@@ -102,15 +102,15 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
       {preview && <img className='w-full sm:p-4 sm:px-4 mb-5' src={preview} alt="Preview" />}
       {/* {content && <pre className='sm:p-4 sm:px-4 w-full whitespace-pre-wrap'>{content}</pre>} */}
       <div className='sm:px-6 sm:pe-10 mt-2 mb-1 flex flex-row items-center text-sm'>
-        <label>Title: </label>
+        {/* <label>Title: </label> */}
         <input
           className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fff7ea]'
           onChange={(e) => { setTitle(e.target.value) }}
-
+          placeholder='What`s on your mind...'
         />
       </div>
       <div className='sm:px-6 sm:pe-10 mb-3 pt-1 flex flex-row items-top text-sm'>
-        <label>Content: </label>
+        {/* <label>Content: </label> */}
         <textarea
           style={{ height: '36px', overflow: 'hide', resize: 'none' }}
           className='w-full focus:outline-none ps-2 bg-[#fff7ea]'
@@ -119,7 +119,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
             e.target.style.height = 'inherit';
             e.target.style.height = `${e.target.scrollHeight}px`;
           }}
-          placeholder='Write the content of post here'
+          placeholder='Description...'
         />
 
       </div>
@@ -150,11 +150,14 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
         id="fileInput" />
       <div className='flex justify-between px-6 text-sm sm:text-md'>
         <div className='flex items-center gap-4'>
-          <label
-            htmlFor="imageInput"
-            className="px-1 py-1 cursor-pointer rounded-full hover:bg-gray-200">
-            <MediaIcon width="20" height="20" />
-          </label>
+          <div className='flex flex-row items-center gap-1'>
+            <label
+              htmlFor="imageInput"
+              className="px-1 py-1 cursor-pointer rounded-full hover:bg-gray-200">
+              <MediaIcon width="20" height="20" />
+            </label>
+            <label className='text-xs text-gray-500'>Photo/Video</label>
+          </div>
           <div className='flex flex-row items-center text-center'>
             <label
               htmlFor="fileInput"
@@ -162,14 +165,14 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
               <FileIcon width="20" height="20" />
             </label>
             {
-              postFile && <label className='text-xs'>{postFile.name}</label>
+              postFile ? (<label className='text-xs text-gray-500'>{postFile.name}</label>) : (<label className='text-xs text-gray-500'>Document</label>)
             }
           </div>
 
         </div>
         <div className='flex gap-4'>
           <button
-            className='bg-blue-700 text-slate-100 px-4 rounded-2xl hover:bg-blue-800'
+            className='bg-[#8C52FF] text-slate-100 px-4 rounded-2xl hover:bg-blue-800'
             onClick={handlePost}>
             Post
           </button>
