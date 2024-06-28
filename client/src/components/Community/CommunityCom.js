@@ -187,7 +187,7 @@ export default function CommunityCom() {
           <div className='overflow-y-scroll h-[80vh] sm:h-[92vh]'>
             <div>
               {
-                isPayment && (
+                (isPayment || currentUser.roles[0] === 'ROLE_ADMIN') && (
                   <>
                     <div className="flex items-center justify-center">
                       <CreateBlog setShowNewPost={setShowNewPost} showNewPost={showNewPost} />

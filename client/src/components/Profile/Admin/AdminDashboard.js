@@ -4,12 +4,10 @@ import { Column } from "primereact/column";
 import { FilterMatchMode } from "primereact/api";
 import { InputText } from "primereact/inputtext";
 
-// import 'primeflex/primeflex.css';
-// import 'primeicons/primeicons.css';
-
 import { useNavigate } from "react-router-dom";
 import UserService from "services/user.service";
 import AuthService from "services/auth.service";
+import TitleBar from "components/Community/TitleBar";
 
 export default function AdminDashboard() {
   const currentUser = AuthService.getCurrentUser();
@@ -25,7 +23,6 @@ export default function AdminDashboard() {
     setLoading(false);
   }, []);
 
-  console.log(users);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString();
@@ -78,7 +75,9 @@ export default function AdminDashboard() {
 
   return (
     <div className="overflow-x-auto scrollbar-thumb scrollbar-track h-screen flex-auto justify-center">
-      <div className="card mt-6 h-[80vh]">
+      <div className="card pt-6 h-[100vh] flex flex-col">
+        <div className="h-full">
+
         <DataTable
           value={users}
           paginator
@@ -146,6 +145,8 @@ export default function AdminDashboard() {
             bodyStyle={{ textAlign: "center" }}
           ></Column>
         </DataTable>
+        </div>
+        <TitleBar className="items-end"/>
       </div>
     </div>
   );
