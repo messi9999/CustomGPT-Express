@@ -186,7 +186,7 @@ export default function CommunityCom() {
           </div>
           <div className='overflow-y-scroll h-[80vh] sm:h-[92vh]'>
             <div>
-              {/* {
+              {
                 isPayment && (
                   <>
                     <div className="flex items-center justify-center">
@@ -194,12 +194,12 @@ export default function CommunityCom() {
                     </div>
                   </>
                 )
-              } */}
-              <>
+              }
+              {/* <>
                   <div className="flex items-center justify-center">
                     <CreateBlog setShowNewPost={setShowNewPost} showNewPost={showNewPost} />
                   </div>
-                </>
+                </> */}
             </div>
             {posts.map((post, index) => (
               <div key={post.id}>
