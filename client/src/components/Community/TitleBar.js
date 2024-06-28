@@ -21,13 +21,13 @@ const TitleBarItem = ({ to, IconActive, IconInactive, label }) => {
                 type="button"
             >
                 {
-                    pathname === to ? (
+                    pathname.includes(to) ? (
                         <IconActive className="h-8 w-8 rounded-sm hover:bg-neutral-300" />
                     ) : (
                         <IconInactive className="h-8 w-8 p-1 rounded-sm hover:bg-neutral-300" />
                     )
                 }
-                <label className={`${pathname === to ? 'text-[#FF90A1]' : 'text-[#010101]'} pt-1`}>{label}</label>
+                <label className={`${pathname.includes(to) ? 'text-[#FF90A1]' : 'text-[#010101]'} pt-1`}>{label}</label>
             </NavLink>
         </div>
     );
