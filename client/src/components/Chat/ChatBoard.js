@@ -26,6 +26,7 @@ import { BASEURL, OPENAI_API_KEY, STREAMENDPOINT } from "config/config";
 import OpenAI from "openai";
 import AudioPlayer from "react-audio-player";
 import { sleep } from "openai/core";
+import TitleBar from "components/Community/TitleBar";
 // import TitleBar from "components/Community/TitleBar";
 
 const client = new OpenAI({
@@ -364,7 +365,7 @@ export default function ChatBoard() {
   return (
     <>
       <div
-        className={`relative grow overflow-x-auto lg:flex-auto lg:flex-col h-screen ${pathname !== "/dashboard" ? "hidden lg:block" : ""
+        className={`relative grow overflow-x-auto lg:flex-auto lg:flex-col h-[100vh] ${pathname !== "/dashboard" ? "hidden lg:block" : ""
           }`}
       >
         <div className="relative flex flex-col overflow-hidden sm:overflow-x-visible h-full pt-8 grow min-h-[calc(100%-60px)] sm:min-h-[calc(100%-120px)]">
@@ -466,6 +467,7 @@ export default function ChatBoard() {
           <div className="text-slate-900 text-md mb-3 flex justify-center">
             @Copyright Nourished Natural Health
           </div>
+          <TitleBar className="items-end"/>
         </div>
         <div className="absolute inset-x-4 top-8 flex items-start lg:flex-row-reverse z-40">
           <div className="flex grow items-center lg:hidden">
@@ -475,24 +477,8 @@ export default function ChatBoard() {
             >
               <BackIcon />
             </NavLink>
-            {/* <NavLink
-              to="/Create"
-              className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap"
-              type="button"
-            >
-              <BackCreateIcon />
-            </NavLink> */}
           </div>
           <div className="flex gap-x-2">
-            {/* <button
-              className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover lg:hidden"
-              type="button"
-              onClick={() => {
-                handleLogOut();
-              }}
-            >
-              <LogoutIcon />
-            </button> */}
             <button
               className="relative flex items-center justify-end rounded-full self-end overflow-hidden p-2 bg-neutral-200 hover:bg-neutral-200-hover"
               type="button"
@@ -514,9 +500,7 @@ export default function ChatBoard() {
             </button>
           </div>
         </div>
-        {/* <div className="block sm:hidden">
-          <TitleBar />
-        </div> */}
+        
       </div>
     </>
   );

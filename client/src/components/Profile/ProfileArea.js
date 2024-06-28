@@ -4,6 +4,7 @@ import { ReactComponent as PaymentIcon } from "assets/icons/payment-icon.svg";
 import { ReactComponent as AdminIcon } from "assets/icons/admin-icon.svg";
 
 import AuthService from "services/auth.service";
+import TitleBar from "components/Community/TitleBar";
 
 const UserIcon = () => {
   return (
@@ -91,40 +92,45 @@ export default function ProfileArea() {
   const currentUser = AuthService.getCurrentUser();
   return (
     <div className={`${pathname !== "/profile" && "hidden lg:show"} w-full h-screen lg:w-[450px] lg:shrink-0 lg:border-r lg:border-neutral-300 lg:flex flex-col`}>
-      <div className="bg-transparent">
-        <div className="flex items-center py-5 mt-2 rounded-t-[28px] md:mt-0 md:rounded-none px-4 lg:px-6">
-          <NavLink
-            to="/create"
-            className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"
-          >
-            <BackIcon />
-          </NavLink>
-          <div className="grow text-primary-700">
-            <h1 className="hidden text-[24px] font-bold text-h-l-mobile lg:block lg:pl-0">
+      <div className="h-[100vh] flex flex-col justify-between">
+        <div>
+          <div className="bg-transparent">
+            <div className="flex items-center py-5 mt-2 rounded-t-[28px] md:mt-0 md:rounded-none px-4 lg:px-6">
+              <NavLink
+                to="/create"
+                className="flex h-9 w-9 items-center justify-center rounded-full p-1.5 text-primary-700 bg-neutral-300 hover:bg-neutral-300-hover active:bg-neutral-300-tap lg:hidden"
+              >
+                <BackIcon />
+              </NavLink>
+              <div className="grow text-primary-700">
+                <h1 className="hidden text-[24px] font-bold text-h-l-mobile lg:block lg:pl-0">
+                  Profile
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div className="overflow-y-auto mb-14 lg:mb-0">
+            <div className="pl-6 font-bold text-[32px] text-h-l-mobile lg:hidden">
               Profile
-            </h1>
+            </div>
+            {
+              currentUser.roles[0] === "ROLE_ADMIN" ? (
+                <div>
+                  {adminProfiles.map((item, idx) => (
+                    <ProfileComponents item={item} key={idx} />
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  {profiles.map((item, idx) => (
+                    <ProfileComponents item={item} key={idx} />
+                  ))}
+                </div>
+              )
+            }
           </div>
         </div>
-      </div>
-      <div className="overflow-y-auto mb-14 lg:mb-0">
-        <div className="pl-6 font-bold text-[32px] text-h-l-mobile lg:hidden">
-          Profile
-        </div>
-        {
-          currentUser.roles[0] === "ROLE_ADMIN" ? (
-            <div>
-              {adminProfiles.map((item, idx) => (
-                <ProfileComponents item={item} key={idx} />
-              ))}
-              </div>
-          ) : (
-            <div>
-              {profiles.map((item, idx) => (
-                <ProfileComponents item={item} key={idx} />
-              ))}
-            </div>
-          )
-        }
+        <TitleBar className="items-end" />
       </div>
     </div>
   );

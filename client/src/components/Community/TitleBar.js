@@ -22,12 +22,12 @@ const TitleBarItem = ({ to, IconActive, IconInactive, label }) => {
             >
                 {
                     pathname.includes(to) ? (
-                        <IconActive className="h-8 w-8 rounded-sm hover:bg-neutral-300" />
+                        <IconActive className="h-6 w-6 rounded-sm hover:bg-neutral-300" />
                     ) : (
-                        <IconInactive className="h-8 w-8 p-1 rounded-sm hover:bg-neutral-300" />
+                        <IconInactive className="h-6 w-6 p-1 rounded-sm hover:bg-neutral-300" />
                     )
                 }
-                <label className={`${pathname.includes(to) ? 'text-[#FF90A1]' : 'text-[#010101]'} pt-1`}>{label}</label>
+                <label className={`${pathname.includes(to) ? 'text-[#FF90A1]' : 'text-[#010101]'} pt-1 text-sm`}>{label}</label>
             </NavLink>
         </div>
     );
@@ -100,8 +100,8 @@ export default function TitleBar() {
                             handleLogOut();
                         }}
                     >
-                        <LogoutIcon className="w-8 h-8" />
-                        <span className='pt-1'>Logout</span>
+                        <LogoutIcon className="w-6 h-6 p-1" />
+                        <span className='pt-1 text-sm'>Logout</span>
                     </div>
                     {/* <TitleBarItem
                         to="/profile"

@@ -11,7 +11,6 @@ const fallBackImage =
 export default function CommunityProfile() {
 
   let currentUser = AuthService.getCurrentUser();
-  // const [imageSource2, setImageSource2] = React.useState(undefined);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [imageSource, setImageSource] = useState(undefined);
@@ -52,7 +51,6 @@ export default function CommunityProfile() {
   }
 
   const onSaveClick = () => {
-    console.log("first: ", imageResult)
     if (editorRef.current) {
       const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
       fetch(canvas)
@@ -78,12 +76,11 @@ export default function CommunityProfile() {
       formData.append('firstname', firstName);
       formData.append('lastname', lastName);
 
-      if (!imageSource) {
+      if (!editedImage) {
         if (currentUser.avatar && currentUser.avatar.uri) {
           formData.append('uri', currentUser.avatar.uri)
-        }
-        else {
-          alert("Please upload your avatar!")
+        } else {
+          alert("1Please upload your avatar!")
         }
       }
 
@@ -99,11 +96,8 @@ export default function CommunityProfile() {
           }).catch((err) => {
             console.log(err)
           })
-      }
-
-      else {
-        if (formData.uri) {
-
+      } else {
+        // if (formData.uri) {
           axios.post(`${BASEURL}/api/test/useravatar`, formData,
             {
               headers: header,
@@ -114,14 +108,13 @@ export default function CommunityProfile() {
             }).catch((err) => {
               console.log(err)
             })
-        } else {
-          alert("Please upload your avatar!")
-        }
+        // } else {
+        //   alert("2Please upload your avatar!")
+        // }
       }
     } else {
       alert("Please save Avatar image first!!!")
     }
-
   }
 
   return (

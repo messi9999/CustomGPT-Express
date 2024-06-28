@@ -63,17 +63,17 @@ const Role = db.role;
 
 
 /////////////// 3. Community sync
-try {
-  db.commentLike.sync({ force: true })
-  .then(() => db.comment.sync({ force: true }))
-  .then(() => db.avatar.sync({ force: true }))
-  .then(() => db.postLike.sync({ force: true }))
-  .then(() => db.post.sync({ force: true }))
+// try {
+//   db.commentLike.sync({ force: true })
+//   .then(() => db.comment.sync({ force: true }))
+//   .then(() => db.avatar.sync({ force: true }))
+//   .then(() => db.postLike.sync({ force: true }))
+//   .then(() => db.post.sync({ force: true }))
   
-} catch (error) {
-  console.error('Error:', error)
-}
-db.sequelize.sync();
+// } catch (error) {
+//   console.error('Error:', error)
+// }
+// db.sequelize.sync();
 
 
 

@@ -106,7 +106,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
         <input
           className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fff7ea]'
           onChange={(e) => { setTitle(e.target.value) }}
-          placeholder='What`s on your mind...'
+          placeholder="What's on your mind..."
         />
       </div>
       <div className='sm:px-6 sm:pe-10 mb-3 pt-1 flex flex-row items-top text-sm'>
@@ -119,7 +119,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
             e.target.style.height = 'inherit';
             e.target.style.height = `${e.target.scrollHeight}px`;
           }}
-          placeholder='Description...'
+          placeholder='Put your post here...'
         />
 
       </div>

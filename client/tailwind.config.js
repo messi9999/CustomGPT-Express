@@ -23,7 +23,7 @@ module.exports = {
         '60': '60px',
       },
       boxShadow: {
-        'custom-above': '0 -24px 72px 0px rgba(248, 244, 243, 1), 0 -24px 36px 0px rgba(248, 244, 243, 1)',
+        'custom-above': '0 -12px 24px 0px rgba(248, 244, 243, 1), 0 -12px 24px 0px rgba(248, 244, 243, 1)',
       },
     },
   },

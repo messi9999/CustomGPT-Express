@@ -5,6 +5,7 @@ import AuthService from "services/auth.service";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import UserService from "services/user.service";
+import TitleBar from "components/Community/TitleBar";
 
 export default function PaymentBoard() {
   const currentUser = AuthService.getCurrentUser();
@@ -80,9 +81,9 @@ export default function PaymentBoard() {
           ) : (
             <Subscription />
           )}
-          {/* <PaymentInfo /> */}
         </div>
       </div>
+      <TitleBar />
     </div>
   );
 }
