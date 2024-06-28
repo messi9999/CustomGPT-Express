@@ -50,6 +50,7 @@ export default function CommunityCom() {
     }).then((res) => {
 
       setPosts(res.data.posts)
+      console.log(res.data.posts)
       setServertime(res.data.servertime)
       setNumberOfBlog(res.data.posts.length)
       setBlogShowNumLimit(prev => prev + 5)
@@ -62,7 +63,7 @@ export default function CommunityCom() {
     })
   }, [header, navigate])
 
-
+console.log(currentUser)
 
   const handleOnShowMore = () => {
     if (showMore === "Subscribe premium!!!") {
