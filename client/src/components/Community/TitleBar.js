@@ -74,7 +74,7 @@ export default function TitleBar() {
 
     return (
         <>
-            <div className="w-full flex justify-center pt-1 bg-[#faedda] h-[10vh] sm:h-[5vh] shadow-custom-above">
+            <div className="w-full flex justify-center bg-[#faedda] h-[10vh] sm:h-0 shadow-custom-above">
                 <div className="flex justify-between sm:justify-end gap-6 sm:w-[500px] w-full px-3 py-1 items-center">
                     <TitleBarItem
                         to="/create"
