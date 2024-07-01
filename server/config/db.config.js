@@ -12,4 +12,10 @@ module.exports = {
     acquire: 30000,
     idle: 10000,
   },
+  dialectOptions: {
+    ssl: {
+      require: true, // This will help you connect to the RDS instance using SSL
+      rejectUnauthorized: false // You might want to set this to true in production
+    }
+  }
 };
