@@ -10,6 +10,9 @@ var bcrypt = require("bcryptjs");
 
 const chatGptUtils = require("../utils/chatgpt.utils");
 
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+const moment = require("moment")
+
 exports.signup = (req, res) => {
   chatGptUtils
     .createNewThread()
@@ -97,6 +100,55 @@ exports.signin = (req, res) => {
           accessToken: null,
           message: "Invalid Password!",
         });
+      }
+
+      if (user.subscriptionid) {
+        stripe.subscriptions
+          .retrieve(user.subscriptionid)
+          .then((subscription) => {
+            console.log(subscription)
+            const planId = subscription.plan.id;
+            const planType = "basic";
+
+            const startDate = moment
+              .unix(subscription.current_period_start)
+              .format("YYYY-MM-DD");
+            const endDate = moment
+              .unix(subscription.current_period_end)
+              .format("YYYY-MM-DD");
+            const durationInSeconds =
+              subscription.current_period_end -
+              subscription.current_period_start;
+            const durationInDays = moment
+              .duration(durationInSeconds, "seconds")
+              .asDays();
+
+            const trialEndDate = moment.unix(subscription.trial_end).format("YYYY-MM-DD")
+
+            User.update(
+              {
+                subscription: {
+                  sessionId: null,
+                  trialEndDate: trialEndDate,
+                  planId: planId,
+                  planType: planType,
+                  planStartDate: startDate,
+                  planEndDate: endDate,
+                  planDuration: durationInDays,
+                },
+                subscriptionid: subscription.id
+              },
+              {
+                where: { id: user.id },
+              }
+            )
+              .catch((error) => {
+                console.log(error)
+              });
+          })
+          .catch((error) => {
+            console.error("Error retrieving subscription", error);
+          });
       }
 
       const token = jwt.sign({ id: user.id }, config.secret, config.options);
