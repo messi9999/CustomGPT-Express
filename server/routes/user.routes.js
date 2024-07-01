@@ -12,25 +12,26 @@ module.exports = function (app) {
 
   router.get("/all", controller.allAccess);
 
-  router.post("/user", [authJwt.verifyToken], controller.userBoard);
+  router.get("/user", [authJwt.verifyToken], controller.userBoard);
 
-  router.post(
+  router.get(
     "/admin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
 
-  router.post(
+  router.get(
     "/getAllUsers",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.getAllUser
   )
 
-  router.post(
-    "/useravatar",
-    [authJwt.verifyToken],
-    controller.createUserAvatar
-  )
+  // router.post(
+  //   "/useravatar",
+  //   [authJwt.verifyToken],
+  //   controller.createUserAvatar
+  // )
+
   router.put(
     "/useravatar",
     [authJwt.verifyToken],

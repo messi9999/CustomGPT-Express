@@ -8,14 +8,11 @@ const getPublicContent = () => {
   return axios.get(API_URL + "all");
 };
 
-const getUserBoard = (userId) => {
+const getUserBoard = () => {
   const currentUser = AuthService.getCurrentUser();
   return axios
-    .post(
+    .get(
       API_URL + "user",
-      {
-        userId: userId,
-      },
       {
         headers: {
           "Content-Type": "application/json",
@@ -41,11 +38,8 @@ const getAdminBoard = () => {
 
 const getAllUsers = () => {
   const currentUser = AuthService.getCurrentUser();
-  return axios.post(
+  return axios.get(
     API_URL + "getAllUsers",
-    {
-      userId: currentUser.id,
-    },
     {
       headers: {
         "Content-Type": "application/json",

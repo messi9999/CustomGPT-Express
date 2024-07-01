@@ -6,7 +6,9 @@ const methodOverride = require('method-override');
 const fs = require('fs');
 const path = require("path");
 
-require("dotenv").config();
+const env = process.env.NODE_ENV || 'development';
+require('dotenv').config({ path: `.env.${env}` });
+// require("dotenv").config();
 
 const app = express();
 
@@ -16,9 +18,9 @@ var corsOptions = {
   origin: process.env.DOMAIN,
 };
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
-app.use(cors());
+// app.use(cors());
 
 app.use(express.json());
 
@@ -66,7 +68,6 @@ const Role = db.role;
 // try {
 //   db.commentLike.sync({ force: true })
 //   .then(() => db.comment.sync({ force: true }))
-//   .then(() => db.avatar.sync({ force: true }))
 //   .then(() => db.postLike.sync({ force: true }))
 //   .then(() => db.post.sync({ force: true }))
   

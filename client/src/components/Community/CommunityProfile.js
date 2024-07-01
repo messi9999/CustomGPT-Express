@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import AvatarEditor from 'react-avatar-editor'
 import { Avatar } from '@files-ui/react';
 import AuthService from 'services/auth.service';
@@ -11,31 +11,34 @@ const fallBackImage =
 export default function CommunityProfile() {
 
   let currentUser = AuthService.getCurrentUser();
+
+  console.log('currentUser', currentUser);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [imageSource, setImageSource] = useState(undefined);
-  const [imageResult, setImageResult] = useState(currentUser.avatar ? `${BASEURL}/${currentUser.avatar.uri}` : fallBackImage);
+  const [imageResult, setImageResult] = useState(currentUser.avatar_uri ? `${BASEURL}/${currentUser.avatar_uri}` : fallBackImage);
   const [editedImage, setEditedImage] = useState(null)
   const [isEditing, setIsEditing] = useState(false);
   const [isImgSaved, setIsImgSaved] = useState(true)
   const editorRef = useRef(null);
 
+  console.log('imageResult', imageResult);
 
-
-  // useEffect(() => {
-  //   if(currentUser.avatar) {
-  //     setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
-  //   }
-  // }, [])
 
   useEffect(() => {
-    if (currentUser.avatar) {
-      // setImageResult(`${BASEURL}/${currentUser.avatar.uri}`)
-      setFirstName(currentUser.avatar.firstname)
-      setLastName(currentUser.avatar.lastname)
+    console.log('avatar_uri', currentUser.avatar_uri);
+    if (currentUser.avatar_uri) {
+      setImageResult(`${BASEURL}/${currentUser.avatar_uri}`)
     }
-  }, [currentUser])
-
+  }, [currentUser.avatar_uri])
+  useEffect(() => {
+    setFirstName(currentUser.firstname)
+    setLastName(currentUser.lastname)
+  }, [currentUser.firstname, currentUser.lastname])
+  useEffect(() => {
+    console.log(currentUser.avatar_uri ? `${BASEURL}/${currentUser.avatar_uri}` : fallBackImage);
+  }, [currentUser]);
 
   const header = useMemo(
     () => ({
@@ -44,13 +47,13 @@ export default function CommunityProfile() {
     [currentUser.accessToken]
   );
 
-  const onAvatarChange = (image) => {
+  const onAvatarChange = useCallback((image) => {
     setIsImgSaved(false)
     setImageSource(image);
     setIsEditing(true);
-  }
+  }, [])
 
-  const onSaveClick = () => {
+  const onSaveClick = useCallback(() => {
     if (editorRef.current) {
       const canvas = editorRef.current.getImageScaledToCanvas().toDataURL();
       fetch(canvas)
@@ -60,14 +63,12 @@ export default function CommunityProfile() {
           setImageResult(window.URL.createObjectURL(file));
           setIsEditing(false);
           setEditedImage(file)
-          // setImageSource(file)
-          // console.log(window.URL.createObjectURL(file))
         }).catch((error) => {
           alert(error)
         })
       setIsImgSaved(true)
     }
-  }
+  }, [])
 
   const handleOnSaveProfile = () => {
     if (isImgSaved) {
@@ -76,41 +77,33 @@ export default function CommunityProfile() {
       formData.append('firstname', firstName);
       formData.append('lastname', lastName);
 
-      if (!editedImage) {
-        if (currentUser.avatar && currentUser.avatar.uri) {
-          formData.append('uri', currentUser.avatar.uri)
+      if (editedImage) {
+        console.log('asdfasdfsdafasdf', currentUser);
+        if (currentUser.avatar_uri) {
+          console.log("2234234");
+          formData.append('uri', currentUser.avatar_uri)
         } else {
-          alert("1Please upload your avatar!")
+          alert("Please upload your avatar!")
         }
       }
 
-      if (currentUser.avatar) {
+
+      console.log("formData", formData);
+      if (formData.has('uri')) {
         axios.put(`${BASEURL}/api/test/useravatar`, formData,
           {
             headers: header,
           }).then((res) => {
-            currentUser.avatar = res.data
+            currentUser.avatar_uri = res.data.avatar_uri
+            currentUser.firstname = res.data.firstname
+            currentUser.lastname = res.data.lastname
             localStorage.setItem("user", JSON.stringify(currentUser))
             alert("Successfully updated!!!")
-
           }).catch((err) => {
             console.log(err)
           })
       } else {
-        // if (formData.uri) {
-          axios.post(`${BASEURL}/api/test/useravatar`, formData,
-            {
-              headers: header,
-            }).then((res) => {
-              currentUser.avatar = res.data
-              localStorage.setItem("user", JSON.stringify(currentUser))
-              alert("Successfully updated!!!")
-            }).catch((err) => {
-              console.log(err)
-            })
-        // } else {
-        //   alert("2Please upload your avatar!")
-        // }
+        alert("Please upload your avatar!")
       }
     } else {
       alert("Please save Avatar image first!!!")
@@ -148,7 +141,7 @@ export default function CommunityProfile() {
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fcf4e6] ps-2'
                   onChange={(e) => { setFirstName(e.target.value) }}
-                  defaultValue={currentUser.avatar && currentUser.avatar.firstname}
+                  defaultValue={currentUser.firstname}
                 />
               </div>
               <div className='flex items-center px-2'>
@@ -156,7 +149,7 @@ export default function CommunityProfile() {
                 <input
                   className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fcf4e6] ps-2'
                   onChange={(e) => { setLastName(e.target.value) }}
-                  defaultValue={currentUser.avatar && currentUser.avatar.lastname}
+                  defaultValue={currentUser.lastname}
                 />
               </div>
               <button

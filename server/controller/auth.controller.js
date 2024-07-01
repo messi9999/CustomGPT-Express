@@ -11,7 +11,6 @@ var bcrypt = require("bcryptjs");
 const chatGptUtils = require("../utils/chatgpt.utils");
 
 exports.signup = (req, res) => {
-  // Save User to Database
   chatGptUtils
     .createNewThread()
     .then((thread) => {
@@ -42,15 +41,12 @@ exports.signup = (req, res) => {
                   for (let i = 0; i < roles.length; i++) {
                     authorities.push("ROLE_" + roles[i].name.toUpperCase());
                   }
+                  user.roles = authorities
+                  user.accessToken = token
                   res.status(200).send({
-                    id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    threadID: user.threadID,
-                    subscription: user.subscription,
+                    ...user.get({ plain: true }),
                     roles: authorities,
-                    accessToken: token,
-                    freeAttempts: user.freeAttempts
+                    accessToken: token
                   });
                 });
               });
@@ -65,16 +61,9 @@ exports.signup = (req, res) => {
                 for (let i = 0; i < roles.length; i++) {
                   authorities.push("ROLE_" + roles[i].name.toUpperCase());
                 }
-                res.status(200).send({
-                  id: user.id,
-                  username: user.username,
-                  email: user.email,
-                  threadID: user.threadID,
-                  subscription: user.subscription,
-                  roles: authorities,
-                  accessToken: token,
-                  freeAttempts: user.freeAttempts
-                });
+                user.roles = authorities
+                user.accessToken = token
+                res.status(200).send(user);
               });
             });
           }
@@ -90,13 +79,6 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   User.findOne({
-    include: [
-      {
-        model:db.avatar,
-        as: 'avatar',
-        attributes: ['id', 'userId', 'firstname', 'lastname', 'uri']
-      }
-    ],
     where: {
       email: req.body.email,
     },
@@ -105,8 +87,6 @@ exports.signin = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
-      console.log(user)
-
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
@@ -126,20 +106,17 @@ exports.signin = (req, res) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
+        user.roles = authorities
+        user.accessToken = token
         res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          threadID: user.threadID,
-          subscription: user.subscription,
+          ...user.get({ plain: true }),
           roles: authorities,
-          accessToken: token,
-          freeAttempts: user.freeAttempts,
-          avatar: user.avatar
+          accessToken: token
         });
       });
     })
     .catch((err) => {
+      console.log(err)
       res.status(500).send({ message: err.message });
     });
 };

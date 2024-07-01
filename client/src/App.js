@@ -237,7 +237,7 @@ function App() {
       setCurrentUser(user);
 
       try {
-        if (user.subscription.planDuration > 0) {
+        if (user.subscriptionid) {
           setIsPayment(true);
         } else {
           setIsPayment(false);

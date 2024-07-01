@@ -4,6 +4,7 @@ import AuthService from "services/auth.service";
 import axios from "axios";
 import CommunityProfile from "components/Community/CommunityProfile";
 import TitleBar from "components/Community/TitleBar";
+import { BASEURL } from "config/config";
 
 export default function AccountBoard() {
   const currentUser = AuthService.getCurrentUser();
@@ -14,18 +15,15 @@ export default function AccountBoard() {
     setIsAdmin(currentUser.roles.includes("ROLE_ADMIN"));
 
     if (isAdmin) {
-      const reqBody = {
-        userId: currentUser.id,
-      };
+      
 
       const header = {
         "Content-Type": "application/json",
         "x-access-token": currentUser.accessToken,
       };
-      axios.post("/api/test/admin", reqBody, {
+      axios.get(`${BASEURL}/api/test/admin`, {
         headers: header,
       }).then((res) => {
-        console.log(res.data)
         setCount(res.data.userCount)
       }).catch((error) => { alert(error) })
     }

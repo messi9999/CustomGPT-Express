@@ -98,13 +98,13 @@ export default function CommunityCom() {
                     <>
                       <Badge badgeContent={'A'} color="primary">
                         {
-                          (currentUser.avatar) ? (
+                          (currentUser.avatar_uri) ? (
                             <>
                               <div
                                 className=''
                               >
                                 <img
-                                  src={`${BASEURL}/${currentUser.avatar.uri}`}
+                                  src={`${BASEURL}/${currentUser.avatar_uri}`}
                                   width={45}
                                   height={45}
                                   className="rounded-full hover:cursor-pointer"
@@ -131,13 +131,13 @@ export default function CommunityCom() {
                   ) : (
                     <>
                       {
-                        (currentUser.avatar) ? (
+                        (currentUser.avatar_uri) ? (
                           <>
                             <div
                               className=''
                             >
                               <img
-                                src={`${BASEURL}/${currentUser.avatar.uri}`}
+                                src={`${BASEURL}/${currentUser.avatar_uri}`}
                                 width={45}
                                 height={45}
                                 className="rounded-full hover:cursor-pointer"
@@ -168,9 +168,9 @@ export default function CommunityCom() {
               <div className='flex flex-col text-sm'>
                 <div className='font-bold'>
                   {
-                    (currentUser.avatar && (currentUser.avatar.firstname || currentUser.avatar.lastname)) ? (
+                    (currentUser.firstname || currentUser.lastname) ? (
                       <>
-                        <label>{currentUser.avatar.firstname} {currentUser.avatar.lastname}</label>
+                        <label>{currentUser.firstname} {currentUser.lastname}</label>
                       </>
                     ) : (
                       <>

@@ -1,17 +1,16 @@
 const db = require("../models");
 const decodeToken = require("../utils/decodeToken")
 
-const path = require('path');
+// const path = require('path');
 const fs = require('fs');
 
 
-const User = db.user;
+// const User = db.user;
 
 const Post = db.post;
 const Comment = db.comment;
 const PostLike = db.postLike
 const CommentLike = db.commentLike
-const Avatar = db.avatar
 
 const getCurrentTimeISO = () => {
     const now = new Date();
@@ -43,14 +42,7 @@ exports.getAllPosts = (req, res) => {
             {
                 model: db.user,
                 as: 'user',
-                attributes: ['id', 'username'],
-                include: [
-                    {
-                        model: db.avatar,
-                        as: 'avatar',
-                        attributes: ['id', 'uri', 'firstname', 'lastname']
-                    }
-                ]
+                attributes: ['id', 'username', 'email', 'firstname', 'lastname', 'avatar_uri'],
             }
         ],
         limit: limit,
@@ -130,12 +122,12 @@ exports.createPost = (req, res) => {
 }
 
 exports.updatePost = (req, res) => {
-    let token = req.headers["x-access-token"];
-    const userId = decodeToken.getUserIdFromToken(token)
-    let filePath = ""
-    let imagePath = ""
-    let uploadedFile = null
-    let uploadedImage = null
+    // let token = req.headers["x-access-token"];
+    // const userId = decodeToken.getUserIdFromToken(token)
+    // let filePath = ""
+    // let imagePath = ""
+    // let uploadedFile = null
+    // let uploadedImage = null
 
     // if (req.files) {
     //     if (req.files.file) {
@@ -264,7 +256,6 @@ exports.deletePost = (req, res) => {
 
 }
 
-
 exports.createPostLike = (req, res) => {
     let token = req.headers["x-access-token"];
     const userId = decodeToken.getUserIdFromToken(token)
@@ -307,13 +298,7 @@ exports.getCommentsByPost = (req, res) => {
             model: db.user,
             as: 'user',
             attributes: ['id', 'username'],
-            include: [
-                {
-                    model: db.avatar,
-                    as: 'avatar',
-                    attributes: ['id', 'uri', 'firstname', 'lastname']
-                }
-            ]
+            
         },
         {
             model: db.commentLike,

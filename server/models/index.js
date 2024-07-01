@@ -38,7 +38,6 @@ db.commentLike = require("../models/community.comment.like.model.js")(sequelize,
 db.comment = require("../models/community.comment.model.js")(sequelize, Sequelize);
 db.postLike = require("../models/community.post.like.model.js")(sequelize, Sequelize);
 db.post = require("../models/community.post.model.js")(sequelize, Sequelize);
-db.avatar = require("../models/community.avatar.model.js")(sequelize, Sequelize);
 
 
 
@@ -64,8 +63,8 @@ db.comment.hasMany(db.commentLike, { as: "commentLikes" });
 db.commentLike.belongsTo(db.comment, { foreignKey: "commentId", as: "likesComment" });
 
 
-db.user.hasOne(db.avatar, { foreignKey: "userId", as: "avatar" });
-db.avatar.belongsTo(db.user, { foreignKey: "userId", as: "user" });
+// db.user.hasOne(db.avatar, { foreignKey: "userId", as: "avatar" });
+// db.avatar.belongsTo(db.user, { foreignKey: "userId", as: "user" });
 
 db.ROLES = ["user", "admin"];
 

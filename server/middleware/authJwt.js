@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
+const decodeToken = require("../utils/decodeToken")
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
@@ -24,7 +25,9 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = (req, res, next) => {
-  User.findByPk(req.body.userId).then((user) => {
+  let token = req.headers["x-access-token"];
+  const userId = decodeToken.getUserIdFromToken(token)
+  User.findByPk(userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "admin") {

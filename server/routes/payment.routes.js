@@ -19,6 +19,10 @@ module.exports = (app) => {
     [authJwt.verifyToken],
     controller.paymentCancel
   )
+  router.post(
+    "/webhook",
+    controller.webhook
+  )
 
   app.use("/api/payment", router);
 };

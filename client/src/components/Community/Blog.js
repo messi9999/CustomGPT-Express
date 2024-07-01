@@ -239,10 +239,10 @@ export default function Blog({ post, servertime, deletePost }) {
       <div className="py-2 mx-3 flex justify-between border-b">
         <div className="flex flex-row items-center gap-3 text-sm">
           {
-            post.user.avatar ? (
+            post.user.avatar_uri ? (
               <>
                 <img
-                  src={`${BASEURL}/${post.user.avatar.uri}`}
+                  src={`${BASEURL}/${post.user.avatar_uri}`}
                   width={40}
                   height={40}
                   className="rounded-full"
@@ -369,10 +369,10 @@ export default function Blog({ post, servertime, deletePost }) {
             }
             <div className='flex flex-row gap-3 mt-6 mb-4'>
               <div>{
-                currentUser.avatar ? (
+                currentUser.avatar_uri ? (
                   <>
                     <img
-                      src={`${BASEURL}/${currentUser.avatar.uri}`}
+                      src={`${BASEURL}/${currentUser.avatar_uri}`}
                       width={30}
                       height={30}
                       className="rounded-full"

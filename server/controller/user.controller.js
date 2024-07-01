@@ -1,7 +1,7 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
-const Avatar = db.avatar
+// const Avatar = db.avatar
 var jwt = require("jsonwebtoken");
 const decodeToken = require("../utils/decodeToken")
 const path = require('path');
@@ -12,33 +12,29 @@ exports.allAccess = (req, res) => {
 };
 
 exports.userBoard = (req, res) => {
+  let token = req.headers["x-access-token"];
+  const userId = decodeToken.getUserIdFromToken(token)
   User.findOne({
     where: {
-      id: req.body.userId,
+      id: userId,
     },
   })
     .then((user) => {
-      console.log(user)
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
-
-      let token = req.headers["x-access-token"];
 
       var authorities = [];
       user.getRoles().then((roles) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
+        user.roles = authorities
+        user.accessToken = token
         res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          threadID: user.threadID,
-          subscription: user.subscription,
+          ...user.get({ plain: true }),
           roles: authorities,
-          accessToken: token,
-          freeAttempts: user.freeAttempts
+          accessToken: token
         });
       });
     })
@@ -63,43 +59,43 @@ exports.getAllUser = (req, res) => {
   })
 }
 
-exports.createUserAvatar = (req, res) => {
-  let token = req.headers["x-access-token"];
-  const userId = decodeToken.getUserIdFromToken(token)
-  let filePath = ""
-  let avatarFile = null
+// exports.createUserAvatar = (req, res) => {
+//   let token = req.headers["x-access-token"];
+//   const userId = decodeToken.getUserIdFromToken(token)
+//   let filePath = ""
+//   let avatarFile = null
 
-  if (req.files) {
-    if (req.files.avatar) {
-      const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
-      avatarFile = req.files.avatar;
-      filePath = "server/storage/user/avatar/" + fileName
-      avatarFile.mv(filePath)
-    }
-  }
+//   if (req.files) {
+//     if (req.files.avatar) {
+//       const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+//       const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
+//       avatarFile = req.files.avatar;
+//       filePath = "server/storage/user/avatar/" + fileName
+//       avatarFile.mv(filePath)
+//     }
+//   }
 
-  Avatar.create({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    uri: avatarFile ? filePath : null,
-    userId: userId
-  },
-  ).then((avatar) => {
-    console.log("user: ", avatar)
-    res.status(200).send({
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      uri: avatarFile ? filePath : null,
-      userId: userId
-    })
-  }).catch(error => {
-    console.log(error)
-    res.status(500).send({
-      message: error.message || "Some error occurred while retrieving users."
-    })
-  })
-}
+//   Avatar.create({
+//     firstname: req.body.firstname,
+//     lastname: req.body.lastname,
+//     uri: avatarFile ? filePath : null,
+//     userId: userId
+//   },
+//   ).then((avatar) => {
+//     console.log("user: ", avatar)
+//     res.status(200).send({
+//       firstname: req.body.firstname,
+//       lastname: req.body.lastname,
+//       uri: avatarFile ? filePath : null,
+//       userId: userId
+//     })
+//   }).catch(error => {
+//     console.log(error)
+//     res.status(500).send({
+//       message: error.message || "Some error occurred while retrieving users."
+//     })
+//   })
+// }
 
 exports.updateUserAvatar = (req, res) => {
   let token = req.headers["x-access-token"];
@@ -108,54 +104,67 @@ exports.updateUserAvatar = (req, res) => {
   let avatarFile = null
   if (req.files) {
     if (req.files.avatar) {
+      console.log("file save", req.files.avatar);
       const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
       const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
       avatarFile = req.files.avatar;
       filePath = "server/storage/user/avatar/" + fileName
-      avatarFile.mv(filePath)
+      // filePath = path.resolve(__dirname, '../storage/user/avatar', fileName)
+      console.log(filePath)
+      avatarFile.mv(filePath, function (err) {
+        console.log(err)
+      })
     }
   }
 
-  Avatar.findOne({
+  User.findOne({
     where: {
-      userId: userId
+      id: userId
     }
-  }).then((avatar) => {
-    console.log(avatar.uri)
-    try {
-      fs.unlinkSync(avatar.uri);
-      console.log('File deleted successfully');
-    } catch (err) {
-      console.error('There was an error deleting the file:', err);
+  }).then((user) => {
+    if (fs.existsSync(user.avatar_uri)) {
+      fs.unlinkSync(user.avatar_uri);
     }
-  }).catch(error => {
-    console.log(error)
-    res.status(500).send({
-      message: error.message || "Some error occurred while retrieving users."
-    })
-  })
-
-  Avatar.update({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    uri: avatarFile ? filePath : req.body.uri,
-    userId: userId
-  },
-    {
-      where: {
-        id: userId
-      }
-    },).then((avatar) => {
-       res.status(200).send({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        uri: avatarFile ? filePath : null,
-        userId: userId
+    User.update({
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      avatar_uri: avatarFile ? filePath : req.body.uri,
+    },
+      {
+        where: {
+          id: userId
+        }
+      },).then((num) => {
+        if (num > 0) {
+          User.findOne({
+            where: {
+              id: userId
+            }
+          }).then((user) => {
+            if (user) {
+              user.avatar_uri = avatarFile ? filePath : null
+              // res.status(200).send(user)
+              res.status(200).send({
+                ...user.get({ plain: true }),
+                avatar_uri: avatarFile ? filePath : null,
+              });
+            }
+          }).catch(error => {
+            console.log(error)
+            res.status(500).send({
+              message: error.message || "Some error occurred while retrieving users."
+            })
+          })
+        }
+        // user.avatar_uri = avatarFile ? filePath : null
+        // console.log(user)
+        // console.log(user.avatar_uri)
+        // res.status(200).send(user)
+      }).catch(error => {
+        console.log(error)
+        res.status(500).send({
+          message: error.message || "Some error occurred while retrieving users."
+        })
       })
-    }).catch(error => {
-      console.log(error)
-      res.status(500).send({
-        message: error.message || "Some error occurred while retrieving users."
-      })
-    })
+  });
 }

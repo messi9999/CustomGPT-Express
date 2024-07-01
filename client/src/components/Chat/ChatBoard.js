@@ -310,7 +310,7 @@ export default function ChatBoard() {
       }
 
       if (currentUser.freeAttempts > 0) {
-        currentUser = UserService.getUserBoard(currentUser.id);
+        currentUser = UserService.getUserBoard();
       }
     } catch (error) {
       console.log("error: ", error)

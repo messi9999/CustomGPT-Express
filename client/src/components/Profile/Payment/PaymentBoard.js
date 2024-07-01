@@ -16,7 +16,7 @@ export default function PaymentBoard() {
     const handleOnCancelPayment = () => {
       axios
       .post("/api/payment/payment-cancel", {
-        subscriptionId: currentUser.subscription.subscriptionID,
+        subscriptionId: currentUser.subscriptionid,
         userId: currentUser.id
       }, {
         headers: {
