@@ -15,8 +15,8 @@ module.exports = {
   ssl: true,
   dialectOptions: {
     ssl: {
-      require: true, // This will help you connect to the RDS instance using SSL
-      rejectUnauthorized: true // You might want to set this to true in production
+      // require: true, // This will help you connect to the RDS instance using SSL
+      rejectUnauthorized: false // You might want to set this to true in production
     }
   }
 };
