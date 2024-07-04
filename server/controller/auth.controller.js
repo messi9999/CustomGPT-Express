@@ -38,7 +38,6 @@ exports.signup = (req, res) => {
             }).then((roles) => {
               user.setRoles(roles).then(() => {
                 const token = jwt.sign({ id: user.id }, config.secret, config.options);
-
                 var authorities = [];
                 user.getRoles().then((roles) => {
                   for (let i = 0; i < roles.length; i++) {
@@ -66,7 +65,11 @@ exports.signup = (req, res) => {
                 }
                 user.roles = authorities
                 user.accessToken = token
-                res.status(200).send(user);
+                res.status(200).send({
+                  ...user.get({ plain: true }),
+                  roles: authorities,
+                  accessToken: token
+                });
               });
             });
           }

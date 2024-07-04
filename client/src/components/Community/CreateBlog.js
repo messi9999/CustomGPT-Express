@@ -10,7 +10,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
   const [image, setImage] = useState(null);
   const [postFile, setPostFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [title, setTitle] = useState("")
+  // const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
 
   const [imgerror, setImgError] = useState("");
@@ -80,7 +80,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('file', postFile);
-    formData.append('title', title);
+    formData.append('title', "title");
     formData.append('content', content);
     console.log(formData)
 
@@ -98,17 +98,14 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
   };
   return (
     <div className='bg-[#fff7ea] w-full max-w-[800px] p-2 sm:p-2 rounded-xl shadow-lg'>
-      {/* {title && <h1 className='w-full sm:p-4 sm:px-4 mb-5 text-3xl sm:text-5xl font-oswald break-words'>{title}</h1>} */}
       {preview && <img className='w-full sm:p-4 sm:px-4 mb-5' src={preview} alt="Preview" />}
-      {/* {content && <pre className='sm:p-4 sm:px-4 w-full whitespace-pre-wrap'>{content}</pre>} */}
-      <div className='sm:px-6 sm:pe-10 mt-2 mb-1 flex flex-row items-center text-sm'>
-        {/* <label>Title: </label> */}
+      {/* <div className='sm:px-6 sm:pe-10 mt-2 mb-1 flex flex-row items-center text-sm'>
         <input
           className='w-full border-b pb-0 h-10 ms-2 focus:outline-none bg-[#fff7ea]'
           onChange={(e) => { setTitle(e.target.value) }}
           placeholder="What's on your mind..."
         />
-      </div>
+      </div> */}
       <div className='sm:px-6 sm:pe-10 mb-3 pt-1 flex flex-row items-top text-sm'>
         {/* <label>Content: </label> */}
         <textarea
@@ -119,7 +116,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
             e.target.style.height = 'inherit';
             e.target.style.height = `${e.target.scrollHeight}px`;
           }}
-          placeholder='Put your post here...'
+          placeholder="What's is your mind."
         />
 
       </div>
@@ -172,7 +169,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
         </div>
         <div className='flex gap-4'>
           <button
-            className='bg-[#8C52FF] text-slate-100 px-4 rounded-2xl hover:bg-blue-800'
+            className='bg-[#8C52FF] text-slate-100 text-lg px-4 rounded-2xl hover:bg-blue-800'
             onClick={handlePost}>
             Post
           </button>

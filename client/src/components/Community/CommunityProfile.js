@@ -12,7 +12,6 @@ export default function CommunityProfile() {
 
   let currentUser = AuthService.getCurrentUser();
 
-  console.log('currentUser', currentUser);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -23,11 +22,7 @@ export default function CommunityProfile() {
   const [isImgSaved, setIsImgSaved] = useState(true)
   const editorRef = useRef(null);
 
-  console.log('imageResult', imageResult);
-
-
   useEffect(() => {
-    console.log('avatar_uri', currentUser.avatar_uri);
     if (currentUser.avatar_uri) {
       setImageResult(`${BASEURL}/${currentUser.avatar_uri}`)
     }
@@ -36,9 +31,6 @@ export default function CommunityProfile() {
     setFirstName(currentUser.firstname)
     setLastName(currentUser.lastname)
   }, [currentUser.firstname, currentUser.lastname])
-  useEffect(() => {
-    console.log(currentUser.avatar_uri ? `${BASEURL}/${currentUser.avatar_uri}` : fallBackImage);
-  }, [currentUser]);
 
   const header = useMemo(
     () => ({
@@ -77,34 +69,31 @@ export default function CommunityProfile() {
       formData.append('firstname', firstName);
       formData.append('lastname', lastName);
 
-      if (editedImage) {
-        console.log('asdfasdfsdafasdf', currentUser);
-        if (currentUser.avatar_uri) {
-          console.log("2234234");
-          formData.append('uri', currentUser.avatar_uri)
-        } else {
-          alert("Please upload your avatar!")
-        }
+      // if (!editedImage) {
+      if (currentUser.avatar_uri) {
+        formData.append('uri', currentUser.avatar_uri)
       }
+      // }
 
 
-      console.log("formData", formData);
-      if (formData.has('uri')) {
-        axios.put(`${BASEURL}/api/test/useravatar`, formData,
-          {
-            headers: header,
-          }).then((res) => {
-            currentUser.avatar_uri = res.data.avatar_uri
-            currentUser.firstname = res.data.firstname
-            currentUser.lastname = res.data.lastname
-            localStorage.setItem("user", JSON.stringify(currentUser))
-            alert("Successfully updated!!!")
-          }).catch((err) => {
-            console.log(err)
-          })
-      } else {
-        alert("Please upload your avatar!")
-      }
+      // if (formData.has('uri')) {
+      axios.put(`${BASEURL}/api/test/useravatar`, formData,
+        {
+          headers: header,
+        }).then((res) => {
+          console.log(res.data)
+          currentUser.avatar_uri = res.data.user.avatar_uri
+          currentUser.firstname = res.data.user.firstname
+          currentUser.lastname = res.data.user.lastname
+          console.log("currentUser: ", currentUser)
+          localStorage.setItem("user", JSON.stringify(currentUser))
+          alert("Successfully updated!!!")
+        }).catch((err) => {
+          console.log(err)
+        })
+      // } else {
+      //   alert("Please upload your avatar!")
+      // }
     } else {
       alert("Please save Avatar image first!!!")
     }

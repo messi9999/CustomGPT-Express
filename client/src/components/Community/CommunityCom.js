@@ -90,7 +90,12 @@ export default function CommunityCom() {
     <>
       <div className='flex justify-center bg-[#faedda]'>
         <div className='w-full sm:w-[500px]'>
-          <div className='w-full h-[10vh] sm:h-[8vh] bg-pink-200 pt-1 ps-2 pb-2 flex items-end'>
+          <div 
+            className='w-full h-[10vh] sm:h-[8vh] bg-pink-200 pt-1 ps-2 pb-2 flex items-end'
+            onClick={() => {
+              navigate("/profile/account")
+            }}
+            >
             <div className='flex flex-rol gap-2'>
               <>
                 {

@@ -104,13 +104,10 @@ exports.updateUserAvatar = (req, res) => {
   let avatarFile = null
   if (req.files) {
     if (req.files.avatar) {
-      console.log("file save", req.files.avatar);
       const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
       const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
       avatarFile = req.files.avatar;
       filePath = "server/storage/user/avatar/" + fileName
-      // filePath = path.resolve(__dirname, '../storage/user/avatar', fileName)
-      console.log(filePath)
       avatarFile.mv(filePath, function (err) {
         console.log(err)
       })
@@ -122,13 +119,26 @@ exports.updateUserAvatar = (req, res) => {
       id: userId
     }
   }).then((user) => {
-    if (fs.existsSync(user.avatar_uri)) {
+    if (avatarFile && fs.existsSync(user.avatar_uri)) {
       fs.unlinkSync(user.avatar_uri);
     }
+    let avatar_uri = null
+    // if (req.body.uri) {
+    //   avatar_uri = req.body.uri
+    // }
+    if (avatarFile) {
+      avatar_uri = filePath
+    } 
+    else {
+      if (req.body.uri) {
+        avatar_uri = req.body.uri
+      }
+    }
+
     User.update({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
-      avatar_uri: avatarFile ? filePath : req.body.uri,
+      avatar_uri: avatar_uri,
     },
       {
         where: {
@@ -142,11 +152,10 @@ exports.updateUserAvatar = (req, res) => {
             }
           }).then((user) => {
             if (user) {
-              user.avatar_uri = avatarFile ? filePath : null
+              // user.avatar_uri = avatarFile ? filePath : null
               // res.status(200).send(user)
               res.status(200).send({
-                ...user.get({ plain: true }),
-                avatar_uri: avatarFile ? filePath : null,
+                user
               });
             }
           }).catch(error => {

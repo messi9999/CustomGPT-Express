@@ -231,6 +231,7 @@ export default function Blog({ post, servertime, deletePost }) {
       alert("This is not your blog. Can't delete it.")
     }
   }
+  console.log((post))
 
   return (
     <div className='my-3 pb-5 rounded-lg bg-[#fcf4e6] shadow-lg'>
@@ -260,8 +261,8 @@ export default function Blog({ post, servertime, deletePost }) {
             )
           }
           <div className="flex flex-col">
-            <label className="font-bold">{post.user.avatar ? (
-              <label>{post.user.avatar.firstname} {post.user.avatar.lastname}</label>
+            <label className="font-bold">{(post.user.firstname || post.user.lastname) ? (
+              <label>{post.user.firstname} {post.user.lastname}</label>
             ) : (
               <label>{post.user.username}</label>
             )}</label>
@@ -283,9 +284,9 @@ export default function Blog({ post, servertime, deletePost }) {
         </div>
       </div>
       <div className=" flex flex-col items-center mt-3">
-        <div className="w-full ps-3 mb-3">
+        {/* <div className="w-full ps-3 mb-3">
           <h1 className='w-full text-lg sm:text-lg font-oswald max-w-[600px] mb-1 px-2'>{post.title}</h1>
-        </div>
+        </div> */}
         {!editable && <div className='text-sm sm:text-sm text-start w-full mb-1 px-3'>{formatTextToParagraphs(content)}</div>}
         {editable && <div className="flex flex-col w-full gap-4 px-2 py-2 text-sm sm:text-sm text-start">
           <textarea
@@ -327,17 +328,20 @@ export default function Blog({ post, servertime, deletePost }) {
           </label>
         </div>
         <div>
-          <label className="text-xs hover:cursor-pointer" onClick={handleOnComment}>
+          <label className="text-xs hover:cursor-pointer hover:underline" onClick={handleOnComment}>
             {comments.length}  comments
           </label>
         </div>
       </div>
       <div className="flex flex-row items-start gap-6 px-6 py-2">
-        <div className="flex flex-row items-center gap-2">
+        <div 
+          className="flex flex-row items-center gap-2"
+          onClick={handleOnLike}
+          >
           {
             isLiked ? (
               <>
-                <LoveLikeIcon width="20" height="20" className="hover: cursor-pointer" onClick={handleOnLike} />
+                <LoveLikeIcon width="20" height="20" className="hover: cursor-pointer" />
               </>
             ) : (
               <>
@@ -345,12 +349,12 @@ export default function Blog({ post, servertime, deletePost }) {
               </>
             )
           }
-          <label className="text-xs text-gray-500">Like</label>
+          <label className="text-xs text-gray-500 hover:underline hover:cursor-pointer">Like</label>
 
         </div>
         <div className="flex flex-row items-center gap-2">
           <CommentIcon width="20" height="20" className='hover: cursor-pointer' onClick={handleOnComment} />
-          <label className="text-xs text-gray-500">Comment</label>
+          <label className="text-xs text-gray-500 hover:underline hover:cursor-pointer">Comment</label>
         </div>
         <div className="flex flex-row gap-1 items-center">
           <FileIcon width="20" height="20" className='hover: cursor-pointer' onClick={downloadFile} />
