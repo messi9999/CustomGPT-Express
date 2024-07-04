@@ -7,6 +7,21 @@ import axios from 'axios';
 import ThreeDotDropDown from "./ThreeDotDropDown";
 
 
+function replaceNulls(data) {
+  if (data === null) {
+    return '';
+  }
+  if (Array.isArray(data)) {
+    return data.map(replaceNulls);
+  }
+  if (typeof data === 'object') {
+    for (let key in data) {
+      data[key] = replaceNulls(data[key]);
+    }
+  }
+  return data;
+}
+
 export default function Comment({ comment, deleteComment }) {
   let currentUser = AuthService.getCurrentUser();
 
@@ -101,15 +116,17 @@ export default function Comment({ comment, deleteComment }) {
     })
   }
 
+  console.log("comment: ", comment)
+
   return (
     <div className='mb-2'>
       <div className='flex flex-row gap-4'>
         <div>
           {
-            comment.user.avatar ? (
+            comment.user.avatar_uri ? (
               <>
                 <img
-                  src={`${BASEURL}/${comment.user.avatar.uri}`}
+                  src={`${BASEURL}/${comment.user.avatar_uri}`}
                   width={40}
                   height={40}
                   className="rounded-full"
@@ -130,8 +147,8 @@ export default function Comment({ comment, deleteComment }) {
         <div className='bg-[#fffaf4] rounded-e-lg rounded-b-lg p-3 w-full'>
           <div className='flex flex-row justify-between'>
             <div className='text-sm mb-2 font-semibold'>
-              <label>{comment.user.avatar ? (
-                <label>{comment.user.avatar.firstname} {comment.user.avatar.lastname}</label>
+              <label>{(comment.user.firstname || comment.user.lastname) ? (
+                <label>{replaceNulls(comment.user.firstname)} {replaceNulls(comment.user.lastname)}</label>
               ) : (
                 <label>{comment.user.username}</label>
               )}</label>

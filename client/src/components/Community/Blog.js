@@ -12,6 +12,20 @@ import axios from "axios";
 import Comment from "./Comment";
 import ThreeDotDropDown from "./ThreeDotDropDown";
 
+function replaceNulls(data) {
+  if (data === null) {
+    return '';
+  }
+  if (Array.isArray(data)) {
+    return data.map(replaceNulls);
+  }
+  if (typeof data === 'object') {
+    for (let key in data) {
+      data[key] = replaceNulls(data[key]);
+    }
+  }
+  return data;
+}
 
 const formatTextToParagraphs = (text) => {
   return text.split('\n').map((line, index) => (
@@ -113,7 +127,6 @@ export default function Blog({ post, servertime, deletePost }) {
           headers: header,
         }).then((res) => {
           setIsComment(true)
-          console.log(res.data)
           setComments(res.data.comments)
           setComment("")
 
@@ -138,7 +151,6 @@ export default function Blog({ post, servertime, deletePost }) {
       {
         headers: header,
       }).then((res) => {
-        console.log(res.data)
         setIsComment(false)
         setComments(prevArray => [...prevArray, {
           postId: post.id,
@@ -204,7 +216,7 @@ export default function Blog({ post, servertime, deletePost }) {
       {
         headers: header,
       }).then((res) => {
-        console.log(res.data)
+        console.log("Upldated Profile")
       }).catch((err) => {
         console.log(err)
       })
@@ -231,7 +243,6 @@ export default function Blog({ post, servertime, deletePost }) {
       alert("This is not your blog. Can't delete it.")
     }
   }
-  console.log((post))
 
   return (
     <div className='my-3 pb-5 rounded-lg bg-[#fcf4e6] shadow-lg'>
@@ -262,7 +273,7 @@ export default function Blog({ post, servertime, deletePost }) {
           }
           <div className="flex flex-col">
             <label className="font-bold">{(post.user.firstname || post.user.lastname) ? (
-              <label>{post.user.firstname} {post.user.lastname}</label>
+              <label>{replaceNulls(post.user.firstname)} {replaceNulls(post.user.lastname)}</label>
             ) : (
               <label>{post.user.username}</label>
             )}</label>
@@ -336,12 +347,12 @@ export default function Blog({ post, servertime, deletePost }) {
       <div className="flex flex-row items-start gap-6 px-6 py-2">
         <div 
           className="flex flex-row items-center gap-2"
-          onClick={handleOnLike}
+          
           >
           {
             isLiked ? (
               <>
-                <LoveLikeIcon width="20" height="20" className="hover: cursor-pointer" />
+                <LoveLikeIcon width="20" height="20" className="hover: cursor-pointer" onClick={handleOnLike}/>
               </>
             ) : (
               <>
@@ -349,12 +360,12 @@ export default function Blog({ post, servertime, deletePost }) {
               </>
             )
           }
-          <label className="text-xs text-gray-500 hover:underline hover:cursor-pointer">Like</label>
+          <label className="text-xs text-gray-500 hover:underline hover:cursor-pointer" onClick={handleOnLike}>Like</label>
 
         </div>
         <div className="flex flex-row items-center gap-2">
           <CommentIcon width="20" height="20" className='hover: cursor-pointer' onClick={handleOnComment} />
-          <label className="text-xs text-gray-500 hover:underline hover:cursor-pointer">Comment</label>
+          <label className="text-xs text-gray-500 hover:underline hover:cursor-pointer"  onClick={handleOnComment}>Comment</label>
         </div>
         <div className="flex flex-row gap-1 items-center">
           <FileIcon width="20" height="20" className='hover: cursor-pointer' onClick={downloadFile} />

@@ -82,13 +82,11 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
     formData.append('file', postFile);
     formData.append('title', "title");
     formData.append('content', content);
-    console.log(formData)
 
     axios.post(`${BASEURL}/api/community/post/create`, formData,
       {
         headers: header,
       }).then((res) => {
-        console.log(res.data)
         window.location.reload();
 
       }).catch((err) => {

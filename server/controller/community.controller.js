@@ -297,7 +297,7 @@ exports.getCommentsByPost = (req, res) => {
         include: [{
             model: db.user,
             as: 'user',
-            attributes: ['id', 'username'],
+            attributes: ['id', 'username', 'firstname', 'lastname', 'avatar_uri'],
             
         },
         {

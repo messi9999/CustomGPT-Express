@@ -8,6 +8,21 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as AvatarIcon } from "assets/icons/avatar.svg";
 import Badge from '@mui/material/Badge';
 
+function replaceNulls(data) {
+  if (data === null) {
+    return '';
+  }
+  if (Array.isArray(data)) {
+    return data.map(replaceNulls);
+  }
+  if (typeof data === 'object') {
+    for (let key in data) {
+      data[key] = replaceNulls(data[key]);
+    }
+  }
+  return data;
+}
+
 
 export default function CommunityCom() {
   const [posts, setPosts] = useState([])
@@ -175,7 +190,7 @@ export default function CommunityCom() {
                   {
                     (currentUser.firstname || currentUser.lastname) ? (
                       <>
-                        <label>{currentUser.firstname} {currentUser.lastname}</label>
+                        <label>{replaceNulls(currentUser.firstname)} {replaceNulls(currentUser.lastname)}</label>
                       </>
                     ) : (
                       <>
