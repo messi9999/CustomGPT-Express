@@ -25,13 +25,7 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.getAllUser
   )
-
-  // router.post(
-  //   "/useravatar",
-  //   [authJwt.verifyToken],
-  //   controller.createUserAvatar
-  // )
-
+  
   router.put(
     "/useravatar",
     [authJwt.verifyToken],

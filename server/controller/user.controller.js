@@ -1,10 +1,6 @@
 const db = require("../models");
-const config = require("../config/auth.config");
 const User = db.user;
-// const Avatar = db.avatar
-var jwt = require("jsonwebtoken");
 const decodeToken = require("../utils/decodeToken")
-const path = require('path');
 const fs = require('fs');
 
 exports.allAccess = (req, res) => {
@@ -59,43 +55,6 @@ exports.getAllUser = (req, res) => {
   })
 }
 
-// exports.createUserAvatar = (req, res) => {
-//   let token = req.headers["x-access-token"];
-//   const userId = decodeToken.getUserIdFromToken(token)
-//   let filePath = ""
-//   let avatarFile = null
-
-//   if (req.files) {
-//     if (req.files.avatar) {
-//       const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-//       const fileName = fileUniqueSuffix + '-' + req.files.avatar.name.replace(/\s+/g, '')
-//       avatarFile = req.files.avatar;
-//       filePath = "server/storage/user/avatar/" + fileName
-//       avatarFile.mv(filePath)
-//     }
-//   }
-
-//   Avatar.create({
-//     firstname: req.body.firstname,
-//     lastname: req.body.lastname,
-//     uri: avatarFile ? filePath : null,
-//     userId: userId
-//   },
-//   ).then((avatar) => {
-//     console.log("user: ", avatar)
-//     res.status(200).send({
-//       firstname: req.body.firstname,
-//       lastname: req.body.lastname,
-//       uri: avatarFile ? filePath : null,
-//       userId: userId
-//     })
-//   }).catch(error => {
-//     console.log(error)
-//     res.status(500).send({
-//       message: error.message || "Some error occurred while retrieving users."
-//     })
-//   })
-// }
 
 exports.updateUserAvatar = (req, res) => {
   let token = req.headers["x-access-token"];
@@ -123,9 +82,6 @@ exports.updateUserAvatar = (req, res) => {
       fs.unlinkSync(user.avatar_uri);
     }
     let avatar_uri = null
-    // if (req.body.uri) {
-    //   avatar_uri = req.body.uri
-    // }
     if (avatarFile) {
       avatar_uri = filePath
     } 
@@ -152,8 +108,6 @@ exports.updateUserAvatar = (req, res) => {
             }
           }).then((user) => {
             if (user) {
-              // user.avatar_uri = avatarFile ? filePath : null
-              // res.status(200).send(user)
               res.status(200).send({
                 user
               });
@@ -165,10 +119,6 @@ exports.updateUserAvatar = (req, res) => {
             })
           })
         }
-        // user.avatar_uri = avatarFile ? filePath : null
-        // console.log(user)
-        // console.log(user.avatar_uri)
-        // res.status(200).send(user)
       }).catch(error => {
         console.log(error)
         res.status(500).send({

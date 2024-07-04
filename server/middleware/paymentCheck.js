@@ -1,5 +1,4 @@
 const db = require("../models");
-const ROLES = db.ROLES;
 const User = db.user;
 
 const calDateDifference = (start, end) => {
@@ -27,7 +26,6 @@ checkPaymentExpiration = (req, res, next) => {
             user.subscription.planStartDate,
             user.subscription.planEndDate
           );
-          console.log(ispayment);
           if (ispayment) {
             next();
             return;

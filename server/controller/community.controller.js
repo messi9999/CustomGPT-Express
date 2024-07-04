@@ -1,11 +1,7 @@
 const db = require("../models");
 const decodeToken = require("../utils/decodeToken")
 
-// const path = require('path');
 const fs = require('fs');
-
-
-// const User = db.user;
 
 const Post = db.post;
 const Comment = db.comment;
@@ -80,7 +76,6 @@ exports.getPostsByUser = (req, res) => {
     })
 }
 
-// , uploadFiles.array('file'), 
 exports.createPost = (req, res) => {
     let token = req.headers["x-access-token"];
     const userId = decodeToken.getUserIdFromToken(token)
@@ -113,7 +108,6 @@ exports.createPost = (req, res) => {
         image: uploadedImage ? imagePath : null,
         file: uploadedFile ? filePath : null,
     }).then((post) => {
-        console.log(post)
         return res.status(200).send({ post: post })
     }).catch((err) => {
         console.log(err)
@@ -122,54 +116,13 @@ exports.createPost = (req, res) => {
 }
 
 exports.updatePost = (req, res) => {
-    // let token = req.headers["x-access-token"];
-    // const userId = decodeToken.getUserIdFromToken(token)
-    // let filePath = ""
-    // let imagePath = ""
-    // let uploadedFile = null
-    // let uploadedImage = null
-
-    // if (req.files) {
-    //     if (req.files.file) {
-    //         const fileUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    //         const fileName = fileUniqueSuffix + '-' + req.files.file.name.replace(/\s+/g, '')
-    //         uploadedFile = req.files.file;
-    //         filePath = "server/storage/community/files/" + fileName
-    //         uploadedFile.mv(filePath)
-    //     }
-    //     if (req.files.image) {
-    //         const imageUniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    //         const imageName = imageUniqueSuffix + '-' + req.files.image.name.replace(/\s+/g, '')
-    //         uploadedImage = req.files.image;
-    //         imagePath = "server/storage/community/images/" + imageName
-    //         uploadedImage.mv(imagePath)
-    //     }
-    // }
     Post.update({
-        // title: req.body.title,
         content: req.body.content,
-        // image: uploadedImage ? imagePath : null,
-        // file: uploadedFile ? filePath : null,
     }, {
         where: {
             id: req.body.postId
         },
-
     }).then((post) => {
-
-        // try {
-        //     fs.unlinkSync(imagePath);
-        //     console.log('File deleted successfully');
-        // } catch (err) {
-        //     console.error('There was an error deleting the file:', err);
-        // }
-        // try {
-        //     fs.unlinkSync(filePath);
-        //     console.log('File deleted successfully');
-        // } catch (err) {
-        //     console.error('There was an error deleting the file:', err);
-        // }
-
         return res.status(200).send({ post: post })
     }).catch((err) => {
         console.log(err)
@@ -185,18 +138,13 @@ exports.deletePost = (req, res) => {
             id: req.params.postId
         }
     }).then((post) => {
-        // console.log("post: ", post)
         imagePath = post.image
         filePath = post.file
-        console.log(imagePath)
-        console.log(filePath)
         Post.destroy({
             where: {
                 id: req.params.postId,
             }
         }).then(() => {
-            console.log("imagePath: ", imagePath)
-            console.log("filePath: ", filePath)
             try {
                 fs.unlinkSync(imagePath);
                 console.log('File deleted successfully');
@@ -309,11 +257,6 @@ exports.getCommentsByPost = (req, res) => {
         order: [['id', 'ASC']]
     }).then((comments) => {
         return res.status(200).send({ comments: comments })
-        // post.getComments().then((comments) => {
-        //     return res.status(200).send({ comments: comments })
-        // }).catch((err) => {
-        //     return res.status(500).send({ message: err.message });
-        // })
     }).catch((err) => {
         console.log(err)
         return res.status(500).send({ message: err.message });
@@ -401,10 +344,6 @@ exports.deleteCommentLike = (req, res) => {
         return res.status(500).send({ message: err.message });
     })
 }
-
-
-
-
 
 exports.donwload = (req, res) => {
     const filePath = req.query.path;

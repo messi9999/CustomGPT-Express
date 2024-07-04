@@ -63,9 +63,6 @@ db.comment.hasMany(db.commentLike, { as: "commentLikes" });
 db.commentLike.belongsTo(db.comment, { foreignKey: "commentId", as: "likesComment" });
 
 
-// db.user.hasOne(db.avatar, { foreignKey: "userId", as: "avatar" });
-// db.avatar.belongsTo(db.user, { foreignKey: "userId", as: "user" });
-
 db.ROLES = ["user", "admin"];
 
 module.exports = db;

@@ -21,7 +21,6 @@ const stripeSession = (plan) => {
       cancel_url: `${process.env.DOMAIN}/profile/payment/cancel`,
     })
     .then((session) => {
-      console.log(session)
       return session;
     })
     .catch((e) => {
@@ -57,15 +56,12 @@ exports.createSubscriptionCheckoutSession = (req, res) => {
           }
         })
         .catch((err) => {
-          console.log("2");
           res.status(500).send({
             message: "Error updating subscription with id=" + id,
           });
         });
-      //   User.res.send(session);
     })
     .catch((error) => {
-      console.log("3");
       res.status(500).send(error);
     });
 };
@@ -132,7 +128,6 @@ exports.paymentSuccess = async (req, res) => {
             console.error("Error retrieving subscription", error);
             res.status(500).send(error);
           });
-        // res.send({ message: "Payment Successful" });
       } else {
         res.status(500).send({ message: "Payment failed" });
       }
@@ -147,10 +142,7 @@ exports.paymentSuccess = async (req, res) => {
 exports.paymentCancel = async (req, res) => {
   const subscriptionId = req.body.subscriptionId
   const userId = req.body.userId
-  console.log(req.body.subscriptionId)
-  console.log(subscriptionId)
   stripe.subscriptions.cancel(subscriptionId).then((subscription) => {
-    console.log(subscription)
     User.update(
       {
         subscription: {
@@ -169,11 +161,9 @@ exports.paymentCancel = async (req, res) => {
         })
       }
     }).catch((error) => {
-      console.log("first", error)
       res.status(500).send(error)
     })
   }).catch((error) => {
-    console.log("second", error)
     res.status(500).send(error)
   })
 

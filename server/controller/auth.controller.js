@@ -109,7 +109,6 @@ exports.signin = (req, res) => {
         stripe.subscriptions
           .retrieve(user.subscriptionid)
           .then((subscription) => {
-            console.log(subscription)
             const planId = subscription.plan.id;
             const planType = "basic";
 
