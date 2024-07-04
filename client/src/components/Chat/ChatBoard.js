@@ -449,7 +449,7 @@ export default function ChatBoard() {
               </div>
             )}
           </div>
-          <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
+          {/* <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
             Feedback?{" "}
             <a
               href="https://forms.gle/3iFGAtmT8nSEG3Vq6"
@@ -466,7 +466,7 @@ export default function ChatBoard() {
           </div>
           <div className="text-slate-900 text-md mb-3 flex justify-center">
             @Copyright Nourished Natural Health
-          </div>
+          </div> */}
           <TitleBar className="items-end"/>
         </div>
         <div className="absolute inset-x-4 top-8 flex items-start lg:flex-row-reverse z-40">
