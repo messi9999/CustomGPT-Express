@@ -159,7 +159,7 @@ exports.signin = (req, res) => {
       var authorities = [];
 
       if (user.threadID) {
-        
+
         user.getRoles().then((roles) => {
           for (let i = 0; i < roles.length; i++) {
             authorities.push("ROLE_" + roles[i].name.toUpperCase());
@@ -184,18 +184,24 @@ exports.signin = (req, res) => {
               }
             })
           }).then(() => {
-            user.getRoles().then((roles) => {
-              for (let i = 0; i < roles.length; i++) {
-                authorities.push("ROLE_" + roles[i].name.toUpperCase());
+            User.findOne({
+              where: {
+                id: user.id,
               }
-              user.roles = authorities
-              user.accessToken = token
-              res.status(200).send({
-                ...user.get({ plain: true }),
-                roles: authorities,
-                accessToken: token
+            }).then((newuser) => {
+              newuser.getRoles().then((roles) => {
+                for (let i = 0; i < roles.length; i++) {
+                  authorities.push("ROLE_" + roles[i].name.toUpperCase());
+                }
+                newuser.roles = authorities
+                newuser.accessToken = token
+                res.status(200).send({
+                  ...newuser.get({ plain: true }),
+                  roles: authorities,
+                  accessToken: token
+                });
               });
-            });
+            })
           })
       }
     })
