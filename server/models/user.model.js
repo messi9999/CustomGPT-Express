@@ -40,6 +40,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.SMALLINT,
       allowNull: false,
     },
+    iskajabiuser: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    }
   });
 
   return User;

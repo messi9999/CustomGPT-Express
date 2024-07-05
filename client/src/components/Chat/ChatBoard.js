@@ -130,19 +130,23 @@ export default function ChatBoard() {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
 
-  const isPayment = "planType" in currentUser.subscription;
+  let isPayment = false
   let freeTrails = -1;
   let duration = -1;
-  if (isPayment) {
-    freeTrails = CalService.calDateDifference(
-      formattedDate,
-      currentUser.subscription.trialEndDate
-    );
-    duration = CalService.calDateDifference(
-      formattedDate,
-      currentUser.subscription.planEndDate
-    );
+  if (!currentUser.iskajabiuser) {
+    isPayment = "planType" in currentUser.subscription;
+    if (isPayment) {
+      freeTrails = CalService.calDateDifference(
+        formattedDate,
+        currentUser.subscription.trialEndDate
+      );
+      duration = CalService.calDateDifference(
+        formattedDate,
+        currentUser.subscription.planEndDate
+      );
+    }
   }
+
 
   const header = useMemo(
     () => ({
@@ -215,6 +219,7 @@ export default function ChatBoard() {
       userId: currentUser.id,
       createId: idxOfCreate,
       freeAttempts: currentUser.freeAttempts,
+      iskajabiuser: currentUser.iskajabiuser
     };
 
     // Get User info if freeAttemps is more than 0.
@@ -431,22 +436,32 @@ export default function ChatBoard() {
                 )}
               </div>
             ) : (
-              <div>
-                {currentUser.freeAttempts > 0 ? (
-                  <p>{currentUser.freeAttempts + " free questions left"}</p>
-                ) : (
-                  <div className="flex flex-row">
-                    <p>{currentUser.freeAttempts + " free questions left!"}</p>
-                    <p>&nbsp;&nbsp;</p>
+              <>
+                {
+                  !currentUser.iskajabiuser ? (
+                    <>
+                      <div>
+                        {currentUser.freeAttempts > 0 ? (
+                          <p>{currentUser.freeAttempts + " free questions left"}</p>
+                        ) : (
+                          <div className="flex flex-row">
+                            <p>{currentUser.freeAttempts + " free questions left!"}</p>
+                            <p>&nbsp;&nbsp;</p>
 
-                    <NavLink to={"/profile/payment"}>
-                      <u>
-                        <i className="text-[#0a60f5]">Start free trial here!</i>
-                      </u>
-                    </NavLink>
-                  </div>
-                )}
-              </div>
+                            <NavLink to={"/profile/payment"}>
+                              <u>
+                                <i className="text-[#0a60f5]">Start free trial here!</i>
+                              </u>
+                            </NavLink>
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="mt-5"></div>
+                  )
+                }
+              </>
             )}
           </div>
           {/* <div className="text-slate-900 text-md mt-3 mb-1 flex justify-center">
@@ -467,7 +482,7 @@ export default function ChatBoard() {
           <div className="text-slate-900 text-md mb-3 flex justify-center">
             @Copyright Nourished Natural Health
           </div> */}
-          <TitleBar className="items-end"/>
+          <TitleBar className="items-end" />
         </div>
         <div className="absolute inset-x-4 top-8 flex items-start lg:flex-row-reverse z-40">
           <div className="flex grow items-center lg:hidden">
@@ -500,7 +515,7 @@ export default function ChatBoard() {
             </button>
           </div>
         </div>
-        
+
       </div>
     </>
   );

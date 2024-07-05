@@ -90,6 +90,7 @@ exports.signin = (req, res) => {
     },
   })
     .then((user) => {
+      console.log("user: ", user)
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
@@ -156,18 +157,47 @@ exports.signin = (req, res) => {
       const token = jwt.sign({ id: user.id }, config.secret, config.options);
 
       var authorities = [];
-      user.getRoles().then((roles) => {
-        for (let i = 0; i < roles.length; i++) {
-          authorities.push("ROLE_" + roles[i].name.toUpperCase());
-        }
-        user.roles = authorities
-        user.accessToken = token
-        res.status(200).send({
-          ...user.get({ plain: true }),
-          roles: authorities,
-          accessToken: token
+
+      if (user.threadID) {
+        
+        user.getRoles().then((roles) => {
+          for (let i = 0; i < roles.length; i++) {
+            authorities.push("ROLE_" + roles[i].name.toUpperCase());
+          }
+          user.roles = authorities
+          user.accessToken = token
+          res.status(200).send({
+            ...user.get({ plain: true }),
+            roles: authorities,
+            accessToken: token
+          });
         });
-      });
+      } else {
+        chatGptUtils
+          .createNewThread()
+          .then((thread) => {
+            User.update({
+              threadID: thread.id
+            }, {
+              where: {
+                id: user.id
+              }
+            })
+          }).then(() => {
+            user.getRoles().then((roles) => {
+              for (let i = 0; i < roles.length; i++) {
+                authorities.push("ROLE_" + roles[i].name.toUpperCase());
+              }
+              user.roles = authorities
+              user.accessToken = token
+              res.status(200).send({
+                ...user.get({ plain: true }),
+                roles: authorities,
+                accessToken: token
+              });
+            });
+          })
+      }
     })
     .catch((err) => {
       console.log(err)

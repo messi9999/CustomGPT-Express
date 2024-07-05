@@ -12,35 +12,41 @@ const calDateDifference = (start, end) => {
 };
 
 checkPaymentExpiration = (req, res, next) => {
-  //Username
-  User.findOne({
-    where: {
-      id: req.body.userId,
-    },
-  }).then((user) => {
-    if (user) {
-      let ispayment = false;
-      if ("planStartDate" in user.subscription || user.freeAttempts > 0) {
-        if (user.freeAttempts < 1) {
-          ispayment = calDateDifference(
-            user.subscription.planStartDate,
-            user.subscription.planEndDate
-          );
-          if (ispayment) {
+  if (!req.body.iskajabiuser) {
+
+    User.findOne({
+      where: {
+        id: req.body.userId,
+      },
+    }).then((user) => {
+      if (user) {
+        let ispayment = false;
+        if ("planStartDate" in user.subscription || user.freeAttempts > 0) {
+          if (user.freeAttempts < 1) {
+            ispayment = calDateDifference(
+              user.subscription.planStartDate,
+              user.subscription.planEndDate
+            );
+            if (ispayment) {
+              next();
+              return;
+            } else {
+              return res.status(500).send({ message: "Your payment expired!" });
+            }
+          } else {
             next();
             return;
-          } else {
-            return res.status(500).send({ message: "Your payment expired!" });
           }
         } else {
-          next();
-          return;
+          return res.status(500).send({ message: "You have used your 10 free questions. Subscribe for unlimited questions." });
         }
-      } else {
-        return res.status(500).send({ message: "You have used your 10 free questions. Subscribe for unlimited questions." });
       }
-    }
-  });
+    });
+  } else {
+    next();
+    return;
+  }
+  //Username
 };
 
 const paymentCheck = {

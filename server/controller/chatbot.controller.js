@@ -16,6 +16,7 @@ exports.getResponseFromGpt = (req, res) => {
   const createId = req.body.createId;
 
   let fullMessage = "";
+  
 
 
   chatGptUtils
@@ -54,15 +55,18 @@ exports.getResponseFromGpt = (req, res) => {
         chatHistory
           .insertChat(userId, createId, "assistant", fullMessage)
           .then(() => {
-            if (freeAttempts > 0) {
-              User.update(
-                {
-                  freeAttempts: freeAttempts - 1,
-                },
-                {
-                  where: { id: userId },
-                }
-              );
+            if(!req.body.iskajabiuser) {
+
+              if (freeAttempts > 0) {
+                User.update(
+                  {
+                    freeAttempts: freeAttempts - 1,
+                  },
+                  {
+                    where: { id: userId },
+                  }
+                );
+              }
             }
           })
           .catch((error) => {

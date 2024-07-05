@@ -37,8 +37,6 @@ export default function CommunityCom() {
 
   let currentUser = AuthService.getCurrentUser();
 
-  const isPayment = "planType" in currentUser.subscription;
-
 
   const header = useMemo(
     () => ({
@@ -80,7 +78,7 @@ export default function CommunityCom() {
     if (showMore === "Subscribe premium!!!") {
       navigate("/profile/payment")
     }
-    if (isPayment || blogShowNumLimit <= 5) {
+    if (blogShowNumLimit <= 5) {
       setBlogShowNumLimit(prev => prev + 5)
       axios.get(`${BASEURL}/api/community/post/all`, {
         headers: header,
@@ -207,13 +205,13 @@ export default function CommunityCom() {
           <div className='overflow-y-scroll h-[80vh] sm:h-[92vh]'>
             <div>
               {
-                (isPayment || currentUser.roles[0] === 'ROLE_ADMIN') && (
+                // (isPayment || currentUser.roles[0] === 'ROLE_ADMIN') && (
                   <>
                     <div className="flex items-center justify-center">
                       <CreateBlog setShowNewPost={setShowNewPost} showNewPost={showNewPost} />
                     </div>
                   </>
-                )
+                // )
               }
               {/* <>
                   <div className="flex items-center justify-center">

@@ -56,18 +56,7 @@ const ProfileComponents = ({ item }) => {
   );
 };
 
-const profiles = [
-  {
-    Icon: UserIcon,
-    text: "Account",
-    tag: "account",
-  },
-  {
-    Icon: PaymentIcon,
-    text: "Payment",
-    tag: "payment",
-  },
-];
+
 
 const adminProfiles = [
   {
@@ -90,6 +79,23 @@ const adminProfiles = [
 export default function ProfileArea() {
   const { pathname } = useLocation();
   const currentUser = AuthService.getCurrentUser();
+
+  const profiles = [
+    {
+      Icon: UserIcon,
+      text: "Account",
+      tag: "account",
+    },
+    ...(!currentUser.iskajabiuser ? [
+      {
+        Icon: PaymentIcon,
+        text: "Payment",
+        tag: "payment",
+      }
+    ] : [])
+    ,
+  ];
+
   return (
     <div className={`${pathname !== "/profile" && "hidden lg:show"} w-full h-screen lg:w-[450px] lg:shrink-0 lg:border-r lg:border-neutral-300 lg:flex flex-col`}>
       <div className="h-[100vh] flex flex-col justify-between">
