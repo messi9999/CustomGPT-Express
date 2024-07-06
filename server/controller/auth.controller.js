@@ -188,7 +188,8 @@ exports.signin = (req, res) => {
               where: {
                 id: user.id,
               }
-            }).then((newuser) => {
+            })
+            .then((newuser) => {
               newuser.getRoles().then((roles) => {
                 for (let i = 0; i < roles.length; i++) {
                   authorities.push("ROLE_" + roles[i].name.toUpperCase());

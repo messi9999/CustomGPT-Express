@@ -55,7 +55,6 @@ exports.getResponseFromGpt = (req, res) => {
         chatHistory
           .insertChat(userId, createId, "assistant", fullMessage)
           .then(() => {
-            if(!req.body.iskajabiuser) {
 
               if (freeAttempts > 0) {
                 User.update(
@@ -67,7 +66,6 @@ exports.getResponseFromGpt = (req, res) => {
                   }
                 );
               }
-            }
           })
           .catch((error) => {
             console.error("An error occurred:", error);

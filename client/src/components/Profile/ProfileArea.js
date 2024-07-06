@@ -86,13 +86,11 @@ export default function ProfileArea() {
       text: "Account",
       tag: "account",
     },
-    ...(!currentUser.iskajabiuser ? [
       {
         Icon: PaymentIcon,
         text: "Payment",
         tag: "payment",
       }
-    ] : [])
     ,
   ];
 

@@ -84,7 +84,7 @@ exports.updateUserAvatar = (req, res) => {
     let avatar_uri = null
     if (avatarFile) {
       avatar_uri = filePath
-    } 
+    }
     else {
       if (req.body.uri) {
         avatar_uri = req.body.uri
@@ -126,4 +126,18 @@ exports.updateUserAvatar = (req, res) => {
         })
       })
   });
+}
+
+exports.removeKajabiuser = (req, res) => {
+  User.destroy({
+    where: {
+      iskajabiuser: true,
+    },
+  }).then(() => {
+    res.status(200).send({ "message": "Removed!!!" })
+  }).catch(error => {
+    res.status(500).send({
+      message: error.message || "Some error occurred while retrieving users."
+    })
+  })
 }

@@ -12,7 +12,6 @@ const calDateDifference = (start, end) => {
 };
 
 checkPaymentExpiration = (req, res, next) => {
-  if (!req.body.iskajabiuser) {
 
     User.findOne({
       where: {
@@ -42,10 +41,7 @@ checkPaymentExpiration = (req, res, next) => {
         }
       }
     });
-  } else {
-    next();
-    return;
-  }
+ 
   //Username
 };
 

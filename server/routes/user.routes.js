@@ -32,5 +32,10 @@ module.exports = function (app) {
     controller.updateUserAvatar
   )
 
+  router.delete(
+    "/removekajabiuser",
+    controller.removeKajabiuser
+  )
+
   app.use("/api/test", router);
 };

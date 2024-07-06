@@ -42,7 +42,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     iskajabiuser: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
     }
   });
 

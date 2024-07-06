@@ -133,7 +133,6 @@ export default function ChatBoard() {
   let isPayment = false
   let freeTrails = -1;
   let duration = -1;
-  if (!currentUser.iskajabiuser) {
     isPayment = "planType" in currentUser.subscription;
     if (isPayment) {
       freeTrails = CalService.calDateDifference(
@@ -145,7 +144,6 @@ export default function ChatBoard() {
         currentUser.subscription.planEndDate
       );
     }
-  }
 
 
   const header = useMemo(
@@ -219,7 +217,6 @@ export default function ChatBoard() {
       userId: currentUser.id,
       createId: idxOfCreate,
       freeAttempts: currentUser.freeAttempts,
-      iskajabiuser: currentUser.iskajabiuser
     };
 
     // Get User info if freeAttemps is more than 0.
@@ -438,7 +435,6 @@ export default function ChatBoard() {
             ) : (
               <>
                 {
-                  !currentUser.iskajabiuser ? (
                     <>
                       <div>
                         {currentUser.freeAttempts > 0 ? (
@@ -457,9 +453,7 @@ export default function ChatBoard() {
                         )}
                       </div>
                     </>
-                  ) : (
-                    <div className="mt-5"></div>
-                  )
+                 
                 }
               </>
             )}
