@@ -114,7 +114,7 @@ export default function CreateBlog({ showNewPost, setShowNewPost }) {
             e.target.style.height = 'inherit';
             e.target.style.height = `${e.target.scrollHeight}px`;
           }}
-          placeholder="What's is your mind."
+          placeholder="What's on is your mind."
         />
 
       </div>
