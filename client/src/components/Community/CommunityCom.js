@@ -74,30 +74,7 @@ export default function CommunityCom() {
     })
   }, [header, navigate])
 
-  const handleOnShowMore = () => {
-    if (showMore === "Subscribe premium!!!") {
-      navigate("/profile/payment")
-    }
-    if (blogShowNumLimit <= 5) {
-      setBlogShowNumLimit(prev => prev + 5)
-      axios.get(`${BASEURL}/api/community/post/all`, {
-        headers: header,
-        params: {
-          limit: 5,
-          offset: numberOfBlog
-        }
-
-      }).then((res) => {
-        const updatedArr = res.data.posts
-        setPosts(prev => [...prev, ...updatedArr])
-        setNumberOfBlog(prev => prev + res.data.posts.length)
-      }).catch((err) => {
-        alert(err)
-      })
-    } else {
-      setShowMore("Subscribe premium!!!")
-    }
-  }
+ 
 
   return (
     <>
@@ -224,8 +201,6 @@ export default function CommunityCom() {
                 <Blog post={post} servertime={servertime} deletePost={() => deletePost(index)} />
               </div>
             ))}
-            {numberOfBlog === blogShowNumLimit - 5 && <div className='rounded-xl bg-white border border-solid px-3 py-1 text-center cursor-pointer hover:bg-[#999999]' onClick={handleOnShowMore}>
-              {showMore}
             </div>}
           </div>
         </div>
