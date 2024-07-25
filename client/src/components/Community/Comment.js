@@ -48,34 +48,6 @@ export default function Comment({ comment, deleteComment }) {
     [currentUser.accessToken]
   );
 
-  const handelOnCommnetLike = () => {
-    if (!isLiked) {
-      axios.post(`${BASEURL}/api/community/comment/like/create`, {
-        commentId: comment.id,
-      },
-        {
-          headers: header,
-        }).then((res) => {
-          setNumOfLikes(prevState => prevState + 1)
-          setIsLiked(true)
-        }).catch((err) => {
-          alert(err)
-        })
-    }
-    else {
-      axios.delete(`${BASEURL}/api/community/comment/like/create/${comment.id}`,
-        {
-          headers: header,
-        }).then((res) => {
-          setNumOfLikes(prevState => prevState - 1)
-          setIsLiked(false)
-        }).catch((err) => {
-          alert(err)
-        })
-    }
-
-  }
-
   const onEdit = () => {
     setIsEditable(true)
 
@@ -150,19 +122,9 @@ export default function Comment({ comment, deleteComment }) {
               <label>{(comment.user.firstname || comment.user.lastname) ? (
                 <label>{replaceNulls(comment.user.firstname)} {replaceNulls(comment.user.lastname)}</label>
               ) : (
-                <label>{comment.user.username}</label>
               )}</label>
             </div>
-            {
-              (comment.userId === currentUser.id || currentUser.roles[0] === 'ROLE_ADMIN') && (
-                <>
-                  <ThreeDotDropDown
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                  />
-                </>
-              )
-            }
+  
           </div>
           <div className='text-sm sm:text-md text-gray-600'>
             {/* <p contentEditable={isEditable} onInput={handleCommentChange}>{content}</p> */}
