@@ -50,27 +50,7 @@ exports.getResponseFromGpt = (req, res) => {
           })
           .on("end", () => {
             resolve(run);
-          });
-      }).then((run) => {
-        chatHistory
-          .insertChat(userId, createId, "assistant", fullMessage)
-          .then(() => {
-
-              if (freeAttempts > 0) {
-                User.update(
-                  {
-                    freeAttempts: freeAttempts - 1,
-                  },
-                  {
-                    where: { id: userId },
-                  }
-                );
-              }
-          })
-          .catch((error) => {
-            console.error("An error occurred:", error);
-          });
-      });
+       
     })
     .catch((error) => {
       console.error("An error occurred:", error);
