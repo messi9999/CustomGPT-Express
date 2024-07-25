@@ -297,26 +297,7 @@ export default function ChatBoard() {
     await sleep(6000)
 
     // console.log(streamResposne)
-    try {
-      if (isSpeaker) {
-        const mp3 = await client.audio.speech.create({
-          model: "tts-1",
-          voice: "alloy",
-          input: streamResposne,
-        });
-
-        const buffer = new Uint8Array(await mp3.arrayBuffer());
-        const blob = new Blob([buffer], { type: "audio/mpeg" });
-        const url = URL.createObjectURL(blob);
-        setAudioSrc(url);
-      }
-
-      if (currentUser.freeAttempts > 0) {
-        currentUser = UserService.getUserBoard();
-      }
-    } catch (error) {
-      console.log("error: ", error)
-    }
+    
   };
 
   const handleLogOut = useCallback(() => {
@@ -440,16 +421,8 @@ export default function ChatBoard() {
                         {currentUser.freeAttempts > 0 ? (
                           <p>{currentUser.freeAttempts + " free questions left"}</p>
                         ) : (
-                          <div className="flex flex-row">
-                            <p>{currentUser.freeAttempts + " free questions left!"}</p>
-                            <p>&nbsp;&nbsp;</p>
-
-                            <NavLink to={"/profile/payment"}>
-                              <u>
-                                <i className="text-[#0a60f5]">Start free trial here!</i>
-                              </u>
-                            </NavLink>
-                          </div>
+                          
+                          
                         )}
                       </div>
                     </>
