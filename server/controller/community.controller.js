@@ -144,55 +144,7 @@ exports.deletePost = (req, res) => {
             where: {
                 id: req.params.postId,
             }
-        }).then(() => {
-            try {
-                fs.unlinkSync(imagePath);
-                console.log('File deleted successfully');
-            } catch (err) {
-                console.error('There was an error deleting the file:', err);
-            }
-            try {
-                fs.unlinkSync(filePath);
-                console.log('File deleted successfully');
-            } catch (err) {
-                console.error('There was an error deleting the file:', err);
-            }
-            PostLike.destroy({
-                where: {
-                    postId: req.params.postId
-                }
-            }).catch((err) => {
-                console.log(err)
-                return res.status(500).send({ message: err.message });
-            })
-            Comment.findAll({
-                where: {
-                    postId: req.params.postId
-                }
-            }).then((comments) => {
-                comments.forEach(comment => {
-                    CommentLike.destroy({
-                        where: {
-                            commentId: comment.id
-                        }
-                    }).catch((err) => {
-                        console.log(err)
-                        return res.status(500).send({ message: err.message });
-                    })
-                })
-                Comment.destroy({
-                    where: {
-                        postId: req.params.postId
-                    }
-                }).then(() => {
-                    return res.status(200).send({ result: true })
-                }).catch((err) => {
-                    console.log(err)
-                    return res.status(500).send({ message: err.message });
-                })
-            }).catch((err) => {
-                console.log(err)
-                return res.status(500).send({ message: err.message });
+        })age });
             })
         }).catch((err) => {
             console.log(err)
