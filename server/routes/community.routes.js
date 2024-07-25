@@ -26,7 +26,6 @@ module.exports = function (app) {
     router.delete("/comment/create/:commentId", [authJwt.verifyToken], controller.deleteComment);
 
     router.post("/comment/like/create", [authJwt.verifyToken], controller.createCommentLike);
-    router.delete("/comment/like/create/:commentId", [authJwt.verifyToken], controller.deleteCommentLike);
 
 
 
