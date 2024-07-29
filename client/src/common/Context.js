@@ -4,3 +4,5 @@ export const ThemeContext = createContext();
 
 export const CreateContext = createContext();
 
+export const DisplayTextContext = createContext();
+

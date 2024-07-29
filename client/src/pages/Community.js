@@ -15,6 +15,7 @@ export default function Community() {
       <div className={`flex flex-row bg-[#fcf4e6] h-screen`}>
         <Sidebar />
         <div className='flex flex-col w-full overflow-none h-screen reverse-col'>
+          <TitleBar />
           <Outlet />
         </div>
       </div>

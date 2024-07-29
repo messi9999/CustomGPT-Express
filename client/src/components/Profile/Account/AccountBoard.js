@@ -21,7 +21,9 @@ export default function AccountBoard() {
         "Content-Type": "application/json",
         "x-access-token": currentUser.accessToken,
       };
-      axios.get(`${BASEURL}/api/test/admin`).then((res) => {
+      axios.get(`${BASEURL}/api/test/admin`, {
+        headers: header,
+      }).then((res) => {
         setCount(res.data.userCount)
       }).catch((error) => { alert(error) })
     }
